@@ -1,4 +1,4 @@
-# EPR402 - TG4: Web Application Firewall using JSON Web Tokens
+# Intelligent Web App Firewall using JWT Inspection
 
 ![Functional Block Diagram](https://github.com/KootBecker/EPR402/assets/153346628/11eac9e5-f336-4210-9d2f-0b59efe1341f)
 
