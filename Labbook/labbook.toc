@@ -1,0 +1,63 @@
+\babel@toc {british}{}\relax 
+\contentsline {chapter}{\numberline {1}2024 March}{4}{chapter.1}%
+\contentsline {section}{March Schedule}{4}{section*.5}%
+\contentsline {section}{2024/03/01}{5}{section*.7}%
+\contentsline {subsection}{Project: Intelligent Web Application Firewall using JSON Web Token Inspection}{5}{subsection*.8}%
+\contentsline {subsection}{Research Ideas}{5}{subsection*.9}%
+\contentsline {subsection}{Literature Review}{5}{subsection*.11}%
+\contentsline {subsubsection}{Next Generation Firewall for Network Security: A Survey \cite {8478973}}{5}{subsubsection*.12}%
+\contentsline {subsubsection}{Critical Analysis on Web Application Firewall Solutions \cite {6513431}}{6}{subsubsection*.13}%
+\contentsline {subsubsection}{Fast Pattern Matching in Compressed Data Packages \cite {5700208}}{6}{subsubsection*.14}%
+\contentsline {subsubsection}{A Fully Automated Deep Packet Inspection Verification System with Machine Learning \cite {7947802}}{6}{subsubsection*.15}%
+\contentsline {subsubsection}{Core Problems}{7}{subsubsection*.16}%
+\contentsline {section}{2024/03/04}{8}{section*.17}%
+\contentsline {subsection}{Research Ideas}{8}{subsection*.18}%
+\contentsline {subsection}{Literature Review}{8}{subsection*.20}%
+\contentsline {subsubsection}{A survey of network anomaly detection techniques \cite {AHMED201619}}{8}{subsubsection*.21}%
+\contentsline {subsubsection}{Deep learning methods in network intrusion detection: A survey and an objective comparison \cite {GAMAGE2020102767}}{8}{subsubsection*.22}%
+\contentsline {section}{2024/03/05}{9}{section*.23}%
+\contentsline {subsection}{JWTs}{9}{subsection*.24}%
+\contentsline {subsubsection}{JWT Header}{9}{subsubsection*.26}%
+\contentsline {subsubsection}{JWT Payload}{10}{subsubsection*.27}%
+\contentsline {subsubsection}{JWT Signature}{10}{subsubsection*.28}%
+\contentsline {section}{2024/03/08}{11}{section*.29}%
+\contentsline {subsection}{Research Ideas}{11}{subsection*.30}%
+\contentsline {subsection}{WAF Basics}{11}{subsection*.32}%
+\contentsline {subsection}{JWT authentication bypass}{11}{subsection*.33}%
+\contentsline {section}{2024/03/11}{12}{section*.34}%
+\contentsline {subsection}{TryHackMe}{12}{subsection*.35}%
+\contentsline {subsection}{DVWA}{12}{subsection*.36}%
+\contentsline {section}{2024/03/12}{13}{section*.37}%
+\contentsline {subsection}{Research Ideas}{13}{subsection*.38}%
+\contentsline {section}{2024/03/18}{14}{section*.40}%
+\contentsline {subsubsection}{OWASP Top 10 Vulnerabilities}{14}{subsubsection*.41}%
+\contentsline {subsubsection}{Embedded Device}{14}{subsubsection*.42}%
+\contentsline {section}{2024/03/20}{15}{section*.43}%
+\contentsline {subsection}{Research Ideas}{15}{subsection*.44}%
+\contentsline {subsubsection}{OWASP Testing Suite}{15}{subsubsection*.49}%
+\contentsline {subsubsection}{Open-source WAFs}{15}{subsubsection*.50}%
+\contentsline {subsection}{Testing block redaction}{16}{subsection*.51}%
+\contentsline {subsection}{Testing local redaction}{16}{subsection*.52}%
+\contentsline {chapter}{\numberline {2}2024 April}{17}{chapter.2}%
+\contentsline {section}{April Schedule}{17}{section*.53}%
+\contentsline {subsection}{This is a sample heading, typically activity related}{18}{subsection*.55}%
+\contentsline {subsection}{Approach: Lab book}{18}{subsection*.56}%
+\contentsline {section}{2024/04/04}{19}{section*.57}%
+\contentsline {subsection}{Research Ideas}{19}{subsection*.58}%
+\contentsline {chapter}{\numberline {3}2024 May}{20}{chapter.3}%
+\contentsline {section}{May Schedule}{20}{section*.62}%
+\contentsline {section}{2024/05/07}{21}{section*.64}%
+\contentsline {chapter}{\numberline {4}2024 June}{22}{chapter.4}%
+\contentsline {section}{June Schedule}{22}{section*.65}%
+\contentsline {chapter}{\numberline {5}2024 July}{23}{chapter.5}%
+\contentsline {section}{July Schedule}{23}{section*.67}%
+\contentsline {chapter}{\numberline {6}2024 August}{24}{chapter.6}%
+\contentsline {section}{August Schedule}{24}{section*.69}%
+\contentsline {chapter}{\numberline {7}2024 September}{25}{chapter.7}%
+\contentsline {section}{September Schedule}{25}{section*.71}%
+\contentsline {chapter}{\numberline {8}2024 October}{26}{chapter.8}%
+\contentsline {section}{October Schedule}{26}{section*.73}%
+\contentsline {chapter}{\numberline {9}2024 November}{27}{chapter.9}%
+\contentsline {section}{November Schedule}{27}{section*.75}%
+\contentsline {chapter}{Appendices}{29}{section*.77}%
+\contentsline {section}{Acronyms}{29}{section*.78}%
