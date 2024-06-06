@@ -1,0 +1,156 @@
+%% Include all packages and custom commands here to declutter the report.tex file
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{cite}
+\usepackage{graphicx}
+\usepackage{lastpage}
+\usepackage{listings}
+\usepackage{minted}
+\usepackage{multirow}
+\usepackage{paralist}
+\usepackage{placeins}  % For \FloatBarrier
+%\usepackage{rotfloat}
+\usepackage{rotating}
+\usepackage[tight,small]{subfigure}  % normalsize small footnotesize
+\usepackage{tabularx}
+\usepackage{tabulary}
+
+% I prefer this to the default font.
+\usepackage{newtxmath}
+% \usepackage{newtxtext}
+\renewcommand{\rmdefault}{ntxtlf} 
+%https://tex.stackexchange.com/questions/347566/math-digits-are-rendered-in-cm-when-using-libertine-and-newtxmath-with-xelatex-i
+
+
+% Set the page format up.
+\usepackage{geometry}
+\geometry{includefoot}
+\geometry{paper=a4paper}
+\geometry{left=25mm}
+\geometry{right=25mm}
+\geometry{top=25mm}
+\geometry{bottom=20mm}
+\geometry{headsep=10mm}
+\geometry{footskip=10mm}
+%\geometry{columnsep=4mm}
+
+
+\usepackage[pdftex]{hyperref}
+%\hypersetup{pdfborder={0 0 0.2}}
+\usepackage{xcolor}
+\definecolor{darkred}{rgb}{0.8,0,0}
+\definecolor{darkgreen}{rgb}{0,0.45,0}
+\definecolor{darkblue}{rgb}{0,0,0.3}
+\hypersetup{colorlinks=True, citecolor=black, filecolor=black, linkcolor=black, urlcolor=black}
+
+% \usepackage[acronym,nonumberlist,nopostdot,style=super]{glossaries}  % This must be after hyperref.
+
+%% Acronyms without printing list
+% \usepackage[nolist]{acronym}
+%% Acronyms printing only the ones used in the document
+\usepackage[printonlyused]{acronym}
+%% Acronyms printing everything in list
+% \usepackage{acronym}
+
+\usepackage{fancyhdr}
+% Set the page format up.
+\def\pagenumberfooter{\thepage}
+\fancypagestyle{plain}{%
+  \fancyhf{}
+  \lhead{}
+  \rhead{}
+  \lfoot{\modulecode~-- \assessment~-- Group \groupnumber \hfill \copyright~\number\year{} University of Pretoria \hfill \thepage}
+  \renewcommand{\headrulewidth}{0pt}
+  \renewcommand{\footrulewidth}{0pt}
+}
+\def\pagenumberfooter{\thepage}
+\fancypagestyle{fancy}{%
+  \fancyhf{}
+  \lhead{}
+  \rhead{}
+  \lfoot{\modulecode~-- \assessment~-- Group \groupnumber \hfill \copyright~\number\year{} University of Pretoria \hfill Page~\thepage~of~\pageref{LastPage}}
+  \renewcommand{\headrulewidth}{0pt}
+  \renewcommand{\footrulewidth}{0.5pt}
+}
+
+% \fancypagestyle{plain}{%
+%   \fancyhf{}
+%   \lhead{}
+%   \rhead{}
+%   \lfoot{\reporttitle
+%     \hfill
+%     \copyright~\number\year{} University of Pretoria
+%     \hfill
+%     \hphantom{Page~\thepage~of~\pageref{LastPage}}
+%   }
+%   \rfoot{Page~\thepage~of~\pageref{LastPage}}
+%   \renewcommand{\headrulewidth}{0pt}
+%   \renewcommand{\footrulewidth}{0.5pt}
+% }
+
+
+\hyphenation{mono-pulse}
+\hyphenation{retro-directive}
+
+
+
+% \renewcommand{\Re}{\mathrm{R\hspace{-0.09em}e\hspace{-0.08em}}}
+% \renewcommand{\Im}{\mathrm{I\hspace{-0.07em}m\hspace{-0.08em}}}
+% I prefer this to the default versions - feel free to disagree.
+\usepackage[cal=boondoxo]{mathalfa}
+\renewcommand{\Re}{\mathcal{R\hspace{-0.2em}e\hspace{-0.1em}}}
+\renewcommand{\Im}{\mathcal{I\hspace{-0.25em}m\hspace{-0.15em}}}
+
+\newlength{\equalswidth}
+\settowidth{\equalswidth}{$ =~ $}
+\newcommand{\eqsplitline}{\nonumber \\ & \hspace{\equalswidth}}
+\newcommand{\eqsplitaligned}{\\ & \hspace{\equalswidth}}
+
+
+%\setlength{\parindent}{0cm}
+\setlength{\parskip}{0.3em plus 0.3em minus 0.3em}
+
+
+%\def\today{27 March 2018}
+% Get the Day Month Year format.
+\def\today{%
+  \number\day
+  \space
+  \ifcase\month\or January\or February\or March\or April\or May\or
+  June\or July\or August\or September\or October\or November\or
+  December\fi
+  \space
+  \number\year
+}
+
+
+% Allow large floats.
+\renewcommand\topfraction{1}
+\renewcommand\bottomfraction{0}
+\renewcommand\textfraction{0}
+\renewcommand\floatpagefraction{1}
+\setcounter{topnumber}{10}
+\setcounter{totalnumber}{10}
+
+
+% Increase the figure caption font size.
+\usepackage[font=normalsize]{caption}
+
+% Deal with missing images which are not directly included in the repository
+\newcommand{\noimage}{%
+  \fbox{\parbox[t][0.3\textwidth][c]{0.48\textwidth}{\centering Image file is missing.}}
+%  \setlength{\fboxsep}{-\fboxrule}%
+%  \fbox{\phantom{\rule{10pt}{10pt}}File missing\phantom{\rule{10pt}{10pt}}}% Framed box
+}
+\let\includegraphicsoriginal\includegraphics
+\renewcommand{\includegraphics}[2][width=\textwidth]
+{%
+  \IfFileExists{#2}
+  {\includegraphicsoriginal[#1]{#2}}%
+  {\noimage}%
+%  {\fbox{\includegraphicsoriginal[#1]{drawings/gripen}\makebox[0pt]{File #2 is missing.}}}%
+}
+
+% Centred column in tabularx.
+\newcolumntype{Y}{>{\centering\arraybackslash}X}

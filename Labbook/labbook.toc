@@ -9,7 +9,7 @@
 \contentsline {subsubsection}{Critical Analysis on Web Application Firewall Solutions \cite {6513431}}{8}{subsubsection*.13}%
 \contentsline {subsubsection}{Fast Pattern Matching in Compressed Data Packages \cite {5700208}}{8}{subsubsection*.14}%
 \contentsline {subsubsection}{A Fully Automated Deep Packet Inspection Verification System with Machine Learning \cite {7947802}}{8}{subsubsection*.15}%
-\contentsline {subsubsection}{Core Problems}{9}{subsubsection*.16}%
+\contentsline {subsubsection}{Core Problems}{8}{subsubsection*.16}%
 \contentsline {section}{2024/03/04}{10}{section*.17}%
 \contentsline {subsection}{Research Ideas}{10}{subsection*.18}%
 \contentsline {subsection}{Literature Review}{10}{subsection*.20}%
@@ -36,67 +36,73 @@
 \contentsline {subsection}{Research Ideas}{17}{subsection*.44}%
 \contentsline {subsubsection}{OWASP Testing Suite}{17}{subsubsection*.49}%
 \contentsline {subsubsection}{Open-source WAFs}{17}{subsubsection*.50}%
-\contentsline {chapter}{\numberline {2}2024 April}{18}{chapter.2}%
-\contentsline {section}{April Schedule}{18}{section*.51}%
-\contentsline {section}{2024/04/02}{19}{section*.53}%
-\contentsline {section}{2024/04/03}{20}{section*.54}%
-\contentsline {section}{2024/04/04}{21}{section*.55}%
-\contentsline {section}{2024/04/05}{22}{section*.56}%
-\contentsline {section}{2024/04/09}{23}{section*.57}%
-\contentsline {section}{2024/04/10}{24}{section*.58}%
-\contentsline {section}{2024/04/11}{25}{section*.59}%
-\contentsline {section}{2024/04/12}{26}{section*.60}%
-\contentsline {section}{2024/04/15}{27}{section*.61}%
-\contentsline {section}{2024/04/16}{28}{section*.62}%
-\contentsline {section}{2024/04/17}{29}{section*.63}%
-\contentsline {section}{2024/04/18}{30}{section*.64}%
-\contentsline {section}{2024/04/19}{31}{section*.65}%
-\contentsline {section}{2024/04/22}{32}{section*.66}%
-\contentsline {section}{2024/04/23}{33}{section*.67}%
-\contentsline {section}{2024/04/24}{34}{section*.68}%
-\contentsline {section}{2024/04/25}{35}{section*.69}%
-\contentsline {section}{2024/04/26}{36}{section*.70}%
-\contentsline {section}{2024/04/29}{37}{section*.71}%
-\contentsline {section}{2024/04/30}{38}{section*.72}%
-\contentsline {section}{2024/04/04}{39}{section*.73}%
-\contentsline {chapter}{\numberline {3}2024 May}{40}{chapter.3}%
-\contentsline {section}{May Schedule}{40}{section*.74}%
-\contentsline {section}{2024/05/03}{41}{section*.76}%
-\contentsline {section}{2024/05/06}{42}{section*.77}%
-\contentsline {section}{2024/05/07}{43}{section*.78}%
-\contentsline {section}{2024/05/08}{44}{section*.79}%
-\contentsline {section}{2024/05/09}{45}{section*.80}%
-\contentsline {section}{2024/05/10}{46}{section*.81}%
-\contentsline {section}{2024/05/13}{47}{section*.82}%
-\contentsline {section}{2024/05/14}{48}{section*.83}%
-\contentsline {section}{2024/05/15}{49}{section*.84}%
-\contentsline {section}{2024/05/16}{50}{section*.85}%
-\contentsline {section}{2024/05/17}{51}{section*.86}%
-\contentsline {section}{2024/05/20}{52}{section*.87}%
-\contentsline {section}{2024/05/21}{53}{section*.88}%
-\contentsline {section}{2024/05/22}{54}{section*.89}%
-\contentsline {section}{2024/05/23}{55}{section*.90}%
-\contentsline {section}{2024/05/24}{56}{section*.91}%
-\contentsline {section}{2024/05/27}{57}{section*.92}%
-\contentsline {section}{2024/05/28}{58}{section*.93}%
-\contentsline {section}{2024/05/30}{59}{section*.94}%
-\contentsline {section}{2024/05/31}{60}{section*.95}%
-\contentsline {chapter}{\numberline {4}2024 June}{61}{chapter.4}%
-\contentsline {section}{June Schedule}{61}{section*.96}%
-\contentsline {section}{2024/06/03}{62}{section*.98}%
-\contentsline {section}{2024/06/04}{63}{section*.99}%
-\contentsline {section}{2024/06/05}{64}{section*.100}%
-\contentsline {section}{2024/06/06}{65}{section*.101}%
-\contentsline {section}{2024/06/07}{66}{section*.102}%
-\contentsline {chapter}{\numberline {5}2024 July}{67}{chapter.5}%
-\contentsline {section}{July Schedule}{67}{section*.103}%
-\contentsline {chapter}{\numberline {6}2024 August}{68}{chapter.6}%
-\contentsline {section}{August Schedule}{68}{section*.105}%
-\contentsline {chapter}{\numberline {7}2024 September}{69}{chapter.7}%
-\contentsline {section}{September Schedule}{69}{section*.107}%
-\contentsline {chapter}{\numberline {8}2024 October}{70}{chapter.8}%
-\contentsline {section}{October Schedule}{70}{section*.109}%
-\contentsline {chapter}{\numberline {9}2024 November}{71}{chapter.9}%
-\contentsline {section}{November Schedule}{71}{section*.111}%
-\contentsline {chapter}{Appendices}{73}{section*.113}%
-\contentsline {section}{Acronyms}{73}{section*.114}%
+\contentsline {subsection}{Testing block redaction}{18}{subsection*.51}%
+\contentsline {subsection}{Testing local redaction}{18}{subsection*.52}%
+\contentsline {chapter}{\numberline {2}2024 April}{19}{chapter.2}%
+\contentsline {section}{April Schedule}{19}{section*.53}%
+\contentsline {section}{2024/04/02}{20}{section*.55}%
+\contentsline {section}{2024/04/03}{21}{section*.56}%
+\contentsline {section}{2024/04/04}{22}{section*.57}%
+\contentsline {section}{2024/04/05}{23}{section*.58}%
+\contentsline {section}{2024/04/09}{24}{section*.59}%
+\contentsline {section}{2024/04/10}{25}{section*.60}%
+\contentsline {section}{2024/04/11}{26}{section*.61}%
+\contentsline {section}{2024/04/12}{27}{section*.62}%
+\contentsline {section}{2024/04/15}{28}{section*.63}%
+\contentsline {section}{2024/04/16}{29}{section*.64}%
+\contentsline {section}{2024/04/17}{30}{section*.65}%
+\contentsline {section}{2024/04/18}{31}{section*.66}%
+\contentsline {section}{2024/04/19}{32}{section*.67}%
+\contentsline {section}{2024/04/22}{33}{section*.68}%
+\contentsline {section}{2024/04/23}{34}{section*.69}%
+\contentsline {section}{2024/04/24}{35}{section*.70}%
+\contentsline {section}{2024/04/25}{36}{section*.71}%
+\contentsline {section}{2024/04/26}{37}{section*.72}%
+\contentsline {section}{2024/04/29}{38}{section*.73}%
+\contentsline {section}{2024/04/30}{39}{section*.74}%
+\contentsline {subsection}{This is a sample heading, typically activity related}{40}{subsection*.75}%
+\contentsline {subsection}{Approach: Lab book}{40}{subsection*.76}%
+\contentsline {section}{2024/04/04}{41}{section*.77}%
+\contentsline {subsection}{Research Ideas}{41}{subsection*.78}%
+\contentsline {chapter}{\numberline {3}2024 May}{42}{chapter.3}%
+\contentsline {section}{May Schedule}{42}{section*.82}%
+\contentsline {section}{2024/05/03}{43}{section*.84}%
+\contentsline {section}{2024/05/06}{44}{section*.85}%
+\contentsline {section}{2024/05/07}{45}{section*.86}%
+\contentsline {section}{2024/05/08}{46}{section*.87}%
+\contentsline {section}{2024/05/09}{47}{section*.88}%
+\contentsline {section}{2024/05/10}{48}{section*.89}%
+\contentsline {section}{2024/05/13}{49}{section*.90}%
+\contentsline {section}{2024/05/14}{50}{section*.91}%
+\contentsline {section}{2024/05/15}{51}{section*.92}%
+\contentsline {section}{2024/05/16}{52}{section*.93}%
+\contentsline {section}{2024/05/17}{53}{section*.94}%
+\contentsline {section}{2024/05/20}{54}{section*.95}%
+\contentsline {section}{2024/05/21}{55}{section*.96}%
+\contentsline {section}{2024/05/22}{56}{section*.97}%
+\contentsline {section}{2024/05/23}{57}{section*.98}%
+\contentsline {section}{2024/05/24}{58}{section*.99}%
+\contentsline {section}{2024/05/27}{59}{section*.100}%
+\contentsline {section}{2024/05/28}{60}{section*.101}%
+\contentsline {section}{2024/05/30}{61}{section*.102}%
+\contentsline {section}{2024/05/31}{62}{section*.103}%
+\contentsline {chapter}{\numberline {4}2024 June}{63}{chapter.4}%
+\contentsline {section}{June Schedule}{63}{section*.104}%
+\contentsline {section}{2024/06/03}{64}{section*.106}%
+\contentsline {section}{2024/06/04}{65}{section*.107}%
+\contentsline {section}{2024/06/05}{66}{section*.108}%
+\contentsline {section}{2024/06/06}{67}{section*.109}%
+\contentsline {section}{2024/06/07}{68}{section*.110}%
+\contentsline {chapter}{\numberline {5}2024 July}{69}{chapter.5}%
+\contentsline {section}{July Schedule}{69}{section*.111}%
+\contentsline {chapter}{\numberline {6}2024 August}{70}{chapter.6}%
+\contentsline {section}{August Schedule}{70}{section*.113}%
+\contentsline {chapter}{\numberline {7}2024 September}{71}{chapter.7}%
+\contentsline {section}{September Schedule}{71}{section*.115}%
+\contentsline {chapter}{\numberline {8}2024 October}{72}{chapter.8}%
+\contentsline {section}{October Schedule}{72}{section*.117}%
+\contentsline {chapter}{\numberline {9}2024 November}{73}{chapter.9}%
+\contentsline {section}{November Schedule}{73}{section*.119}%
+\contentsline {chapter}{Appendices}{75}{section*.121}%
+\contentsline {section}{Acronyms}{75}{section*.122}%
+\contentsline {chapter}{References}{76}{section*.122}%

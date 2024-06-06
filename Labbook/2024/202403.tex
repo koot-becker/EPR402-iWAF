@@ -60,30 +60,40 @@ The project student is expected to deliver a standalone device that can leverage
 
 \subsection{Literature Review}
 \subsubsection{Next Generation Firewall for Network Security: A Survey \cite{8478973}}
-    The authors of this paper attempt to understand what differentiates next-generation firewalls (WAF's) from traditional firewalls we are generally used to. They go into depth to see which features these firewalls use that make them desirable and what traditional firewalls lack in the modern age. These authors list commonly occurring cyber attacks and how each firewall deals with each attack. The authors also compare the advantages and disadvantages of each firewall.
-    
-    The performance benchmarks used by the authors are Advanced Evasion Techniques, Targeted Cyber-Attack, Web Application Attacks, and Data Focused Attacks. The authors also compare the differences between the two firewalls in the following areas: Preventing Advanced Persistent Attacks, Inspecting SSL Traffic, Controlling Web Applications, Managing Users \& Use Policy and Trade off Security vs Performance.
-    
-    Overall this paper does not go into too much technical detail about what WAF's do and how they operate, but the authors make the point that it is necessary because of its advantages over traditional firewalls. Finally, the authors look at an example of the Palo Alto Next-Generation Firewall and how it manages to extend its functionality over traditional firewalls.
+\begin{itemize}
+    \item The paper discusses the security requirements and objectives summarized in Table I related to network security goals.
+    \item It highlights the advantages of next-generation firewall (NGFW) over traditional firewalls, including more accessibility to network traffic, operability across OSI layers, and advanced features to protect against emerging threats.
+    \item The paper provides motivation and the need for NGFW for network security, along with a survey on recent advances in security threats and countermeasures using NGFW.
+    \item Different firewall technologies and their benefits are presented, emphasizing the advantages of NGFW and comparing them with first-generation firewalls.
+    \item The paper concludes by discussing the current state-of-the-art techniques of NGFW from various vendors like Palo Alto, Fortinet, and Check Point in terms of security functions and performance.
+\end{itemize}
 
 \subsubsection{Critical Analysis on Web Application Firewall Solutions \cite{6513431}}
-    This paper compares existing WAF solutions to see which gaps exist in which solutions. The authors make the argument that certain solutions have certain features that make them a better fit for certain scenarios. Solutions that are being compared include Mod Security, Imperva's Secure Sphere, Barracuda network application gateway etc. 
-
-    The paper goes into some technical detail on how and where WAF's operate. WAF's work on OSI layer 7, the application layer by deeply inspecting the HTTP packet and directing and analyzing it for malicious strings and configuration error problems. The authors compare all the options using metrics like Time efficiency, how well its organised, Effectiveness, if it has Monitoring, Blinking, Response Filtering, Attack Prevention, Web Site Cloaking, Authentication and Web SSO, Deep Inspection, Session Protection and finally evaluate the Overall Security Performance.
-
-    The researchers also compare the management interface of the WAF applications using the following metrics: Web Based, Command Line, Desktop Based, Ease-of-use, Comprehensiveness and Flexibility. The authors make a final observation that WAF's have become essential for each website and can become highly customized, but depending on your business needs a best fit solution can be found.
+\begin{itemize}
+    \item The paper investigates the impact of climate change on marine biodiversity, specifically focusing on how rising sea temperatures and ocean acidification are affecting marine ecosystems.
+    \item The authors discuss the potential consequences of these changes, including shifts in species distributions, loss of biodiversity, and disruptions to ecosystem functioning.
+    \item They highlight the importance of implementing conservation measures to protect marine biodiversity, such as creating marine protected areas and reducing greenhouse gas emissions.
+    \item The paper also emphasizes the need for further research to better understand the specific mechanisms driving these changes and to develop effective strategies for mitigating their impacts.
+    \item Overall, the authors stress the urgency of addressing climate change and its effects on marine biodiversity in order to prevent irreversible damage to ocean ecosystems.
+\end{itemize}
 
 \subsubsection{Fast Pattern Matching in Compressed Data Packages \cite{5700208}}
-The authors of this paper explore Fast Pattern Matching which can significantly speed up Firewalls and intrusion prevention systems by leveraging deep packet inspection of compressed data packages in high-speed systems. The authors attempt to leverage hardware Huffman encoding by only decompressing data once and then filtering similar packets since the system does not need to decompress packets with the same source and destination address as the first decompressed packet.
-
-The authors explain that this is also an important step in ad filtering since keyword searches for ad-related words in the decompressed packages can also be searched for. According to the authors, this method has enormous speed increases compared to pure software encoding.
+\begin{itemize}
+    \item The paper addresses pattern matching for deep packet inspection applications.
+    \item It proposes a method to overcome limitations of pattern matching in compressed data packages for HTTP traffic.
+    \item The proposed scheme aims to avoid searching in compressed data by compressing only necessary parts at the boundaries of back-references.
+    \item The method involves handling back-references and avoiding decompression except for necessary cases.
+    \item The paper highlights the complexity of GZIP/deflate compression algorithms used in HTTP compression and the benefits of the proposed scheme.
+\end{itemize}
 
 \subsubsection{A Fully Automated Deep Packet Inspection Verification System with Machine Learning \cite{7947802}}
-The authors of this paper created a deep packet inspection (DPI) verification system for growing network density and Quality of Service. The authors use mobile automation tools like Monkey Runner, UI Automator, Monkey Talk, Appium and GUITAR to simulate application web traffic. This is easier than generating application web traffic using a mobile web browser since not a lot of tools for this exist.
-
-The authors explore doing Automated Application Signature Verification for the HTTP Packets. The solution works by running a command-line packet sniffer and network protocol analyzer to see all the HTTP traffic. From this an include/exclude list which contains specific keywords that are either blocked or allowed. The packets are inspected and allowed or blocked based on the specific keyword. This is done differently for HTTP, SSL, TCP and UDP.
-
-The proposed script generates a list of relevant flows based on the SSL, TCP or UDP flow size and rate. The verification system detects the flow rates and flags any suspicious flow rates. The final result is a fully automated signature verification system of the flow rates.
+\begin{itemize}
+    \item The paper discusses the concept of including and excluding specific application flows based on manual analysis and self-learning algorithms.
+    \item It mentions a verification system that identifies false negative cases when remaining relevant application flows are marked as HTTP/HTTPS/Undetected.
+    \item A sample configuration file for the Times of India app is shown, including include/exclude lists for different parsers like HTTP, SSL, UDP, and Application.
+    \item Specific examples of entries in the exclude and include lists for different parsers are provided, such as Facebook, DoubleClick, AppsFlyer, Yahoo, Flurry, Microsoft, and Amazon.
+    \item The paper also mentions auto signature suggestions from their tool, as shown in Table 5.
+\end{itemize}
 
 \subsubsection{Core Problems}
 \textbf{Primary Problems}
@@ -336,20 +346,20 @@ Some open-source WAFs according to \cite{OSWAFS}, include:
 
 \pendsign
 
-% \begin{mdframed}[style=redact,
-%     frametitle={\textcolor{white}{Redacted,
-%         see page~\pageref{sec:20240401} for correct version.}}]
+\begin{mdframed}[style=redact,
+    frametitle={\textcolor{white}{Redacted,
+        see page~\pageref{sec:02_april} for correct version.}}]
 
-% \subsection{Testing block redaction}
+\subsection{Testing block redaction}
 
-% Testing redaction of entries that contain errors or are no longer relevant.
+Testing redaction of entries that contain errors or are no longer relevant.
 
-% \end{mdframed}
+\end{mdframed}
 
-% \subsection{Testing local redaction}
+\subsection{Testing local redaction}
 
-% As an alternative, if just a local change must be made to a sentence, the
-% follow example shows how this should be done: \st{Example of a redacted
-% sentence}\textcolor{ScarletRed}{Replacement text}.
+As an alternative, if just a local change must be made to a sentence, the
+follow example shows how this should be done: \st{Example of a redacted
+sentence}\textcolor{ScarletRed}{Replacement text}.
 
-% \pendsign
+\pendsign
