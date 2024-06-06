@@ -1,10 +1,10 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.6.5)  5 JUN 2024 11:48
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.6.5)  6 JUN 2024 10:41
 entering extended mode
  \write18 enabled.
  file:line:error style messages enabled.
  %&-line parsing enabled.
-**"c:/Users/kootj/OneDrive - University of Pretoria/Year 5/Project (EPR 402)/Labbook/labbook"
-(c:/Users/kootj/OneDrive - University of Pretoria/Year 5/Project (EPR 402)/Labbook/labbook.tex
+**"c:/Users/kootj/OneDrive - University of Pretoria/Year 5/Project (EPR 402)/EPR402/Labbook/labbook"
+(c:/Users/kootj/OneDrive - University of Pretoria/Year 5/Project (EPR 402)/EPR402/Labbook/labbook.tex
 LaTeX2e <2024-06-01>
 L3 programming layer <2024-05-08>
 (./isglabbook.cls
@@ -1423,23 +1423,10 @@ runsystem(for ^%i in (pygmentize.exe pygmentize.bat pygmentize.cmd) do set > lab
 
 runsystem(del labbook.aex)...executed.
 
-
-
-c:/Users/kootj/OneDrive - University of Pretoria/Year 5/Project (EPR 402)/Labbook/labbook.tex:27: Package minted Error: You must have `pygmentize' installed to use this package.
-
-See the minted package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.27 \begin{document}
-                     
-Refer to the installation instructions in the minted documentation for more information.
-
 LaTeX Font Info:    Trying to load font information for T1+ptm on input line 27.
-(c:/texlive/2024/texmf-dist/tex/latex/psnfss/t1ptm.fd
+ (c:/texlive/2024/texmf-dist/tex/latex/psnfss/t1ptm.fd
 File: t1ptm.fd 2001/06/04 font definitions for T1/ptm.
-)
-No file labbook.aux.
+) (./labbook.aux)
 \openout1 = `labbook.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 27.
@@ -1460,6 +1447,7 @@ LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 27.
 LaTeX Font Info:    ... okay on input line 27.
 LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 27.
 LaTeX Font Info:    ... okay on input line 27.
+
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
 *geometry* verbose mode - [ preamble ] result:
@@ -1539,6 +1527,7 @@ Package: lscape 2020/05/28 v3.02 Landscape Pages (DPC)
 Package pdflscape Info: Auto-detected driver: pdftex on input line 81.
 ))
 Package hyperref Info: Link coloring ON on input line 27.
+ (./labbook.out) (./labbook.out)
 \@outlinefile=\write8
 \openout8 = `labbook.out'.
 
@@ -1562,15 +1551,15 @@ Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
 Package epstopdf Info: Source file: <up-logo.eps>
-(epstopdf)                    date: 2024-06-05 07:51:10
+(epstopdf)                    date: 2024-06-05 13:31:29
 (epstopdf)                    size: 46853 bytes
 (epstopdf)             Output file: <up-logo-eps-converted-to.pdf>
-(epstopdf)                    date: 2024-06-05 11:47:51
+(epstopdf)                    date: 2024-06-05 13:31:29
 (epstopdf)                    size: 45018 bytes
 (epstopdf)             Command: <epstopdf --outfile=up-logo-eps-converted-to.pdf up-logo.eps>
 (epstopdf)             \includegraphics on input line 16.
 Package epstopdf Info: Output file is already uptodate.
-<up-logo-eps-converted-to.pdf, id=31, 718.685pt x 196.735pt>
+<up-logo-eps-converted-to.pdf, id=384, 718.685pt x 196.735pt>
 File: up-logo-eps-converted-to.pdf Graphic file (type pdf)
 <use up-logo-eps-converted-to.pdf>
 Package pdftex.def Info: up-logo-eps-converted-to.pdf  used on input line 16.
@@ -1679,19 +1668,22 @@ Overfull \hbox (30.0pt too wide) in paragraph at lines 35--35
 |[] 
  []
 
-No file labbook.toc.
-\tf@toc=\write9
-\openout9 = `labbook.toc'.
+(./labbook.toc
+LaTeX Font Info:    Font shape `T1/cmbr/b/n' in size <10> not available
+(Font)              Font shape `T1/cmbr/bx/n' tried instead on input line 2.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <10> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 3.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <7.4> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 3.
 
 
-
-LaTeX Font Info:    Trying to load font information for T1+ppl on input line 36.
+LaTeX Font Info:    Trying to load font information for T1+ppl on input line 55.
 (c:/texlive/2024/texmf-dist/tex/latex/psnfss/t1ppl.fd
 File: t1ppl.fd 2001/06/04 font definitions for T1/ppl.
 ) (c:/texlive/2024/texmf-dist/tex/latex/microtype/mt-ppl.cfg
 File: mt-ppl.cfg 2005/11/16 v1.6 microtype config. file: Palatino (RS)
 )
-LaTeX Font Info:    Trying to load font information for T1+put on input line 36.
+LaTeX Font Info:    Trying to load font information for T1+put on input line 55.
  (c:/texlive/2024/texmf-dist/tex/latex/psnfss/t1put.fd
 File: t1put.fd 2001/06/04 font definitions for T1/put.
 )
@@ -1700,14 +1692,18 @@ Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
 LaTeX Font Info:    Font shape `T1/phv/m/n' will be
-(Font)              scaled to size 7.35999pt on input line 36.
+(Font)              scaled to size 7.35999pt on input line 55.
+ [2
+
+{c:/texlive/2024/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc}])
+\tf@toc=\write9
+\openout9 = `labbook.toc'.
 
 
-LaTeX Warning: Reference `LastPage' on page 2 undefined on input line 36.
 
-[2
+[3]
 
-{c:/texlive/2024/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc}] (./2024/planning.tex
+[4] (./2024/planning.tex
 Overfull \hbox (30.0pt too wide) in paragraph at lines 1--1
 |[] 
  []
@@ -1725,10 +1721,7 @@ Package microtype Warning: I cannot find a spacing list for font
 
 ) (./2024/202403.tex
 
-
-LaTeX Warning: Reference `LastPage' on page 3 undefined on input line 1.
-
-[3
+[5
 
 ]
 Chapter 1.
@@ -1740,24 +1733,18 @@ Overfull \hbox (30.0pt too wide) in paragraph at lines 1--1
 LaTeX Font Info:    Font shape `T1/cmbr/b/n' in size <14.4> not available
 (Font)              Font shape `T1/cmbr/bx/n' tried instead on input line 3.
 
-LaTeX Warning: Reference `tab:schedule_03' on page 4 undefined on input line 5.
 
-
-
-
-LaTeX Warning: Reference `LastPage' on page 4 undefined on input line 32.
-
-[4
+[6
 
 ]
 LaTeX Font Info:    Font shape `T1/cmbr/b/n' in size <12> not available
 (Font)              Font shape `T1/cmbr/bx/n' tried instead on input line 37.
 
 
-LaTeX Warning: Citation `8478973' on page 5 undefined on input line 55.
+LaTeX Warning: Citation `8478973' on page 7 undefined on input line 55.
 
 
-LaTeX Warning: Citation `6513431' on page 5 undefined on input line 56.
+LaTeX Warning: Citation `6513431' on page 7 undefined on input line 56.
 
 Package hyperref Info: bookmark level for unknown todo defaults to 0 on input line 59.
 
@@ -1768,105 +1755,81 @@ Overfull \hbox (29.5pt too wide) in paragraph at lines 59--59
 LaTeX Font Info:    Font shape `T1/cmbr/b/n' in size <10.95> not available
 (Font)              Font shape `T1/cmbr/bx/n' tried instead on input line 62.
 
-LaTeX Warning: Citation `8478973' on page 5 undefined on input line 62.
+LaTeX Warning: Citation `8478973' on page 7 undefined on input line 62.
 
 
 
-
-LaTeX Warning: Reference `LastPage' on page 5 undefined on input line 69.
-
-[5
+[7
 
 ]
 
-LaTeX Warning: Citation `6513431' on page 6 undefined on input line 69.
+LaTeX Warning: Citation `6513431' on page 8 undefined on input line 69.
 
 
-LaTeX Warning: Citation `5700208' on page 6 undefined on input line 76.
+LaTeX Warning: Citation `5700208' on page 8 undefined on input line 76.
 
 
-LaTeX Warning: Citation `7947802' on page 6 undefined on input line 81.
+LaTeX Warning: Citation `7947802' on page 8 undefined on input line 81.
 
 
 
+[8]
 
-LaTeX Warning: Reference `LastPage' on page 6 undefined on input line 88.
-
-[6]
-
-
-LaTeX Warning: Reference `LastPage' on page 7 undefined on input line 117.
-
-[7]
+[9]
 Overfull \hbox (29.5pt too wide) in paragraph at lines 129--129
 [] 
  []
 
 
-LaTeX Warning: Citation `AHMED201619' on page 8 undefined on input line 132.
+LaTeX Warning: Citation `AHMED201619' on page 10 undefined on input line 132.
 
 
-LaTeX Warning: Citation `GAMAGE2020102767' on page 8 undefined on input line 139.
+LaTeX Warning: Citation `GAMAGE2020102767' on page 10 undefined on input line 139.
 
 
 
-
-LaTeX Warning: Reference `LastPage' on page 8 undefined on input line 146.
-
-[8
+[10
 
 ]
 
-LaTeX Warning: Citation `JWTIO' on page 9 undefined on input line 152.
+LaTeX Warning: Citation `JWTIO' on page 11 undefined on input line 152.
 
-<2024/Images/Theoretical Background/debugger.png, id=116, 907.39pt x 1097.09875pt>
+<2024/Images/Theoretical Background/debugger.png, id=568, 907.39pt x 1097.09875pt>
 File: 2024/Images/Theoretical Background/debugger.png Graphic file (type png)
 <use 2024/Images/Theoretical Background/debugger.png>
 Package pdftex.def Info: 2024/Images/Theoretical Background/debugger.png  used on input line 156.
 (pdftex.def)             Requested size: 241.84843pt x 292.40382pt.
 
 
-
-LaTeX Warning: Reference `LastPage' on page 9 undefined on input line 176.
-
-[9
+[11
 
  <./2024/Images/Theoretical Background/debugger.png>]
 
-
-LaTeX Warning: Reference `LastPage' on page 10 undefined on input line 210.
-
-[10]
+[12]
 Overfull \hbox (29.5pt too wide) in paragraph at lines 221--221
 [] 
  []
 
 
-LaTeX Warning: Citation `WAFATTACKS' on page 11 undefined on input line 224.
+LaTeX Warning: Citation `WAFATTACKS' on page 13 undefined on input line 224.
 
 
-LaTeX Warning: Citation `JAB2022' on page 11 undefined on input line 237.
+LaTeX Warning: Citation `JAB2022' on page 13 undefined on input line 237.
 
 
 
-
-LaTeX Warning: Reference `LastPage' on page 11 undefined on input line 247.
-
-[11
+[13
 
 ]
 
-LaTeX Warning: Citation `TRYHACKME' on page 12 undefined on input line 252.
+LaTeX Warning: Citation `TRYHACKME' on page 14 undefined on input line 252.
 
 
-LaTeX Warning: Citation `DVWA' on page 12 undefined on input line 255.
+LaTeX Warning: Citation `DVWA' on page 14 undefined on input line 255.
 
 
 
-
-LaTeX Warning: Reference `LastPage' on page 12 undefined on input line 259.
-
-[12
+[14
 
 ]
 Overfull \hbox (29.5pt too wide) in paragraph at lines 273--273
@@ -1875,21 +1838,15 @@ Overfull \hbox (29.5pt too wide) in paragraph at lines 273--273
 
 
 
-
-LaTeX Warning: Reference `LastPage' on page 13 undefined on input line 275.
-
-[13
+[15
 
 ]
 
-LaTeX Warning: Citation `OWASPTOP10' on page 14 undefined on input line 281.
+LaTeX Warning: Citation `OWASPTOP10' on page 16 undefined on input line 281.
 
 
 
-
-LaTeX Warning: Reference `LastPage' on page 14 undefined on input line 302.
-
-[14
+[16
 
 ]
 Overfull \hbox (29.5pt too wide) in paragraph at lines 316--316
@@ -1912,29 +1869,16 @@ Overfull \hbox (29.5pt too wide) in paragraph at lines 319--319
  []
 
 
-LaTeX Warning: Citation `OWASPTESTSUITE' on page 15 undefined on input line 322.
+LaTeX Warning: Citation `OWASPTESTSUITE' on page 17 undefined on input line 322.
 
 
-LaTeX Warning: Citation `OSWAFS' on page 15 undefined on input line 326.
-
-
-
-
-LaTeX Warning: Reference `LastPage' on page 15 undefined on input line 337.
-
-[15
-
-]
-
-LaTeX Warning: Reference `sec:20240401' on page 16 undefined on input line 347.
-
-Package mdframed Info: Not enough space on this page on input line 347.
+LaTeX Warning: Citation `OSWAFS' on page 17 undefined on input line 326.
 
 
 
-LaTeX Warning: Reference `LastPage' on page 16 undefined on input line 355.
+[17
 
-[16]) (./2024/202404.tex
+]) (./2024/202404.tex
 Chapter 2.
 
 Overfull \hbox (30.0pt too wide) in paragraph at lines 1--1
@@ -1942,81 +1886,199 @@ Overfull \hbox (30.0pt too wide) in paragraph at lines 1--1
  []
 
 
-LaTeX Warning: Reference `tab:schedule_04' on page 17 undefined on input line 5.
 
-
-
-
-LaTeX Warning: Reference `LastPage' on page 17 undefined on input line 34.
-
-[17
+[18
 
 ]
-LaTeX Font Info:    Font shape `T1/phv/m/sl' will be
-(Font)              scaled to size 9.19998pt on input line 44.
-LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <10> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 55.
-LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <7.4> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 55.
-LaTeX Font Info:    Font shape `T1/phv/m/sl' will be
-(Font)              scaled to size 6.80797pt on input line 55.
-
-
-
-LaTeX Warning: Reference `LastPage' on page 18 undefined on input line 61.
-
-[18]
-Package acronym Info: Label `acro:EM' newly defined as it shall be overridden
-although it is yet undefined on input line 68.
-
-
-Package acronym Warning: Acronym `EM' is not defined on input line 68.
-
-
-Package acronym Warning: Acronym `EM' is not defined on input line 68.
-
-
-LaTeX Warning: Citation `marr_aa_2010' on page 19 undefined on input line 72.
-
-
-Overfull \hbox (29.5pt too wide) in paragraph at lines 75--75
+Overfull \hbox (30.0pt too wide) in paragraph at lines 37--41
 [] 
  []
 
 
-LaTeX Warning: Reference `eqn:example' on page 19 undefined on input line 77.
-
-
-LaTeX Warning: Citation `dellaert_spieits_1997' undefined on input line 84.
-
-
-LaTeX Warning: Reference `fig:example' on page 19 undefined on input line 86.
-
-Package epstopdf Info: Source file: <2024/figures/figure1.eps>
-(epstopdf)                    date: 2024-06-05 07:51:12
-(epstopdf)                    size: 222818 bytes
-(epstopdf)             Output file: <2024/figures/figure1-eps-converted-to.pdf>
-(epstopdf)                    date: 2024-06-05 07:51:12
-(epstopdf)                    size: 4899 bytes
-(epstopdf)             Command: <epstopdf --outfile=2024/figures/figure1-eps-converted-to.pdf 2024/figures/figure1.eps>
-(epstopdf)             \includegraphics on input line 89.
-Package epstopdf Info: Output file is already uptodate.
-<2024/figures/figure1-eps-converted-to.pdf, id=224, 142.5325pt x 142.5325pt>
-File: 2024/figures/figure1-eps-converted-to.pdf Graphic file (type pdf)
-<use 2024/figures/figure1-eps-converted-to.pdf>
-Package pdftex.def Info: 2024/figures/figure1-eps-converted-to.pdf  used on input line 89.
-(pdftex.def)             Requested size: 193.47578pt x 193.47623pt.
-
-LaTeX Warning: Reference `sec:somewhere' on page 19 undefined on input line 96.
-
-) (./2024/202405.tex
-
-
-LaTeX Warning: Reference `LastPage' on page 19 undefined on input line 1.
 
 [19
 
- <./2024/figures/figure1-eps-converted-to.pdf>]
+]
+Overfull \hbox (30.0pt too wide) in paragraph at lines 44--46
+[] 
+ []
+
+
+
+[20
+
+]
+Overfull \hbox (30.0pt too wide) in paragraph at lines 49--51
+[] 
+ []
+
+
+
+[21
+
+]
+Overfull \hbox (30.0pt too wide) in paragraph at lines 54--56
+[] 
+ []
+
+
+
+[22
+
+]
+Overfull \hbox (30.0pt too wide) in paragraph at lines 59--61
+[] 
+ []
+
+
+
+[23
+
+]
+Overfull \hbox (30.0pt too wide) in paragraph at lines 64--65
+[] 
+ []
+
+
+
+[24
+
+]
+Overfull \hbox (155.9073pt too wide) in paragraph at lines 68--70
+\T1/ptm/m/n/10.95 (-20) Upgrade WSL dis-tro ver-sion  [] 
+ []
+
+
+
+[25
+
+]
+Overfull \hbox (30.0pt too wide) in paragraph at lines 73--76
+[] 
+ []
+
+
+
+[26
+
+]
+Overfull \hbox (30.0pt too wide) in paragraph at lines 79--83
+[] 
+ []
+
+
+
+[27
+
+]
+Overfull \hbox (30.0pt too wide) in paragraph at lines 86--97
+[] 
+ []
+
+
+
+[28
+
+]
+Overfull \hbox (30.0pt too wide) in paragraph at lines 100--104
+[] 
+ []
+
+
+
+[29
+
+]
+Overfull \hbox (30.0pt too wide) in paragraph at lines 107--111
+[] 
+ []
+
+
+
+[30
+
+]
+Overfull \hbox (30.0pt too wide) in paragraph at lines 114--118
+[] 
+ []
+
+
+
+[31
+
+]
+Overfull \hbox (30.0pt too wide) in paragraph at lines 121--127
+[] 
+ []
+
+
+
+[32
+
+]
+Overfull \hbox (30.0pt too wide) in paragraph at lines 130--134
+[] 
+ []
+
+
+
+[33
+
+]
+Overfull \hbox (30.0pt too wide) in paragraph at lines 137--140
+[] 
+ []
+
+
+
+[34
+
+]
+Underfull \hbox (badness 10000) in paragraph at lines 143--146
+\T1/ptm/m/n/10.95 (+20) Project Pro-posal Draft - Up-date Func-tional De-scrip-tion and Func-tional Block Dia-gram
+ []
+
+
+Overfull \hbox (30.0pt too wide) in paragraph at lines 143--146
+[] 
+ []
+
+
+
+[35
+
+]
+Overfull \hbox (30.0pt too wide) in paragraph at lines 149--153
+[] 
+ []
+
+
+
+[36
+
+]
+Overfull \hbox (30.0pt too wide) in paragraph at lines 156--157
+[] 
+ []
+
+
+
+[37
+
+]
+Overfull \hbox (30.0pt too wide) in paragraph at lines 160--162
+[] 
+ []
+
+
+
+[38
+
+]) (./2024/202405.tex
+
+[39
+
+]
 Chapter 3.
 
 Overfull \hbox (30.0pt too wide) in paragraph at lines 1--1
@@ -2024,23 +2086,190 @@ Overfull \hbox (30.0pt too wide) in paragraph at lines 1--1
  []
 
 
-LaTeX Warning: Reference `tab:schedule_05' on page 20 undefined on input line 5.
 
-
-
-
-LaTeX Warning: Reference `LastPage' on page 20 undefined on input line 770.
-
-[20
-
-]) (./2024/202406.tex
-
-
-LaTeX Warning: Reference `LastPage' on page 21 undefined on input line 1.
-
-[21
+[40
 
 ]
+Overfull \hbox (30.0pt too wide) in paragraph at lines 49--51
+[] 
+ []
+
+
+
+[41
+
+]
+Overfull \hbox (30.0pt too wide) in paragraph at lines 54--60
+[] 
+ []
+
+
+
+[42
+
+]
+Overfull \hbox (30.0pt too wide) in paragraph at lines 63--66
+[] 
+ []
+
+
+
+[43
+
+]
+Overfull \hbox (30.0pt too wide) in paragraph at lines 69--75
+[] 
+ []
+
+
+
+[44
+
+]
+Overfull \hbox (303.40227pt too wide) in paragraph at lines 78--79
+\T1/ptm/m/n/10.95 (-20) Split im-ple-ment-a-tion between con-ven-tional and un-con-ven-tional  [] 
+ []
+
+
+
+[45
+
+]
+Overfull \hbox (161.53899pt too wide) in paragraph at lines 82--83
+\T1/ptm/m/n/10.95 (-20) Setup Lib-rar-ies on Odroid M1  [] 
+ []
+
+
+
+[46
+
+]
+Overfull \hbox (185.01782pt too wide) in paragraph at lines 86--87
+\T1/ptm/m/n/10.95 (-20) Setup DVWA's on WSL Web server  [] 
+ []
+
+
+
+[47
+
+]
+Overfull \hbox (177.86717pt too wide) in paragraph at lines 90--91
+\T1/ptm/m/n/10.95 (-20) Setup WSTG on WSL Web server  [] 
+ []
+
+
+
+[48
+
+]
+Overfull \hbox (184.8292pt too wide) in paragraph at lines 94--95
+\T1/ptm/m/n/10.95 (-20) Setup Git in-teg-ra-tion on Odroid M1  [] 
+ []
+
+
+
+[49
+
+]
+Overfull \hbox (209.61992pt too wide) in paragraph at lines 98--99
+\T1/ptm/m/n/10.95 (-20) Setup DVWA's on Odroid M1 Web server  [] 
+ []
+
+
+
+[50
+
+]
+Overfull \hbox (83.32571pt too wide) in paragraph at lines 102--103
+\T1/ptm/m/n/10.95 (-20) Test sys-tem  [] 
+ []
+
+
+
+[51
+
+]
+Overfull \hbox (30.0pt too wide) in paragraph at lines 106--108
+[] 
+ []
+
+
+
+[52
+
+]
+Overfull \hbox (30.0pt too wide) in paragraph at lines 111--113
+[] 
+ []
+
+
+
+[53
+
+]
+Overfull \hbox (103.29002pt too wide) in paragraph at lines 116--117
+\T1/ptm/m/n/10.95 (-20) Try traffic proxy  [] 
+ []
+
+
+
+[54
+
+]
+Overfull \hbox (206.29086pt too wide) in paragraph at lines 120--121
+\T1/ptm/m/n/10.95 (-20) Try JWT de-cod-ing us-ing base64 de-coder  [] 
+ []
+
+
+
+[55
+
+]
+Overfull \hbox (201.13841pt too wide) in paragraph at lines 124--125
+\T1/ptm/m/n/10.95 (-20) Start with con-ven-tional at-tack de-tec-tion  [] 
+ []
+
+
+
+[56
+
+]
+Overfull \hbox (172.47672pt too wide) in paragraph at lines 128--129
+\T1/ptm/m/n/10.95 (-20) Setup VSCode Server with WSL  [] 
+ []
+
+
+
+[57
+
+]
+Overfull \hbox (231.6841pt too wide) in paragraph at lines 132--133
+\T1/ptm/m/n/10.95 (-20) Setup VSCode Server with SSH on Odroid M1  [] 
+ []
+
+
+
+[58
+
+]
+Overfull \hbox (298.92625pt too wide) in paragraph at lines 136--137
+\T1/ptm/m/n/10.95 (-20) Smooth out com-mu-nic-a-tion er-rors between Odroid M1 and PC  [] 
+ []
+
+
+
+[59
+
+]
+Overfull \hbox (244.35135pt too wide) in paragraph at lines 140--141
+\T1/ptm/m/n/10.95 (-20) Project Pro-posal Re-vi-sion - Up-date Re-quire-ments  [] 
+ []
+
+
+
+[60
+
+]) (./2024/202406.tex
 Chapter 4.
 
 Overfull \hbox (30.0pt too wide) in paragraph at lines 1--1
@@ -2048,31 +2277,54 @@ Overfull \hbox (30.0pt too wide) in paragraph at lines 1--1
  []
 
 
-LaTeX Warning: Reference `tab:schedule_06' on page 22 undefined on input line 5.
 
-) (./2024/202407.tex
-
-
-LaTeX Warning: Reference `LastPage' on page 22 undefined on input line 1.
-
-[22
+[61
 
 ]
+Overfull \hbox (30.0pt too wide) in paragraph at lines 45--48
+[] 
+ []
+
+
+
+[62
+
+]
+Overfull \hbox (30.0pt too wide) in paragraph at lines 51--54
+[] 
+ []
+
+
+
+[63
+
+]
+Overfull \hbox (30.0pt too wide) in paragraph at lines 57--59
+[] 
+ []
+
+
+
+[64
+
+]
+
+[65
+
+]
+
+[66
+
+]) (./2024/202407.tex
 Chapter 5.
 
 Overfull \hbox (30.0pt too wide) in paragraph at lines 1--1
 |[] 
  []
 
-
-LaTeX Warning: Reference `tab:schedule_07' on page 23 undefined on input line 5.
-
 ) (./2024/202408.tex
 
-
-LaTeX Warning: Reference `LastPage' on page 23 undefined on input line 1.
-
-[23
+[67
 
 ]
 Chapter 6.
@@ -2081,15 +2333,9 @@ Overfull \hbox (30.0pt too wide) in paragraph at lines 1--1
 |[] 
  []
 
-
-LaTeX Warning: Reference `tab:schedule_08' on page 24 undefined on input line 5.
-
 ) (./2024/202409.tex
 
-
-LaTeX Warning: Reference `LastPage' on page 24 undefined on input line 1.
-
-[24
+[68
 
 ]
 Chapter 7.
@@ -2098,15 +2344,9 @@ Overfull \hbox (30.0pt too wide) in paragraph at lines 1--1
 |[] 
  []
 
-
-LaTeX Warning: Reference `tab:schedule_09' on page 25 undefined on input line 5.
-
 ) (./2024/202410.tex
 
-
-LaTeX Warning: Reference `LastPage' on page 25 undefined on input line 1.
-
-[25
+[69
 
 ]
 Chapter 8.
@@ -2115,15 +2355,9 @@ Overfull \hbox (30.0pt too wide) in paragraph at lines 1--1
 |[] 
  []
 
-
-LaTeX Warning: Reference `tab:schedule_10' on page 26 undefined on input line 5.
-
 ) (./2024/202411.tex
 
-
-LaTeX Warning: Reference `LastPage' on page 26 undefined on input line 1.
-
-[26
+[70
 
 ]
 Chapter 9.
@@ -2132,29 +2366,17 @@ Overfull \hbox (30.0pt too wide) in paragraph at lines 1--1
 |[] 
  []
 
-
-LaTeX Warning: Reference `tab:schedule_11' on page 27 undefined on input line 5.
-
 )
 
-
-LaTeX Warning: Reference `LastPage' on page 27 undefined on input line 52.
-
-[27
+[71
 
 ]
 
-
-LaTeX Warning: Reference `LastPage' on page 28 undefined on input line 54.
-
-[28
+[72
 
 ] (./acros.tex
 
-
-LaTeX Warning: Reference `LastPage' on page 29 undefined on input line 77.
-
-[29
+[73
 
 ])
 No file labbook.bbl.
@@ -2170,34 +2392,22 @@ L3 programming layer <2024-05-08>
 
 LaTeX Warning: There were undefined references.
 
-
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
-
-
-Package rerunfilecheck Warning: File `labbook.out' has changed.
-(rerunfilecheck)                Rerun to get outlines right
-(rerunfilecheck)                or use package `bookmark'.
-
-Package rerunfilecheck Info: Checksums for `labbook.out':
-(rerunfilecheck)             Before: <no file>
-(rerunfilecheck)             After:  03CD7A6021EAB376E12931BB3E8DF115;6507.
-
-Package lastpage Warning: Rerun to get the references right on input line 70.
-
+Package rerunfilecheck Info: File `labbook.out' has not changed.
+(rerunfilecheck)             Checksum: EF5BCD2CF368E6D305712115C65419B1;10146.
  ) 
 Here is how much of TeX's memory you used:
- 52412 strings out of 473600
- 1146533 string characters out of 5732738
- 1945893 words of memory out of 5000000
- 73703 multiletter control sequences out of 15000+600000
- 755421 words of font info for 360 fonts, out of 8000000 for 9000
+ 52451 strings out of 473600
+ 1146312 string characters out of 5732738
+ 1946893 words of memory out of 5000000
+ 73730 multiletter control sequences out of 15000+600000
+ 736275 words of font info for 319 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 105i,13n,131p,2966b,1102s stack positions out of 10000i,1000n,20000p,200000b,200000s
-<c:/texlive/2024/texmf-dist/fonts/type1/bitstrea/charter/bchr8a.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/lm/lmss10.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/lm/lmssbx10.pfb><c:/texlive/2024/texmf-dist/fonts/type1/adobe/utopia/putr8a.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/cm-super/sfbbx10.pfb><c:/texlive/2024/texmf-dist/fonts/type1/urw/avantgar/uagd8a.pfb><c:/texlive/2024/texmf-dist/fonts/type1/urw/avantgar/uagk8a.pfb><c:/texlive/2024/texmf-dist/fonts/type1/urw/avantgar/uagko8a.pfb><c:/texlive/2024/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb><c:/texlive/2024/texmf-dist/fonts/type1/urw/courier/ucrro8a.pfb><c:/texlive/2024/texmf-dist/fonts/type1/urw/helvetic/uhvb8a.pfb><c:/texlive/2024/texmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb><c:/texlive/2024/texmf-dist/fonts/type1/urw/helvetic/uhvro8a.pfb><c:/texlive/2024/texmf-dist/fonts/type1/urw/palatino/uplr8a.pfb><c:/texlive/2024/texmf-dist/fonts/type1/urw/symbol/usyr.pfb><c:/texlive/2024/texmf-dist/fonts/type1/urw/symbol/usyr.pfb><c:/texlive/2024/texmf-dist/fonts/type1/urw/times/utmb8a.pfb><c:/texlive/2024/texmf-dist/fonts/type1/urw/times/utmr8a.pfb><c:/texlive/2024/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on labbook.pdf (29 pages, 403054 bytes).
+ 105i,13n,131p,2973b,1102s stack positions out of 10000i,1000n,20000p,200000b,200000s
+<c:/texlive/2024/texmf-dist/fonts/type1/bitstrea/charter/bchr8a.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/lm/lmss10.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/lm/lmssbx10.pfb><c:/texlive/2024/texmf-dist/fonts/type1/adobe/utopia/putr8a.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/cm-super/sfbbx10.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/cm-super/sfbmr10.pfb><c:/texlive/2024/texmf-dist/fonts/type1/urw/avantgar/uagd8a.pfb><c:/texlive/2024/texmf-dist/fonts/type1/urw/avantgar/uagk8a.pfb><c:/texlive/2024/texmf-dist/fonts/type1/urw/avantgar/uagko8a.pfb><c:/texlive/2024/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb><c:/texlive/2024/texmf-dist/fonts/type1/urw/helvetic/uhvb8a.pfb><c:/texlive/2024/texmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb><c:/texlive/2024/texmf-dist/fonts/type1/urw/palatino/uplr8a.pfb><c:/texlive/2024/texmf-dist/fonts/type1/urw/times/utmb8a.pfb><c:/texlive/2024/texmf-dist/fonts/type1/urw/times/utmr8a.pfb>
+Output written on labbook.pdf (73 pages, 418830 bytes).
 PDF statistics:
- 439 PDF objects out of 1000 (max. 8388607)
- 338 compressed objects within 4 object streams
- 152 named destinations out of 1000 (max. 500000)
- 113788 words of extra memory for PDF output out of 128383 (max. 10000000)
+ 1152 PDF objects out of 1200 (max. 8388607)
+ 1014 compressed objects within 11 object streams
+ 231 named destinations out of 1000 (max. 500000)
+ 98103 words of extra memory for PDF output out of 106986 (max. 10000000)
 
