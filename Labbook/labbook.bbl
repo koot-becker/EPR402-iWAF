@@ -1,0 +1,59 @@
+\begin{thebibliography}{10}
+
+\bibitem{8478973}
+K.~Neupane, R.~Haddad, and L.~Chen, ``Next generation firewall for network security: A survey,'' in {\em SoutheastCon 2018}, pp.~1--6, 2018.
+
+\bibitem{6513431}
+A.~Razzaq, A.~Hur, S.~Shahbaz, M.~Masood, and H.~F. Ahmad, ``Critical analysis on web application firewall solutions,'' in {\em 2013 IEEE Eleventh International Symposium on Autonomous Decentralized Systems (ISADS)}, pp.~1--6, 2013.
+
+\bibitem{5700208}
+M.~S. Berger and B.~B. Mortensen, ``Fast pattern matching in compressed data packages,'' in {\em 2010 IEEE Globecom Workshops}, pp.~1591--1595, 2010.
+
+\bibitem{7947802}
+U.~Trivedi and M.~Patel, ``A fully automated deep packet inspection verification system with machine learning,'' in {\em 2016 IEEE International Conference on Advanced Networks and Telecommunications Systems (ANTS)}, pp.~1--6, 2016.
+
+\bibitem{AHMED201619}
+M.~Ahmed, A.~{Naser Mahmood}, and J.~Hu, ``A survey of network anomaly detection techniques,'' {\em Journal of Network and Computer Applications}, vol.~60, pp.~19--31, 2016.
+
+\bibitem{GAMAGE2020102767}
+S.~Gamage and J.~Samarabandu, ``Deep learning methods in network intrusion detection: A survey and an objective comparison,'' {\em Journal of Network and Computer Applications}, vol.~169, p.~102767, 2020.
+
+\bibitem{JWTIO}
+``Jwt debugger.'' \url{https://jwt.io/}.
+\newblock Accessed: 05 March 2024.
+
+\bibitem{WAFATTACKS}
+``8 types of cyberattacks a waf is designed to stop.'' \url{https://www.indusface.com/blog/8-types-of-cyberattacks-a-waf-designed-to-stop/}.
+\newblock Accessed: 08 March 2024.
+
+\bibitem{JAB2022}
+G.~Patil, ``Jwt authentication bypass,'' 2022.
+
+\bibitem{TRYHACKME}
+``Authenticate - tryhackme walkthrough.'' \url{https://medium.com/@buddhsen/authenticate-tryhackme-walkthrough-e25f8731d371}.
+\newblock Accessed: 11 March 2024.
+
+\bibitem{DVWA}
+``Dvwa.'' \url{https://github.com/digininja/DVWA?tab=security-ov-file}.
+\newblock Accessed: 11 March 2024.
+
+\bibitem{OWASPTOP10}
+``Owasp top 10.'' \url{https://owasp.org/Top10/A00_2021_Introduction/}.
+\newblock Accessed: 18 March 2024.
+
+\bibitem{OWASPTESTSUITE}
+``Owasp web security testing guide.'' \url{https://owasp.org/www-project-web-security-testing-guide/}.
+\newblock Accessed: 20 March 2024.
+
+\bibitem{OSWAFS}
+``Open-source wafs.'' \url{https://www.zenarmor.com/docs/network-security-tutorials/best-open-source-web-application-firewalls}.
+\newblock Accessed: 20 March 2024.
+
+\bibitem{marr_aa_2010}
+D.~Marr, {\em {Vision: A Computational Investigation Into the Human Representation and Processing of Visual Information}}.
+\newblock MIT Press, 2010.
+
+\bibitem{dellaert_spieits_1997}
+F.~Dellaert and C.~Thorpe, ``{Robust car tracking using Kalman filtering and Bayesian templates},'' in {\em {Proceedings of SPIE: Intelligent Transportation Systems}}, vol.~3207, October 1997.
+
+\end{thebibliography}

