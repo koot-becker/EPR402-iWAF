@@ -1,5 +1,7 @@
 from flask import Flask,request,redirect,Response
 import requests, jwt
+import re
+import base64
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.naive_bayes import MultinomialNB
 app = Flask(__name__)
@@ -7,7 +9,7 @@ SITE_NAME = 'http://127.0.0.1:8080/'
 session_requests = requests.session()
 
 @app.before_request
-def pre_request():
+def before_request():
     # Implement your firewall logic here
     # You can access the request object to inspect the incoming request
     # You can use the request.headers, request.method, request.path, etc. to make decisions
@@ -35,25 +37,35 @@ def proxy(path):
     global SITE_NAME
     global session_requests
     if request.method=='GET':
-        resp = requests.get(f'{SITE_NAME}{path}')
-        excluded_headers = ['content-encoding', 'content-length', 'transfer-encoding', 'connection']
-        headers = [(name, value) for (name, value) in  resp.raw.headers.items() if name.lower() not in excluded_headers]
-        response = Response(resp.content, resp.status_code, headers)
-        return response
-    elif request.method=='POST':
-        resp = session_requests.post(f'{SITE_NAME}{path}', data=request.form, headers=dict(request.headers))
+        resp = session_requests.get(f'{SITE_NAME}{path}')
         excluded_headers = ['content-encoding', 'content-length', 'transfer-encoding', 'connection']
         headers = [(name, value) for (name, value) in  resp.raw.headers.items() if name.lower() not in excluded_headers]
         response = Response(resp.content, resp.status_code, headers)
         if check_token(session_requests.cookies):
             return response
         else:
+            logger(f'Blocked request to path: {request.path} from IP address: {request.remote_addr} due to invalid token')
             return 'Access denied', 403
+    elif request.method=='POST':
+        resp = requests.post(f'{SITE_NAME}{path}', data=request.form, headers=dict(request.headers))
+        excluded_headers = ['content-encoding', 'content-length', 'transfer-encoding', 'connection']
+        headers = [(name, value) for (name, value) in  resp.raw.headers.items() if name.lower() not in excluded_headers]
+        response = Response(resp.content, resp.status_code, headers)
+        return response
     elif request.method=='DELETE':
         resp = requests.delete(f'{SITE_NAME}{path}').content
         response = Response(resp.content, resp.status_code, headers)
         return response
-    
+
+# @app.after_request
+# def after_request(response):
+#     if check_token(session_requests.cookies):
+#         if check_signature_detection(session_requests.cookies):
+#             logger(f'Blocked request to path: {request.path} from IP address: {request.remote_addr} due to signature detection')
+#             return 'Access denied', 403
+#         if check_anomaly_detection(session_requests.cookies):
+#             return 'Access denied', 403
+
 def check_token(session_requests_cookies):
     for cookie in session_requests_cookies:
         if cookie.name == "token":
@@ -64,10 +76,26 @@ def check_token(session_requests_cookies):
                 return False
             return True
 
+def get_request_content(request):
+    # Write your logic to extract data from HTTP request
+    pass
+
 def check_signature_detection(session_requests_cookies):
     # Test for SQL Injection
-    sql_injection = ('delete from users', 'select * from users', 'delete,from', 'select,from', 'drop,table', 'union,select', {'update,set'})
-    xss = ('&cmd', 'exec', 'concat', '../', '</script>')
+    rules = [ # Signature-based detection rules
+        # SQL Injection
+        'delete from users', 'select * from users', 'delete,from', 'select,from', 'drop,table', 'union,select', 'update,set'
+        # XSS
+        '&cmd', 'exec', 'concat', '../', '</script>'
+        # Command Injection
+        '&&', '|', '||', '&&', ';', '||', '`', '$', '(', ')', '{', '}', '[', ']', '==', '!=', '>', '<', '>=', '<=', 'eq', 'ne', 'gt', 'lt', 'ge', 'le'
+    ]
+
+    for cookie in session_requests_cookies:
+        for rule in rules:
+            if re.search(rule, cookie.value, re.I):
+                return True
+            return False
 
 def check_anomaly_detection(session_requests_cookies):
     # Load historical data from log file
@@ -104,12 +132,6 @@ def check_anomaly_detection(session_requests_cookies):
         return 'Access denied', 403
     else:
         return None
-def logger(message):
-    with open('log.txt', 'a') as f:
-        f.write(message + '\n')
-
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', debug = False, port=5000)
 
 def decode(jwt_string):
     return base64.b64decode(jwt_string + '===').decode('utf-8')
@@ -121,18 +143,5 @@ def logger(message):
     with open('log.txt', 'a') as f:
         f.write(message + '\n')
 
-    
-def check_token(session_requests_cookies):
-    for cookie in session_requests_cookies:
-        if cookie.name == "token":
-            jwttoken = cookie.value # extract the jwt token string
-            header = jwt.get_unverified_header(jwttoken) # get the jwt token header, figure out which algorithm the web server is using
-            payload = jwt.decode(jwttoken, options={"verify_signature": False}) # decode the jwo token payload, the user role information is claimed in the payload
-            if payload['role'] == 'admin':
-                return False
-            return True
-        
-def check_signature_detection(session_requests_cookies):
-    # Test for SQL Injection
-    sql_injection = ('delete from users', 'select * from users', 'delete,from', 'select,from', 'drop,table', 'union,select', {'update,set'})
-    xss = ('&cmd', 'exec', 'concat', '../', '</script>')
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', debug = False, port=5000)
