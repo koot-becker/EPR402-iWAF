@@ -5,11 +5,16 @@ import base64
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.naive_bayes import MultinomialNB
 import datetime
-app = Flask(__name__)
-app.secret_key = b'Y\xf1Xz\x00\xad|eQ\x80t \xca\x1a\x10K'
-SITE_NAME = 'http://127.0.0.1:8001/'
+ctf_waf = Flask(__name__)
+tiredful_waf = Flask(__name__)
+dvwa_waf = Flask(__name__)
+TIREDFUL_SITE_NAME = 'http://127.0.0.1:8000/'
+CTF_SITE_NAME = 'http://127.0.0.1:8001/'
+DVWA_SITE_NAME = 'http://127.0.0.1:8002/'
 
-@app.before_request
+@ctf_waf.before_request
+@tiredful_waf.before_request
+@dvwa_waf.before_request
 def before_request():
     # Implement your firewall logic here
     # You can access the request object to inspect the incoming request
@@ -33,12 +38,24 @@ def before_request():
     # If none of the conditions match, allow the request to proceed
     return None
 
-@app.route('/',methods=['GET','POST',"DELETE"])
+@ctf_waf.route('/')
+@tiredful_waf.route('/')
+@dvwa_waf.route('/')
 def home():
-    global SITE_NAME
+    global CTF_SITE_NAME
     if request.method=='GET':
-        resp = requests.session().get(f'{SITE_NAME}')
-        excluded_headers = ['content-encoding', 'content-length', 'transfer-encoding', 'connection']
+        resp = requests.session().get(CTF_SITE_NAME)
+        excluded_headers = ['content-encoding', 'content-length', 'transfer-encoding']
+        headers = [(name, value) for (name, value) in  resp.raw.headers.items() if name.lower() not in excluded_headers]
+        response = Response(resp.content, resp.status_code, headers)
+        if check_token(requests.session().cookies):
+            return response
+        else:
+            logger(f'Blocked request to path: {request.path} from IP address: {request.remote_addr} due to invalid token')
+            return 'Access denied', 403
+    elif request.method=='POST':
+        resp = requests.session().post(CTF_SITE_NAME, data=request.form, headers=dict(request.headers))
+        excluded_headers = ['content-encoding', 'content-length', 'transfer-encoding']
         headers = [(name, value) for (name, value) in  resp.raw.headers.items() if name.lower() not in excluded_headers]
         response = Response(resp.content, resp.status_code, headers)
         if check_token(requests.session().cookies):
@@ -47,19 +64,14 @@ def home():
             logger(f'Blocked request to path: {request.path} from IP address: {request.remote_addr} due to invalid token')
             return 'Access denied', 403
 
-    elif request.method=='POST':
-        resp = requests.post(f'{SITE_NAME}', data=request.form, headers=dict(request.headers))
-        excluded_headers = ['content-encoding', 'content-length', 'transfer-encoding', 'connection']
-        headers = [(name, value) for (name, value) in  resp.raw.headers.items() if name.lower() not in excluded_headers]
-        response = Response(resp.content, resp.status_code, headers)
-        return response
-
-@app.route('/<path:path>',methods=['GET','POST',"DELETE"])
+@ctf_waf.route('/<path:path>',methods=['GET','POST'])
+@tiredful_waf.route('/<path:path>',methods=['GET','POST'])
+@dvwa_waf.route('/<path:path>',methods=['GET','POST'])
 def proxy(path):
-    global SITE_NAME
+    global CTF_SITE_NAME
     if request.method=='GET':
-        resp = requests.session().get(f'{SITE_NAME}{path}')
-        excluded_headers = ['content-encoding', 'content-length', 'transfer-encoding', 'connection']
+        resp = requests.session().get(f'{CTF_SITE_NAME}{path}')
+        excluded_headers = ['content-encoding', 'content-length', 'transfer-encoding']
         headers = [(name, value) for (name, value) in  resp.raw.headers.items() if name.lower() not in excluded_headers]
         response = Response(resp.content, resp.status_code, headers)
         if check_token(requests.session().cookies):
@@ -68,30 +80,26 @@ def proxy(path):
             logger(f'Blocked request to path: {request.path} from IP address: {request.remote_addr} due to invalid token')
             return 'Access denied', 403
     elif request.method=='POST':
-        resp = requests.post(f'{SITE_NAME}{path}', data=request.form, headers=dict(request.headers))
-        excluded_headers = ['content-encoding', 'content-length', 'transfer-encoding', 'connection']
+        resp = requests.session().post(f'{CTF_SITE_NAME}{path}', data=request.form, headers=dict(request.headers))
+        excluded_headers = ['content-encoding', 'content-length', 'transfer-encoding']
         headers = [(name, value) for (name, value) in  resp.raw.headers.items() if name.lower() not in excluded_headers]
         response = Response(resp.content, resp.status_code, headers)
-        return response
-
-# @app.after_request
-# def after_request(response):
-#     if check_token(session_requests.cookies):
-#         if check_signature_detection(session_requests.cookies):
-#             logger(f'Blocked request to path: {request.path} from IP address: {request.remote_addr} due to signature detection')
-#             return 'Access denied', 403
-#         if check_anomaly_detection(session_requests.cookies):
-#             return 'Access denied', 403
+        if check_token(requests.session().cookies):
+            return response
+        else:
+            logger(f'Blocked request to path: {request.path} from IP address: {request.remote_addr} due to invalid token')
+            return 'Access denied', 403
 
 def check_token(session_requests_cookies):
-    for cookie in session_requests_cookies:
-        if cookie.name == "token":
-            jwttoken = cookie.value # extract the jwt token string
-            header = jwt.get_unverified_header(jwttoken) # get the jwt token header, figure out which algorithm the web server is using
-            payload = jwt.decode(jwttoken, options={"verify_signature": False}) # decode the jwo token payload, the user role information is claimed in the payload
-            if payload['role'] == 'admin':
-                return False
-            return True
+    if session_requests_cookies:
+        for cookie in session_requests_cookies:
+            if cookie.name == "token":
+                jwttoken = cookie.value # extract the jwt token string
+                header = jwt.get_unverified_header(jwttoken) # get the jwt token header, figure out which algorithm the web server is using
+                payload = jwt.decode(jwttoken, options={"verify_signature": False}) # decode the jwo token payload, the user role information is claimed in the payload
+                if payload['role'] == 'admin' and header['alg'] == 'none': # check if the user role is admin and the algorithm is HS256
+                    return False
+    return True
 
 def check_signature_detection(session_requests_cookies):
     # Test for SQL Injection
@@ -146,16 +154,12 @@ def check_anomaly_detection(session_requests_cookies):
     else:
         return None
 
-def decode(jwt_string):
-    return base64.b64decode(jwt_string + '===').decode('utf-8')
-
-def encode(jwt_string):
-    return base64.b64encode(jwt_string.encode()).decode('utf-8').rstrip('=')
-
 def logger(message):
     with open('log.txt', 'a') as f:
         current_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         f.write(f'{current_time} - {message}\n')
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', debug = True, port=5000)
+    ctf_waf.run(host='0.0.0.0', debug = False, port=5000)
+    # tiredful_waf.run(host='0.0.0.0', debug = False, port=5001)
+    # dvwa_waf.run(host='0.0.0.0', debug = False, port=5002)
