@@ -6,17 +6,17 @@ CTF_SITE_NAME = 'http://127.0.0.1:8001/'
 
 @ctf_waf.before_request
 def before_request():
-    web_app_firewall.before_request()
+    web_app_firewall.before_request(request, requests.session())
 
 @ctf_waf.route('/')
 def home():
     global CTF_SITE_NAME
-    web_app_firewall.proxy('/', CTF_SITE_NAME, request)
+    return web_app_firewall.proxy('/', CTF_SITE_NAME, request, requests.session())
 
 @ctf_waf.route('/<path:path>',methods=['GET','POST'])
 def proxy(path):
     global CTF_SITE_NAME
-    web_app_firewall.proxy('/<path:path>', CTF_SITE_NAME, request)
+    return web_app_firewall.proxy(path, CTF_SITE_NAME, request, requests.session())
 
 if __name__ == '__main__':
     ctf_waf.run(host='0.0.0.0', debug = False, port=5001)
