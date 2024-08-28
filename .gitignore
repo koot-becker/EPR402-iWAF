@@ -1,3 +1,2 @@
 .vscode/
-WebAppFirewall/http_dataset/legitimate_dataset.json
-WebAppFirewall/http_dataset/sqli_dataset.json
+WebAppFirewall/Classifier/Datasets/

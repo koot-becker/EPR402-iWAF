@@ -3,7 +3,7 @@ import jwt
 import re
 import datetime
 import requests
-import http_dataset.baseline_trainer as baseline_trainer
+import Classifier.baseline_trainer as classifier
 
 def before_request(request, session):
     # Firewall Logic
@@ -83,7 +83,7 @@ def check_anomaly_detection(session_requests_cookies, request):
     # Load the baseline trainer
 
     # Initialize the baseline trainer
-    trainer = baseline_trainer.BaselineTrainer()
+    trainer = classifier.BaselineTrainer()
 
     # Get the request data
     request_data = {
