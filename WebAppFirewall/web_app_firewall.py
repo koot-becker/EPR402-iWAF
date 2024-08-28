@@ -1,44 +1,51 @@
 from flask import Response
-import requests, jwt
+import jwt
 import re
 import datetime
-import http_dataset.baseline_trainer as baseline_trainer
+import requests
+import Classifier.baseline_trainer as classifier
 
-def before_request(request):
+def before_request(request, session):
     # Firewall Logic
     # You can use the request.headers, request.method, request.path, etc. to make decisions
 
     # Block requests from a specific IP address
-    if request.remote_addr == '127.0.0.1':
-        logger(f'Blocked request from IP address: {request.remote_addr}')
-        return 'Access denied', 403
+    # if request.remote_addr == '127.0.0.1':
+    #     logger(f'Blocked request from IP address: {request.remote_addr}')
+    #     return 'Access denied', 403
 
     # Block requests to a specific path
-    if request.path == '/private':
-        logger(f'Blocked request to path: {request.path} from IP address: {request.remote_addr}')
-        return 'Access denied', 403
+    # if request.path == '/private':
+    #     logger(f'Blocked request to path: {request.path} from IP address: {request.remote_addr}')
+    #     return 'Access denied', 403
 
     # Block requests with a specific user agent
-    if 'User-Agent' in request.headers and 'bad_agent' in request.headers['User-Agent']:
-        logger(f'Blocked request with bad user agent: {request.headers["User-Agent"]} from IP address: {request.remote_addr}')
-        return 'Access denied', 403
+    # if 'User-Agent' in request.headers and 'bad_agent' in request.headers['User-Agent']:
+    #     logger(f'Blocked request with bad user agent: {request.headers["User-Agent"]} from IP address: {request.remote_addr}')
+    #     return 'Access denied', 403
     
     # Block requests with a specific cookie
-    if check_token(requests.session().cookies):
-        return 'Access denied', 403
+    # if check_token(session.cookies):
+    #     return 'Access denied', 403
+    
+    # if check_signature_detection(session.cookies):
+    #     return 'Access denied', 403
+    
+    # if check_anomaly_detection(session.cookies):
+    #     return 'Access denied', 403
 
     # If none of the conditions match, allow the request to proceed
     return None
 
-def proxy(path, SITE_NAME, request):
+def proxy(path, SITE_NAME, request, session):
     if request.method=='GET':
-        resp = requests.session().get(f'{SITE_NAME}{path}', headers=dict(request.headers))
+        resp = session.get(f'{SITE_NAME}{path}', headers=dict(request.headers))
         excluded_headers = ['content-encoding', 'content-length', 'transfer-encoding']
         headers = [(name, value) for (name, value) in  resp.raw.headers.items() if name.lower() not in excluded_headers]
         response = Response(resp.content, resp.status_code, headers)
         return response
     elif request.method=='POST':
-        resp = requests.session().post(f'{SITE_NAME}{path}', data=request.form, headers=dict(request.headers))
+        resp = session.post(f'{SITE_NAME}{path}', data=request.form, headers=dict(request.headers))
         excluded_headers = ['content-encoding', 'content-length', 'transfer-encoding']
         headers = [(name, value) for (name, value) in  resp.raw.headers.items() if name.lower() not in excluded_headers]
         response = Response(resp.content, resp.status_code, headers)
@@ -76,7 +83,7 @@ def check_anomaly_detection(session_requests_cookies, request):
     # Load the baseline trainer
 
     # Initialize the baseline trainer
-    trainer = baseline_trainer.BaselineTrainer()
+    trainer = classifier.BaselineTrainer()
 
     # Get the request data
     request_data = {

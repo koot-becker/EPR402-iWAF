@@ -1,2 +1,2 @@
 # WAF Management Interface
-## Access through localhost:8123
+## Manage the WAF trough a web application
