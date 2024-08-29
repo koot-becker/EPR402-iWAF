@@ -1,16 +1,15 @@
 from flask import Response
 import jwt
-import re
 import datetime
-import requests
-import Classifier.baseline_trainer as classifier
+import Classifier.classifier as classifier
+import Signature.signature_detection as signature
 
 def before_request(request, session):
     # Firewall Logic
     # You can use the request.headers, request.method, request.path, etc. to make decisions
 
     # Block requests from a specific IP address
-    # if request.remote_addr == '127.0.0.1':
+    # if request.remote_addr == '127.0.0.1':    
     #     logger(f'Blocked request from IP address: {request.remote_addr}')
     #     return 'Access denied', 403
 
@@ -24,15 +23,17 @@ def before_request(request, session):
     #     logger(f'Blocked request with bad user agent: {request.headers["User-Agent"]} from IP address: {request.remote_addr}')
     #     return 'Access denied', 403
     
-    # Block requests with a specific cookie
-    # if check_token(session.cookies):
-    #     return 'Access denied', 403
+    # Block requests with a anomalous token
+    if check_token(session.cookies):
+        return 'Access denied', 403
     
-    # if check_signature_detection(session.cookies):
-    #     return 'Access denied', 403
+    # Block requests with an anomalous signature
+    if check_signature_detection(session.cookies):
+        return 'Access denied', 403
     
-    # if check_anomaly_detection(session.cookies):
-    #     return 'Access denied', 403
+    # Block requests with an anomalous pattern
+    if check_anomaly_detection(session.cookies):
+        return 'Access denied', 403
 
     # If none of the conditions match, allow the request to proceed
     return None
@@ -62,39 +63,21 @@ def check_token(session_requests_cookies):
                     return False
     return True
 
-def check_signature_detection(session_requests_cookies):
-    # Test for SQL Injection
-    rules = [ # Signature-based detection rules
-        # SQL Injection
-        'delete from users', 'select * from users', 'delete,from', 'select,from', 'drop,table', 'union,select', 'update,set'
-        # XSS
-        '&cmd', 'exec', 'concat', '../', '</script>'
-        # Command Injection
-        '&&', '|', '||', '&&', ';', '||', '`', '$', '(', ')', '{', '}', '[', ']', '==', '!=', '>', '<', '>=', '<=', 'eq', 'ne', 'gt', 'lt', 'ge', 'le'
-    ]
+def check_signature_detection(session_requests_cookies, request):
+    # Load the signature detection module
+    classification = signature.detect_signature([request.method, request.path])
 
-    for cookie in session_requests_cookies:
-        for rule in rules:
-            if re.search(rule, cookie.value, re.I):
-                return True
-            return False
+    # Check for anomalies using the signature detection module
+    if classification == 'Anomalous':
+        return True
+    return False
 
 def check_anomaly_detection(session_requests_cookies, request):
     # Load the baseline trainer
-
-    # Initialize the baseline trainer
-    trainer = classifier.BaselineTrainer()
-
-    # Get the request data
-    request_data = {
-        'method': request.method,
-        'path': request.path,
-        'headers': dict(request.headers),
-        'cookies': session_requests_cookies
-    }
+    classification = classifier.classify([request.method, request.path])
 
     # Check for anomalies using the baseline trainer
-    if trainer == True:
+    if classification == 'Anomalous':
         return True
     return False
 
