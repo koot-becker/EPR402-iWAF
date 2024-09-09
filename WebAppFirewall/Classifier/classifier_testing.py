@@ -1,4 +1,4 @@
-import classifier
+import WebAppFirewall.Classifier.classifier_extended as classifier_extended
 import csv
 
 def classify_requests():
@@ -21,7 +21,7 @@ def classify_requests():
     # Classify each request in the dataset
     for request in range(len(texts)):
         # Classify the request using method and URI
-        classification = classifier.classify(texts[request])
+        classification = classifier_extended.classify(texts[request])
 
         # Increment the respective counter based on the classification
         if classification == "Valid":
