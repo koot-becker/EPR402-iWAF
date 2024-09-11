@@ -1,11 +1,12 @@
 import csv
 import pickle
 from sklearn.feature_extraction.text import CountVectorizer
-from sklearn.naive_bayes import MultinomialNB
+# from sklearn.naive_bayes import MultinomialNB as MultinomialNaiveBayes
+from classifier import MultinomialNaiveBayes
 
 def train_classifier():
     # Load the training data
-    data_path = '/home/administrator/EPR402/WebAppFirewall/Classifier/Datasets/combined_training.csv'
+    data_path = '/home/dieswartkat/EPR402/WebAppFirewall/Classifier/Datasets/csic_training.csv'
     with open(data_path, 'r') as file:
         reader = csv.DictReader(file)
         data = [row for row in reader]
@@ -19,13 +20,13 @@ def train_classifier():
     X = vectorizer.fit_transform(texts)
 
     # Train the classifier
-    classifier = MultinomialNB()
+    classifier = MultinomialNaiveBayes(alpha=0.5)
     classifier.fit(X, labels)
 
     return classifier, vectorizer
 
 def classify(texts):
-    # Load the trained classifier
+    # Load the trained classifiers
     with open('trained_classifier.pkl', 'rb') as f:
         classifier = pickle.load(f)
 
@@ -48,6 +49,6 @@ if __name__ == '__main__':
     # Save the fitted CountVectorizer
     with open('vectorizer.pkl', 'wb') as f:
         pickle.dump(vectorizer, f)
-    # Save the trained classifier
+    # Save the trained classifiers
     with open('trained_classifier.pkl', 'wb') as f:
         pickle.dump(classifier, f)
