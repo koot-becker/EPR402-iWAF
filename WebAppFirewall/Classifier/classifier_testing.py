@@ -1,6 +1,20 @@
 import classifier_interface
 import csv
+import pickle
 import threading
+
+def train_classifier():
+    # Load the training data
+    data_path = '/home/dieswartkat/EPR402/WebAppFirewall/Classifier/Datasets/csic_training.csv'
+    with open(data_path, 'r') as file:
+        reader = csv.DictReader(file)
+        data = [row for row in reader]
+
+    # Prepare the training data
+    texts = [row['Method'] + ' ' + row['URI'] + ' ' + row['POST-Data'] + ' ' + row['GET-Query'] for row in data]
+    labels = [row['Class'] for row in data]
+
+    classifier_interface.train_classifier(texts, labels)
 
 def classify_requests():
     # Load the dataset from csic_final.csv

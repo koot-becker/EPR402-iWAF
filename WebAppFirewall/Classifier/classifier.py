@@ -1,51 +1,100 @@
 import numpy as np
+import csv
+from sklearn.feature_extraction.text import CountVectorizer
+from collections import defaultdict
+
+def create_float_defaultdict():
+    return defaultdict(float)
+
+def create_int_defaultdict():
+    return defaultdict(int)
 
 class MultinomialNaiveBayes:
     def __init__(self, alpha=1.0):
-        self.alpha = alpha
-        self.class_log_prior_ = None
-        self.feature_log_prob_ = None
-        self.classes_ = None
+        self.alpha = alpha  # Smoothing parameter
+        self.class_priors = {}
+        self.feature_probs = defaultdict(create_float_defaultdict)
+        self.classes = set()
+        self.vocabulary = set()
 
     def fit(self, X, y):
-        # Identify unique classes
-        self.classes_ = np.unique(y)
-        n_classes = len(self.classes_)
-        n_features = X.shape[1]
+        n_samples, n_features = X.shape
+        self.classes = set(y)
+        
+        # Calculate class priors
+        class_counts = defaultdict(int)
+        for label in y:
+            class_counts[label] += 1
+        
+        for c in self.classes:
+            self.class_priors[c] = class_counts[c] / n_samples
 
-        # Initialize counts
-        class_count = np.zeros(n_classes)
-        feature_count = np.zeros((n_classes, n_features))
+        # Calculate feature probabilities
+        feature_counts = defaultdict(create_int_defaultdict)
+        class_totals = defaultdict(int)
 
-        # Count occurrences
-        for i, class_label in enumerate(self.classes_):
-            X_class = X[y == class_label]
-            class_count[i] = X_class.shape[0]
-            feature_count[i, :] = X_class.sum(axis=0)
+        for i in range(n_samples):
+            c = y[i]
+            for j in X[i].indices:
+                feature_counts[c][j] += X[i, j]
+                class_totals[c] += X[i, j]
+                self.vocabulary.add(j)
 
-        # Compute log prior probabilities
-        self.class_log_prior_ = np.log(class_count / class_count.sum())
-
-        # Apply Laplace smoothing
-        smoothed_fc = feature_count + self.alpha
-        smoothed_cc = smoothed_fc.sum(axis=1) + self.alpha * n_features
-
-        # Compute log probabilities
-        self.feature_log_prob_ = np.log(smoothed_fc / smoothed_cc[:, np.newaxis])
+        for c in self.classes:
+            for feature in self.vocabulary:
+                numerator = feature_counts[c][feature] + self.alpha
+                denominator = class_totals[c] + self.alpha * len(self.vocabulary)
+                self.feature_probs[c][feature] = numerator / denominator
 
     def predict(self, X):
-        jll = self._joint_log_likelihood(X)
-        return self.classes_[np.argmax(jll, axis=1)]
+        return [self._predict_single(x) for x in X]
 
-    def _joint_log_likelihood(self, X):
-        return (X @ self.feature_log_prob_.T) + self.class_log_prior_
+    def _predict_single(self, x):
+        best_class = None
+        best_score = float('-inf')
 
-'''
-Example usage:
-X = np.array([[2, 1, 0], [1, 0, 1], [2, 0, 0], [0, 1, 2]])
-y = np.array([0, 1, 0, 1])
-model = MultinomialNaiveBayes()
-model.fit(X, y)
-predictions = model.predict(np.array([[1, 0, 1], [0, 2, 1]]))
-print(predictions)
-'''
+        for c in self.classes:
+            score = np.log(self.class_priors[c])
+            for i in x.indices:
+                score += x[0, i] * np.log(self.feature_probs[c][i])
+            
+            if score > best_score:
+                best_score = score
+                best_class = c
+
+        return best_class
+
+if __name__ == '__main__':
+    training_data_path = '/home/dieswartkat/EPR402/WebAppFirewall/Classifier/Datasets/csic_training.csv'
+    with open(training_data_path, 'r') as file:
+        reader = csv.DictReader(file)
+        training_data = [row for row in reader]
+
+    # Prepare the training data
+    training_texts = [row['Method'] + ' ' + row['URI'] for row in training_data]
+    training_labels = [row['Class'] for row in training_data]
+
+    # Create the feature vectors
+    vectorizer = CountVectorizer()
+    training_X = vectorizer.fit_transform(training_texts)
+
+    training_model = MultinomialNaiveBayes()
+    training_model.fit(training_X, training_labels)
+
+    # Load the dataset from csic_final.csv
+    testing_data_path = '/home/dieswartkat/EPR402/WebAppFirewall/Classifier/Datasets/training.csv'
+    with open(testing_data_path, 'r') as file:
+        reader = csv.DictReader(file)
+        testing_data = [row for row in reader]
+
+    # Prepare the training data
+    testing_texts = [row['Method'] + ' ' + row['URI'] for row in testing_data]
+    testing_labels = [row['Class'] for row in testing_data]
+
+    for request in range(len(testing_texts)):
+        # Create the feature vector
+        testing_X = vectorizer.transform([testing_texts[request]])
+
+        # Predict the class
+        prediction = training_model.predict(testing_X)
+        print(prediction)
