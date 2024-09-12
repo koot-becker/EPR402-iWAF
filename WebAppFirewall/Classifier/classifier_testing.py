@@ -1,7 +1,10 @@
-import classifier_interface
+# Existing imports
 import csv
-import pickle
 import threading
+import time
+
+# Custom imports
+import classifier_interface
 
 def train_classifier():
     # Load the training data
@@ -95,4 +98,8 @@ def classify_requests():
     print(f'Balanced Accuracy: {(tpr + tnr) / 2}')
 
 if __name__ == "__main__":
+    start_time = time.perf_counter()
+    train_classifier()
     classify_requests()
+    end_time = time.perf_counter()
+    print(f'Time taken: {end_time - start_time} seconds')

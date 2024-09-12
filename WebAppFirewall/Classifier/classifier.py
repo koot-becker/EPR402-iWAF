@@ -1,6 +1,5 @@
+# Existing imports
 import numpy as np
-import csv
-from sklearn.feature_extraction.text import CountVectorizer
 from collections import defaultdict
 
 def create_float_defaultdict():
@@ -63,38 +62,3 @@ class MultinomialNaiveBayes:
                 best_class = c
 
         return best_class
-
-if __name__ == '__main__':
-    training_data_path = '/home/dieswartkat/EPR402/WebAppFirewall/Classifier/Datasets/csic_training.csv'
-    with open(training_data_path, 'r') as file:
-        reader = csv.DictReader(file)
-        training_data = [row for row in reader]
-
-    # Prepare the training data
-    training_texts = [row['Method'] + ' ' + row['URI'] for row in training_data]
-    training_labels = [row['Class'] for row in training_data]
-
-    # Create the feature vectors
-    vectorizer = CountVectorizer()
-    training_X = vectorizer.fit_transform(training_texts)
-
-    training_model = MultinomialNaiveBayes()
-    training_model.fit(training_X, training_labels)
-
-    # Load the dataset from csic_final.csv
-    testing_data_path = '/home/dieswartkat/EPR402/WebAppFirewall/Classifier/Datasets/training.csv'
-    with open(testing_data_path, 'r') as file:
-        reader = csv.DictReader(file)
-        testing_data = [row for row in reader]
-
-    # Prepare the training data
-    testing_texts = [row['Method'] + ' ' + row['URI'] for row in testing_data]
-    testing_labels = [row['Class'] for row in testing_data]
-
-    for request in range(len(testing_texts)):
-        # Create the feature vector
-        testing_X = vectorizer.transform([testing_texts[request]])
-
-        # Predict the class
-        prediction = training_model.predict(testing_X)
-        print(prediction)

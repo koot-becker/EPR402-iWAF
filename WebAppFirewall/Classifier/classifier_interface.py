@@ -1,10 +1,15 @@
+# Existing imports
 import pickle
-from sklearn.feature_extraction.text import CountVectorizer
+# from sklearn.feature_extraction.text import CountVectorizer as SimpleCountVectorizer
+# from sklearn.naive_bayes import MultinomialNB as MultinomialNaiveBayes
+
+# Custom imports
+from count_vectorizer import SimpleCountVectorizer
 from classifier import MultinomialNaiveBayes
 
 def train_classifier(texts, labels):
     # Create the feature vectors
-    vectorizer = CountVectorizer()
+    vectorizer = SimpleCountVectorizer()
     X = vectorizer.fit_transform(texts)
 
     # Train the classifier
