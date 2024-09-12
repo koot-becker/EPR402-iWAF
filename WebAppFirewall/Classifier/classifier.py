@@ -1,53 +1,64 @@
-import csv
-import pickle
-from sklearn.feature_extraction.text import CountVectorizer
-from sklearn.naive_bayes import MultinomialNB
+# Existing imports
+import numpy as np
+from collections import defaultdict
 
-def train_classifier():
-    # Load the training data
-    data_path = '/home/administrator/EPR402/WebAppFirewall/Classifier/Datasets/train.csv'
-    with open(data_path, 'r') as file:
-        reader = csv.DictReader(file)
-        data = [row for row in reader]
+def create_float_defaultdict():
+    return defaultdict(float)
 
-    # Prepare the training data
-    texts = [row['Method'] + ' ' + row['URI'] for row in data]
-    labels = [row['Class'] for row in data]
+def create_int_defaultdict():
+    return defaultdict(int)
 
-    # Create the feature vectors
-    vectorizer = CountVectorizer()
-    X = vectorizer.fit_transform(texts)
+class MultinomialNaiveBayes:
+    def __init__(self, alpha=1.0):
+        self.alpha = alpha  # Smoothing parameter
+        self.class_priors = {}
+        self.feature_probs = defaultdict(create_float_defaultdict)
+        self.classes = set()
+        self.vocabulary = set()
 
-    # Train the classifier
-    classifier = MultinomialNB()
-    classifier.fit(X, labels)
+    def fit(self, X, y):
+        n_samples, n_features = X.shape
+        self.classes = set(y)
+        
+        # Calculate class priors
+        class_counts = defaultdict(int)
+        for label in y:
+            class_counts[label] += 1
+        
+        for c in self.classes:
+            self.class_priors[c] = class_counts[c] / n_samples
 
-    return classifier, vectorizer
+        # Calculate feature probabilities
+        feature_counts = defaultdict(create_int_defaultdict)
+        class_totals = defaultdict(int)
 
-def classify(texts):
-    # Load the trained classifier
-    with open('trained_classifier.pkl', 'rb') as f:
-        classifier = pickle.load(f)
+        for i in range(n_samples):
+            c = y[i]
+            for j in X[i].indices:
+                feature_counts[c][j] += X[i, j]
+                class_totals[c] += X[i, j]
+                self.vocabulary.add(j)
 
-    # Load the fitted CountVectorizer
-    with open('vectorizer.pkl', 'rb') as f:
-        vectorizer = pickle.load(f)
+        for c in self.classes:
+            for feature in self.vocabulary:
+                numerator = feature_counts[c][feature] + self.alpha
+                denominator = class_totals[c] + self.alpha * len(self.vocabulary)
+                self.feature_probs[c][feature] = numerator / denominator
 
-    # Create the feature vector
-    X = vectorizer.transform([texts])
+    def predict(self, X):
+        return [self._predict_single(x) for x in X]
 
-    # Predict the class
-    prediction = classifier.predict(X)
+    def _predict_single(self, x):
+        best_class = None
+        best_score = float('-inf')
 
-    return prediction[0]
+        for c in self.classes:
+            score = np.log(self.class_priors[c])
+            for i in x.indices:
+                score += x[0, i] * np.log(self.feature_probs[c][i])
+            
+            if score > best_score:
+                best_score = score
+                best_class = c
 
-if __name__ == '__main__':
-    # Train the classifier
-    classifier, vectorizer = train_classifier()
-
-    # Save the fitted CountVectorizer
-    with open('vectorizer.pkl', 'wb') as f:
-        pickle.dump(vectorizer, f)
-    # Save the trained classifier
-    with open('trained_classifier.pkl', 'wb') as f:
-        pickle.dump(classifier, f)
+        return best_class

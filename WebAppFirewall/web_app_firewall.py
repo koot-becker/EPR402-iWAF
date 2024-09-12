@@ -1,7 +1,7 @@
 from flask import Response
 import jwt
 import datetime
-import Classifier.classifier as classifier
+import WebAppFirewall.Classifier.classifier_interface as classifier_interface
 import Signature.signature_detection as signature
 
 def before_request(request, session):
@@ -74,7 +74,7 @@ def check_signature_detection(session_requests_cookies, request):
 
 def check_anomaly_detection(session_requests_cookies, request):
     # Load the baseline trainer
-    classification = classifier.classify([request.method, request.path])
+    classification = classifier_interface.classify([request.method, request.path])
 
     # Check for anomalies using the baseline trainer
     if classification == 'Anomalous':
