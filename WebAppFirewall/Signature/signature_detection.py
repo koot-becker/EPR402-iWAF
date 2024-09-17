@@ -1,6 +1,7 @@
-import re
+# Existing imports
+from re import search, I
 
-def detect_signature(texts):
+def signature_detection(texts):
     # Test for SQL Injection
     rules = [ # Signature-based detection rules
         # SQL Injection
@@ -12,6 +13,6 @@ def detect_signature(texts):
     ]
 
     for rule in rules:
-        if re.search(rule, texts, re.I):
+        if search(rule, texts, I):
             return 'Anomalous'
         return 'Valid'
