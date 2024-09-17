@@ -1,9 +1,10 @@
-import subprocess
+# Existing imports
+from subprocess import run, CalledProcessError
 
 def run_script(script_path):
     try:
-        subprocess.run(['python', script_path], check=True)
-    except subprocess.CalledProcessError as e:
+        run(['python', script_path], check=True)
+    except CalledProcessError as e:
         print(f"Error running {script_path}: {e}")
 
 if __name__ == "__main__":
