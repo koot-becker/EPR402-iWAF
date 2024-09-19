@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+    <h1>Web Applications</h1>
+  
+    <ul>
+      {% for x in web_applications %}
+        <li>{{ x.name }} {{ x.url }} {{ x.description }}</li>
+      {% endfor %}
+    </ul>
+
+</body>
+</html>
