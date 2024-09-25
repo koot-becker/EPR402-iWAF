@@ -4,8 +4,8 @@ import pickle
 # from sklearn.naive_bayes import MultinomialNB as MultinomialNaiveBayes
 
 # Custom imports
-from count_vectorizer import SimpleCountVectorizer
-from classifier import MultinomialNaiveBayes
+from WebAppFirewall.Classifier.Vectorizer.count_vectorizer import SimpleCountVectorizer
+from WebAppFirewall.Classifier.SignatureClassifier.signature_classifier import MultinomialNaiveBayes
 
 def train_classifier(texts, labels):
     # Create the feature vectors

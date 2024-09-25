@@ -3,8 +3,8 @@ from flask import Response
 from datetime import datetime
 
 # Custom imports
-import Classifier.classifier_interface as classifier_interface
-import Signature.signature_detection as signature
+import SignatureClassifier.classifier_interface as classifier_interface
+import SignatureClassifier.signature_detection as signature
 from JWT.jwt import JWT
 
 def before_request(request, session):

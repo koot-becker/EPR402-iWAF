@@ -3,13 +3,35 @@ import numpy as np
 from collections import defaultdict
 
 def create_float_defaultdict():
+    """
+    Creates a defaultdict with float as the default factory.
+    
+    Returns:
+        defaultdict: A defaultdict that returns 0.0 for missing keys.
+    """
     return defaultdict(float)
 
 def create_int_defaultdict():
+    """
+    Creates a defaultdict with int as the default factory.
+    
+    Returns:
+        defaultdict: A defaultdict that returns 0 for missing keys.
+    """
     return defaultdict(int)
 
 class MultinomialNaiveBayes:
+    """
+    Implements the Multinomial Naive Bayes algorithm for classification.
+    """
+
     def __init__(self, alpha=1.0):
+        """
+        Initializes the MultinomialNaiveBayes classifier.
+
+        Args:
+            alpha (float): Smoothing parameter for Laplace smoothing. Default is 1.0.
+        """
         self.alpha = alpha  # Smoothing parameter
         self.class_priors = {}
         self.feature_probs = defaultdict(create_float_defaultdict)
@@ -17,6 +39,13 @@ class MultinomialNaiveBayes:
         self.vocabulary = set()
 
     def fit(self, X, y):
+        """
+        Fits the Multinomial Naive Bayes classifier to the training data.
+
+        Args:
+            X (scipy.sparse.csr_matrix): The input features as a sparse matrix.
+            y (array-like): The target labels.
+        """
         n_samples, n_features = X.shape
         self.classes = set(y)
         
@@ -46,9 +75,27 @@ class MultinomialNaiveBayes:
                 self.feature_probs[c][feature] = numerator / denominator
 
     def predict(self, X):
+        """
+        Predicts the class labels for the input samples.
+
+        Args:
+            X (scipy.sparse.csr_matrix): The input features as a sparse matrix.
+
+        Returns:
+            list: Predicted class labels for each input sample.
+        """
         return [self._predict_single(x) for x in X]
 
     def _predict_single(self, x):
+        """
+        Predicts the class label for a single input sample.
+
+        Args:
+            x (scipy.sparse.csr_matrix): A single input sample as a sparse matrix row.
+
+        Returns:
+            The predicted class label.
+        """
         best_class = None
         best_score = float('-inf')
 
