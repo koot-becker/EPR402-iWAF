@@ -4,11 +4,12 @@ import threading
 import time
 
 # Custom imports
-import classifier_interface
+import signature_classifier_interface 
+import outlier_classifier_interface
 
 def train_classifier():
     # Load the training data
-    data_path = '/home/dieswartkat/EPR402/WebAppFirewall/Classifier/Datasets/csic_training.csv'
+    data_path = '/home/dieswartkat/EPR402/WebAppFirewall/Classifier/Datasets/training.csv'
     with open(data_path, 'r') as file:
         reader = csv.DictReader(file)
         data = [row for row in reader]
@@ -17,11 +18,12 @@ def train_classifier():
     texts = [row['Method'] + ' ' + row['URI'] + ' ' + row['POST-Data'] + ' ' + row['GET-Query'] for row in data]
     labels = [row['Class'] for row in data]
 
-    classifier_interface.train_classifier(texts, labels)
+    # signature_classifier_interface.train_classifier(texts, labels)
+    outlier_classifier_interface.train_classifier(texts, labels)
 
 def classify_requests():
     # Load the dataset from csic_final.csv
-    data_path = '/home/dieswartkat/EPR402/WebAppFirewall/Classifier/Datasets/csic_testing.csv'
+    data_path = '/home/dieswartkat/EPR402/WebAppFirewall/Classifier/Datasets/testing.csv'
     with open(data_path, 'r') as file:
         reader = csv.DictReader(file)
         data = [row for row in reader]
@@ -43,7 +45,8 @@ def classify_requests():
     def classify_request(request):
         nonlocal true_positive_count, false_positive_count, true_negative_count, false_negative_count
         # Classify the request using method and URI
-        classification = classifier_interface.classify(texts[request])
+        # classification = signature_classifier_interface.classify(texts[request])
+        classification = outlier_classifier_interface.classify(texts[request])
 
         # Increment the respective counter based on the classification
         if classification == "Valid":
@@ -85,17 +88,17 @@ def classify_requests():
     print(f'Total requests: {total_count}')
     allowed_percentage = ((true_positive_count + false_positive_count) / total_count) * 100
     denied_percentage = ((true_negative_count + false_negative_count) / total_count) * 100
-    tpr = (true_positive_count / total_valid_count) * 100
-    fpr = (false_positive_count / total_anomalous_count) * 100
-    tnr = (true_negative_count / total_anomalous_count) * 100
-    fnr = (false_negative_count / total_valid_count) * 100
+    # tpr = (true_positive_count / total_valid_count) * 100
+    # fpr = (false_positive_count / total_anomalous_count) * 100
+    # tnr = (true_negative_count / total_anomalous_count) * 100
+    # fnr = (false_negative_count / total_valid_count) * 100
     print(f'Total allowed percentage: {allowed_percentage}')
     print(f'Total denied percentage: {denied_percentage}')
-    print(f'True positive percentage (TPR): {tpr}')
-    print(f'False positive percentage: {fpr}')
-    print(f'True negative percentage (TNR): {tnr}')
-    print(f'False negative percentage: {fnr}')
-    print(f'Balanced Accuracy: {(tpr + tnr) / 2}')
+    # print(f'True positive percentage (TPR): {tpr}')
+    # print(f'False positive percentage: {fpr}')
+    # print(f'True negative percentage (TNR): {tnr}')
+    # print(f'False negative percentage: {fnr}')
+    # print(f'Balanced Accuracy: {(tpr + tnr) / 2}')
 
 if __name__ == "__main__":
     start_time = time.perf_counter()

@@ -1,71 +1,54 @@
-
 import numpy as np
-from scipy import stats
-from typing import List, Tuple
+from scipy.sparse import csr_matrix
+import csv
+from sklearn.feature_extraction.text import CountVectorizer as SimpleCountVectorizer
 
 class ZScoreOutlierClassifier:
-    def __init__(self, threshold: float = 3.0):
+    def __init__(self, threshold=3.0):
         self.threshold = threshold
-        self.mean = None
-        self.std = None
 
-    def fit(self, data: List[float]) -> None:
-        """
-        Fit the classifier with the input data.
-        
-        Args:
-            data (List[float]): Input data to fit the classifier.
-        """
-        self.mean = np.mean(data)
-        self.std = np.std(data)
+    def fit(self, data):
+        data = data.toarray() if isinstance(data, csr_matrix) else data
+        self.mean = np.mean(data, axis=0)
+        self.std = np.std(data, axis=0)
 
-    def predict(self, data: List[float]) -> List[bool]:
-        """
-        Predict outliers in the input data.
-        
-        Args:
-            data (List[float]): Input data to classify.
-        
-        Returns:
-            List[bool]: True for outliers, False for inliers.
-        """
-        if self.mean is None or self.std is None:
-            raise ValueError("Classifier must be fitted before making predictions.")
-        
-        z_scores = np.abs(stats.zscore(data))
-        return list(z_scores > self.threshold)
+    def predict(self, data):
+        data = data.toarray() if isinstance(data, csr_matrix) else data
+        z_scores = (data - self.mean) / self.std
+        outliers = np.any(np.abs(z_scores) > self.threshold, axis=1)
+        return np.where(outliers, "Anomalous", "Valid")
 
-    def fit_predict(self, data: List[float]) -> List[bool]:
-        """
-        Fit the classifier and predict outliers in one step.
-        
-        Args:
-            data (List[float]): Input data to fit and classify.
-        
-        Returns:
-            List[bool]: True for outliers, False for inliers.
-        """
-        self.fit(data)
-        return self.predict(data)
+# Example usage:
+if __name__ == "__main__":
+    data_path = '/home/dieswartkat/EPR402/WebAppFirewall/Classifier/Datasets/training.csv'
+    with open(data_path, 'r') as file:
+        reader = csv.DictReader(file)
+        data = [row for row in reader]
 
-def detect_anomalies(requests: List[dict], feature: str, threshold: float = 3.0) -> Tuple[List[dict], List[dict]]:
-    """
-    Detect anomalies in web application firewall requests based on a specific feature.
-    
-    Args:
-        requests (List[dict]): List of request dictionaries.
-        feature (str): The feature to use for anomaly detection.
-        threshold (float): Z-score threshold for outlier detection.
-    
-    Returns:
-        Tuple[List[dict], List[dict]]: A tuple containing two lists: (normal_requests, anomalous_requests)
-    """
-    classifier = ZScoreOutlierClassifier(threshold)
-    feature_values = [request.get(feature, 0) for request in requests]
-    
-    outliers = classifier.fit_predict(feature_values)
-    
-    normal_requests = [req for req, is_outlier in zip(requests, outliers) if not is_outlier]
-    anomalous_requests = [req for req, is_outlier in zip(requests, outliers) if is_outlier]
-    
-    return normal_requests, anomalous_requests
+    # Prepare the training data
+    texts = [row['Method'] + ' ' + row['URI'] + ' ' + row['POST-Data'] + ' ' + row['GET-Query'] for row in data]
+    labels = [row['Class'] for row in data]
+
+    # Vectorize the text data
+    vectorizer = SimpleCountVectorizer()
+    sparse_data = vectorizer.fit_transform(texts)
+
+    # Train the classifier
+    classifier = ZScoreOutlierClassifier(threshold=2.0)
+    classifier.fit(sparse_data)
+
+    # Load the dataset from csic_final.csv
+    data_path = '/home/dieswartkat/EPR402/WebAppFirewall/Classifier/Datasets/testing.csv'
+    with open(data_path, 'r') as file:
+        reader = csv.DictReader(file)
+        data = [row for row in reader]
+
+    # Prepare the training data
+    texts = [row['Method'] + ' ' + row['URI'] + ' ' + row['POST-Data'] + ' ' + row['GET-Query'] for row in data]
+    labels = [row['Class'] for row in data]
+
+    X = vectorizer.transform(texts)
+
+    outliers = classifier.predict(X)
+
+    print(outliers)
