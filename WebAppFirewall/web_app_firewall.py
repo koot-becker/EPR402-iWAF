@@ -30,22 +30,22 @@ def before_request(request, session):
     #     return 'Access denied', 403
     
     # Block requests with a anomalous token
-    if check_token(session.cookies):
-        return 'Access denied', 403
+    # if check_token(session.cookies):
+    #     return 'Access denied', 403
     
     # Signature-based detection
     print("Signature-based detection:")
 
     # Block requests with an anomalous signature
-    if check_signature_detection(session.cookies):
-        return 'Access denied', 403
+    # if check_signature_detection(session.cookies):
+    #     return 'Access denied', 403
     
     # Anomaly-based detection
     print("Anomaly-based detection:")
 
     # Block requests with an anomalous pattern
-    if check_anomaly_detection(session.cookies, request):
-        return 'Access denied', 403
+    # if check_anomaly_detection(session.cookies, request):
+    #     return 'Access denied', 403
 
     # If none of the conditions match, allow the request to proceed
     return None
@@ -63,6 +63,11 @@ def proxy(path, SITE_NAME, request, session):
         headers = [(name, value) for (name, value) in  resp.raw.headers.items() if name.lower() not in excluded_headers]
         response = Response(resp.content, resp.status_code, headers)
         return response
+    
+def post_request(request):
+    with open('requests.txt', 'a') as f:
+        current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        f.write(f'{current_time} - {request.method} {request.path} {request.data} {request.query_string}\n')
 
 def check_token(session_requests_cookies):
     if session_requests_cookies:

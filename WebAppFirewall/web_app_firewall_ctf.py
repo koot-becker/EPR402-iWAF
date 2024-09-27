@@ -13,6 +13,11 @@ CTF_SITE_NAME = 'http://127.0.0.1:8001/'
 def before_request():
     web_app_firewall.before_request(request, session())
 
+@ctf_waf.after_request
+def after_request(response):
+    web_app_firewall.post_request(request)
+    return response
+
 @ctf_waf.route('/')
 def home():
     global CTF_SITE_NAME

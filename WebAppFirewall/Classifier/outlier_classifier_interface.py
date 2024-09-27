@@ -5,16 +5,13 @@ import pickle
 from Vectorizer.count_vectorizer import SimpleCountVectorizer
 from OutlierClassifier.outlier_classifier import ZScoreOutlierClassifier
 
-def train_classifier(texts, labels):
+def train_classifier(texts):
     # Create the feature vectors
     vectorizer = SimpleCountVectorizer()
     X = vectorizer.fit_transform(texts)
 
-    # Train the classifier
-    # classifier = MultinomialNaiveBayes()
-    # classifier.fit(X, labels)
-    
-    classifier = ZScoreOutlierClassifier(threshold=2.0)
+    # Train the classifier  
+    classifier = ZScoreOutlierClassifier(threshold=0.0)
     classifier.fit(X)
 
     # Save the fitted CountVectorizer

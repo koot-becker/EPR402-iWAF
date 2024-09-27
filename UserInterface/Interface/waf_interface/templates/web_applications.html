@@ -6,7 +6,7 @@
   
     <ul>
       {% for x in web_applications %}
-        <li>{{ x.name }} {{ x.url }} {{ x.description }}</li>
+        <li><a href="/{{ x.url }}">{{ x.name }}</a> {{ x.description }}</li>
       {% endfor %}
     </ul>
 

@@ -9,7 +9,7 @@ import outlier_classifier_interface
 
 def train_classifier():
     # Load the training data
-    data_path = '/home/dieswartkat/EPR402/WebAppFirewall/Classifier/Datasets/training.csv'
+    data_path = '/home/dieswartkat/EPR402/WebAppFirewall/Classifier/Datasets/training_valid.csv'
     with open(data_path, 'r') as file:
         reader = csv.DictReader(file)
         data = [row for row in reader]
@@ -18,12 +18,11 @@ def train_classifier():
     texts = [row['Method'] + ' ' + row['URI'] + ' ' + row['POST-Data'] + ' ' + row['GET-Query'] for row in data]
     labels = [row['Class'] for row in data]
 
-    # signature_classifier_interface.train_classifier(texts, labels)
-    outlier_classifier_interface.train_classifier(texts, labels)
+    signature_classifier_interface.train_classifier(texts, labels)
 
 def classify_requests():
     # Load the dataset from csic_final.csv
-    data_path = '/home/dieswartkat/EPR402/WebAppFirewall/Classifier/Datasets/testing.csv'
+    data_path = '/home/dieswartkat/EPR402/WebAppFirewall/Classifier/Datasets/testing_anomalous.csv'
     with open(data_path, 'r') as file:
         reader = csv.DictReader(file)
         data = [row for row in reader]

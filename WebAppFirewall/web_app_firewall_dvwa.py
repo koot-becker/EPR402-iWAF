@@ -13,6 +13,11 @@ DVWA_SITE_NAME = 'http://127.0.0.1:8002/'
 def before_request():
     return web_app_firewall.before_request(request, session())
 
+@dvwa_waf.after_request
+def after_request(response):
+    web_app_firewall.post_request(request)
+    return response
+
 @dvwa_waf.route('/')
 def home():
     global DVWA_SITE_NAME
