@@ -1,0 +1,20 @@
+{% extends "master.html" %}
+
+{% block title %}
+    Web Applications
+{% endblock %}
+
+{% block content %}
+    <h1>Web Applications</h1>
+    <ul>
+        {% for x in web_applications %}
+        <li><h2>{{ x.name }}</h2>
+        <ul>
+            <li>Description: {{ x.description }}</li>
+            <li>Interface Path: <a href="{{ x.path }}">{{ x.path }}</a></li>
+            <li>Web App Url: <a href="{{ x.url }}">{{ x.url }}</a></li>
+        </ul>
+        </li>
+        {% endfor %}
+    </ul>
+{% endblock %}

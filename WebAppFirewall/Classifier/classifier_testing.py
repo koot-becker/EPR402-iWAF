@@ -81,23 +81,25 @@ def classify_requests():
         thread.join()
 
     # Calculate the percentage of requests allowed and denied
-    total_valid_count = true_positive_count + false_negative_count
-    total_anomalous_count = true_negative_count + false_positive_count
-    total_count = total_valid_count + total_anomalous_count
-    print(f'Total requests: {total_count}')
-    allowed_percentage = ((true_positive_count + false_positive_count) / total_count) * 100
-    denied_percentage = ((true_negative_count + false_negative_count) / total_count) * 100
+    # total_valid_count = true_positive_count + false_negative_count
+    # total_anomalous_count = true_negative_count + false_positive_count
+    # total_count = total_valid_count + total_anomalous_count
+    # print(f'Total requests: {total_count}')
+    # allowed_percentage = ((true_positive_count + false_positive_count) / total_count) * 100
+    # denied_percentage = ((true_negative_count + false_negative_count) / total_count) * 100
     # tpr = (true_positive_count / total_valid_count) * 100
     # fpr = (false_positive_count / total_anomalous_count) * 100
     # tnr = (true_negative_count / total_anomalous_count) * 100
     # fnr = (false_negative_count / total_valid_count) * 100
-    print(f'Total allowed percentage: {allowed_percentage}')
-    print(f'Total denied percentage: {denied_percentage}')
+    # print(f'Total allowed percentage: {allowed_percentage}')
+    # print(f'Total denied percentage: {denied_percentage}')
     # print(f'True positive percentage (TPR): {tpr}')
     # print(f'False positive percentage: {fpr}')
     # print(f'True negative percentage (TNR): {tnr}')
     # print(f'False negative percentage: {fnr}')
     # print(f'Balanced Accuracy: {(tpr + tnr) / 2}')
+
+    return true_positive_count, false_positive_count, true_negative_count, false_negative_count
 
 if __name__ == "__main__":
     start_time = time.perf_counter()

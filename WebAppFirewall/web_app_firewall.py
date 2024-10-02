@@ -3,16 +3,16 @@ from flask import Response
 from datetime import datetime
 
 # Custom imports
-import SignatureClassifier.classifier_interface as classifier_interface
-import SignatureClassifier.signature_detection as signature
+import Classifier.signature_classifier_interface as classifier_interface
 from JWT.jwt import JWT
 
 def before_request(request, session):
+    print("Before request:")
     # Firewall Logic
     # You can use the request.headers, request.method, request.path, etc. to make decisions
     
     # Rule-based detection
-    print("Rule-based detection:")
+    # print("Rule-based detection:")
 
     # Block requests from a specific IP address
     # if request.remote_addr == '127.0.0.1':    
@@ -34,14 +34,14 @@ def before_request(request, session):
     #     return 'Access denied', 403
     
     # Signature-based detection
-    print("Signature-based detection:")
+    # print("Signature-based detection:")
 
     # Block requests with an anomalous signature
     # if check_signature_detection(session.cookies):
     #     return 'Access denied', 403
     
     # Anomaly-based detection
-    print("Anomaly-based detection:")
+    # print("Anomaly-based detection:")
 
     # Block requests with an anomalous pattern
     # if check_anomaly_detection(session.cookies, request):
@@ -51,6 +51,7 @@ def before_request(request, session):
     return None
 
 def proxy(path, SITE_NAME, request, session):
+    print("Proxy:")
     if request.method=='GET':
         resp = session.get(f'{SITE_NAME}{path}', headers=dict(request.headers))
         excluded_headers = ['content-encoding', 'content-length', 'transfer-encoding']
@@ -65,11 +66,13 @@ def proxy(path, SITE_NAME, request, session):
         return response
     
 def post_request(request):
+    print("Post request:")
     with open('requests.txt', 'a') as f:
         current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         f.write(f'{current_time} - {request.method} {request.path} {request.data} {request.query_string}\n')
 
 def check_token(session_requests_cookies):
+    print("Check token:")
     if session_requests_cookies:
         for cookie in session_requests_cookies:
             if cookie.name == "token":
@@ -81,17 +84,19 @@ def check_token(session_requests_cookies):
     return True
 
 def check_signature_detection(session_requests_cookies, request):
+    print("Check signature detection:")
     # Load the signature detection module
-    classification = signature.signature_detection(request.method + ' ' + request.path + ' ' + request.data + ' ' + request.query_string)
+    # classification = signature.signature_detection(request.method + ' ' + request.path + ' ' + request.data + ' ' + request.query_string)
 
     # Check for anomalies using the signature detection module
-    if classification == 'Anomalous':
-        logger(f'Anomalous signature: {request.method} {request.path} {request.data} {request.query_string}')
-        return True
-    logger(f'Non-anomalous signature: {request.method} {request.path} {request.data} {request.query_string}')
+    # if classification == 'Anomalous':
+    #     logger(f'Anomalous signature: {request.method} {request.path} {request.data} {request.query_string}')
+    #     return True
+    # logger(f'Non-anomalous signature: {request.method} {request.path} {request.data} {request.query_string}')
     return False
 
 def check_anomaly_detection(session_requests_cookies, request):
+    print("Check anomaly detection:")
     # Load the baseline trainer
     classification = classifier_interface.classify(request.method + ' ' + request.path + ' ' + request.data + ' ' + request.query_string)
 
