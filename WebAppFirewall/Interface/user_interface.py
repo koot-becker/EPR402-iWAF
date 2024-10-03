@@ -12,23 +12,12 @@ class WebAppFirewallInterface:
         self.debug = debug
 
         self.waf.route('/')(self.home)
-        self.waf.route('/web_app_1/', methods=['GET', 'POST'])(self.web_app_1)
-        self.waf.route('/web_app_2/', methods=['GET', 'POST'])(self.web_app_2)
-        self.waf.route('/web_app_3/', methods=['GET', 'POST'])(self.web_app_3)
 
     def home(self):
-        # return render_template('main.html', web_applications=[{'name': 'Web Application 1', 'path': '/web_app_1'}, {'name': 'Web Application 2', 'path': '/web_app_2'}, {'name': 'Web Application 3', 'path': '/web_app_3'}])
-        return render_template('overview.html')
-
-
-    def web_app_1(self):
-        return render_template('web_app_1.html', web_application={'name': 'Web Application 1'})
-    
-    def web_app_2(self):
-        return render_template('web_app_2.html', web_application={'name': 'Web Application 2'})
-    
-    def web_app_3(self):
-        return render_template('web_app_3.html', web_application={'name': 'Web Application 3'})
+        waf_1 = {'name': 'Web Application 1', 'total_requests': 100, 'allowed_requests': 50, 'blocked_requests': 50, 'threats_detected': 5, 'signature_graph_url': 'static/signature_graph.png', 'outlier_graph_url': 'static/svm_graph.png'}
+        waf_2 = {'name': 'Web Application 2', 'total_requests': 100, 'allowed_requests': 50, 'blocked_requests': 50, 'threats_detected': 5, 'signature_graph_url': 'static/signature_graph.png', 'outlier_graph_url': 'static/svm_graph.png'}
+        waf_3 = {'name': 'Web Application 3', 'total_requests': 100, 'allowed_requests': 50, 'blocked_requests': 50, 'threats_detected': 5, 'signature_graph_url': 'static/signature_graph.png', 'outlier_graph_url': 'static/svm_graph.png'}
+        return render_template('overview.html', wafs=[waf_1, waf_2, waf_3])
 
     def run(self):
         self.waf.run(host=self.host, port=self.port, debug=self.debug)

@@ -12,33 +12,28 @@
     </header>
     <main>
         <section class="waf-overview">
+            {% for waf in wafs %}
             <article class="waf">
-                <h2>WAF 1</h2>
+                <h2>{{ waf.name }}</h2>
                 <ul>
-                    <li>Total Requests: 100,000</li>
-                    <li>Blocked Requests: 5,000</li>
-                    <li>Allowed Requests: 95,000</li>
-                    <li>Threats Detected: 200</li>
+                    <li>Total Requests: {{ waf.total_requests }}</li>
+                    <li>Blocked Requests: {{ waf.blocked_requests }}</li>
+                    <li>Allowed Requests: {{ waf.allowed_requests }}</li>
+                    <li>Threats Detected: {{ waf.threats_detected }}</li>
                 </ul>
+                <div class="image-container">
+                    <img src="{{ waf.signature_graph_url }}" alt="Request statistics graph for {{ waf.name }} Signature Classification" class="centered-image">
+                </div>
+                <div class="image-container">
+                    <img src="{{ waf.outlier_graph_url }}" alt="Request statistics graph for {{ waf.name }} Outlier Classification" class="centered-image">
+                </div>
+                <div class="button-container">
+                    <button>View Details</button>
+                    <button>Start WAF</button>
+                    <button>Start Web Application</button>
+                </div>
             </article>
-            <article class="waf">
-                <h2>WAF 2</h2>
-                <ul>
-                    <li>Total Requests: 150,000</li>
-                    <li>Blocked Requests: 10,000</li>
-                    <li>Allowed Requests: 140,000</li>
-                    <li>Threats Detected: 300</li>
-                </ul>
-            </article>
-            <article class="waf">
-                <h2>WAF 3</h2>
-                <ul>
-                    <li>Total Requests: 200,000</li>
-                    <li>Blocked Requests: 15,000</li>
-                    <li>Allowed Requests: 185,000</li>
-                    <li>Threats Detected: 500</li>
-                </ul>
-            </article>
+            {% endfor %}
         </section>
     </main>
     <footer>

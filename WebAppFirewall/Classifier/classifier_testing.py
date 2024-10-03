@@ -2,14 +2,14 @@
 import csv
 import threading
 import time
+import matplotlib.pyplot as plt
 
 # Custom imports
-import signature_classifier_interface 
-import outlier_classifier_interface
+import Classifier.classifier_interface as classifier_interface
 
-def train_classifier():
+def train_classifier(classifier_type='mnb', data='csic'):
     # Load the training data
-    data_path = '/home/dieswartkat/EPR402/WebAppFirewall/Classifier/Datasets/training_valid.csv'
+    data_path = f'/home/dieswartkat/EPR402/WebAppFirewall/Classifier/Datasets/{data}_training.csv'
     with open(data_path, 'r') as file:
         reader = csv.DictReader(file)
         data = [row for row in reader]
@@ -18,11 +18,11 @@ def train_classifier():
     texts = [row['Method'] + ' ' + row['URI'] + ' ' + row['POST-Data'] + ' ' + row['GET-Query'] for row in data]
     labels = [row['Class'] for row in data]
 
-    signature_classifier_interface.train_classifier(texts, labels)
+    classifier_interface.train_classifier(texts, labels, classifier_type)
 
-def classify_requests():
+def classify_requests(classifier_type='mnb', data='csic'):
     # Load the dataset from csic_final.csv
-    data_path = '/home/dieswartkat/EPR402/WebAppFirewall/Classifier/Datasets/testing_anomalous.csv'
+    data_path = f'/home/dieswartkat/EPR402/WebAppFirewall/Classifier/Datasets/{data}_testing.csv'
     with open(data_path, 'r') as file:
         reader = csv.DictReader(file)
         data = [row for row in reader]
@@ -41,11 +41,10 @@ def classify_requests():
     lock = threading.Lock()
 
     # Define a function to classify a single request
-    def classify_request(request):
+    def classify_request(request, classifier_type='mnb'):
         nonlocal true_positive_count, false_positive_count, true_negative_count, false_negative_count
         # Classify the request using method and URI
-        # classification = signature_classifier_interface.classify(texts[request])
-        classification = outlier_classifier_interface.classify(texts[request])
+        classification = classifier_interface.classify(texts[request], classifier_type)
 
         # Increment the respective counter based on the classification
         if classification == "Valid":
@@ -69,7 +68,7 @@ def classify_requests():
     # Classify each request in the dataset using multiple threads
     count = 0
     for request in range(len(texts)):
-        thread = threading.Thread(target=classify_request, args=(request,))
+        thread = threading.Thread(target=classify_request, args=(request,classifier_type))
         thread.start()
         threads.append(thread)
         count += 1
@@ -81,29 +80,66 @@ def classify_requests():
         thread.join()
 
     # Calculate the percentage of requests allowed and denied
-    # total_valid_count = true_positive_count + false_negative_count
-    # total_anomalous_count = true_negative_count + false_positive_count
-    # total_count = total_valid_count + total_anomalous_count
-    # print(f'Total requests: {total_count}')
-    # allowed_percentage = ((true_positive_count + false_positive_count) / total_count) * 100
-    # denied_percentage = ((true_negative_count + false_negative_count) / total_count) * 100
-    # tpr = (true_positive_count / total_valid_count) * 100
-    # fpr = (false_positive_count / total_anomalous_count) * 100
-    # tnr = (true_negative_count / total_anomalous_count) * 100
-    # fnr = (false_negative_count / total_valid_count) * 100
-    # print(f'Total allowed percentage: {allowed_percentage}')
-    # print(f'Total denied percentage: {denied_percentage}')
-    # print(f'True positive percentage (TPR): {tpr}')
-    # print(f'False positive percentage: {fpr}')
-    # print(f'True negative percentage (TNR): {tnr}')
-    # print(f'False negative percentage: {fnr}')
-    # print(f'Balanced Accuracy: {(tpr + tnr) / 2}')
+    total_valid_count = true_positive_count + false_negative_count
+    total_anomalous_count = true_negative_count + false_positive_count
+    total_count = total_valid_count + total_anomalous_count
+    print(f'Total requests: {total_count}')
+    allowed_percentage = ((true_positive_count + false_positive_count) / total_count) * 100
+    denied_percentage = ((true_negative_count + false_negative_count) / total_count) * 100
+    tpr = (true_positive_count / total_valid_count) * 100
+    fpr = (false_positive_count / total_anomalous_count) * 100
+    tnr = (true_negative_count / total_anomalous_count) * 100
+    fnr = (false_negative_count / total_valid_count) * 100
+    print(f'Total allowed percentage: {allowed_percentage}')
+    print(f'Total denied percentage: {denied_percentage}')
+    print(f'True positive percentage (TPR): {tpr}')
+    print(f'False positive percentage: {fpr}')
+    print(f'True negative percentage (TNR): {tnr}')
+    print(f'False negative percentage: {fnr}')
+    print(f'Balanced Accuracy: {(tpr + tnr) / 2}')
 
-    return true_positive_count, false_positive_count, true_negative_count, false_negative_count
+    plot(tpr, tnr, classifier_type)
+
+    # return true_positive_count, false_positive_count, true_negative_count, false_negative_count
+
+def plot(x, y, classifier_type):
+    if classifier_type == 'mnb':
+        classifier_name = 'Multinomial Naive Bayes'
+        y_threshold = 95
+        x_threshold = 95
+    elif classifier_type == 'svm':
+        classifier_name = 'Support Vector Machine'
+        y_threshold = 85
+        x_threshold = 75
+    # Plot the point with the positive rate on the y-axis and the negative rate on the x-axis
+    plt.figure()
+    plt.scatter(x, y, color='blue')
+    plt.xlabel('True Negative Rate')
+    plt.ylabel('True Positive Rate')
+    plt.title('True Positive Rate vs True Negative Rate for ' + classifier_name)
+    plt.grid(True)
+
+    # Scale the x and y axes from 0 to 100
+    plt.xlim(0, 100)
+    plt.ylim(0, 100)
+
+    # Add a threshold line on both axes
+    plt.axhline(y=y_threshold, color='red', linestyle='--')
+    plt.axvline(x=x_threshold, color='red', linestyle='--')
+
+    # Save the plot as graph.png
+    plt.savefig(f'/home/dieswartkat/EPR402/WebAppFirewall/Interface/static/{classifier_type}_graph.png')
+    plt.close()
 
 if __name__ == "__main__":
+    # classifier_type = 'mnb'
+    classifier_type = 'svm'
+    # data = 'csic'
+    # data = 'combined'
+    # data = 'ecml'
+    data = 'outlier'
     start_time = time.perf_counter()
-    train_classifier()
-    classify_requests()
+    train_classifier(classifier_type, data)
+    classify_requests(classifier_type, data)
     end_time = time.perf_counter()
     print(f'Time taken: {end_time - start_time} seconds')
