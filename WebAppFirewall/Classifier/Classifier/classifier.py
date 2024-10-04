@@ -119,7 +119,7 @@ class OneClassSVMClassifier:
     Parameters
     ----------
     kernel : str, optional (default='rbf')
-        Specifies the kernel type to be used in the algorithm. Supported options are 'rbf', 'linear', and 'poly'.
+        Specifies the kernel type to be used in the algorithm. Supported options are 'rbf''.
         
     nu : float, optional (default=0.5)
         An upper bound on the fraction of margin errors and a lower bound of the fraction of support vectors. Should be in the interval (0, 1].
@@ -167,21 +167,9 @@ class OneClassSVMClassifier:
             self.gamma = 1 / (X.shape[1] * X.var())
         return np.exp(-self.gamma * cdist(X, Y, 'sqeuclidean'))
 
-    def _linear_kernel(self, X, Y):
-        return np.dot(X, Y.T)
-
-    def _poly_kernel(self, X, Y):
-        if self.gamma == 'scale':
-            self.gamma = 1 / (X.shape[1] * X.var())
-        return (self.gamma * np.dot(X, Y.T) + self.coef0) ** self.degree
-
     def _compute_kernel(self, X, Y):
         if self.kernel == 'rbf':
             return self._rbf_kernel(X, Y)
-        elif self.kernel == 'linear':
-            return self._linear_kernel(X, Y)
-        elif self.kernel == 'poly':
-            return self._poly_kernel(X, Y)
         else:
             raise ValueError(f"Unsupported kernel type: {self.kernel}")
 
