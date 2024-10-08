@@ -1,19 +1,30 @@
 import React, { Component } from "react";
+import WafItem from "./components/WafItem";
 import Modal from "./components/Modal";
 import axios from "axios";
+import { ScatterChart, Scatter, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import 'bootstrap/dist/css/bootstrap.css';
+import './index.css';
 
 class App extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props);
     this.state = {
-      viewEnabled: false,
       wafs: [],
       modal: false,
       activeItem: {
-        title: "",
+        id: "",
+        name: "",
         description: "",
+        waf_details_path: "",
+        start_waf_path: "",
         waf_address: "",
+        start_web_app_path: "",
         web_app_address: "",
+        total_requests: 0,
+        allowed_requests: 0,
+        blocked_requests: 0,
+        threats_detected: 0,
         enabled: false,
       },
     };
@@ -55,7 +66,21 @@ class App extends Component {
   };
 
   createItem = () => {
-    const item = { title: "", description: "", completed: false };
+    const item = {
+      id: "",
+      name: "",
+      description: "",
+      waf_details_path: "",
+      start_waf_path: "",
+      waf_address: "",
+      start_web_app_path: "",
+      web_app_address: "",
+      total_requests: 0,
+      allowed_requests: 0,
+      blocked_requests: 0,
+      threats_detected: 0,
+      enabled: false,
+    };
 
     this.setState({ activeItem: item, modal: !this.state.modal });
   };
@@ -64,100 +89,103 @@ class App extends Component {
     this.setState({ activeItem: item, modal: !this.state.modal });
   };
 
-  displayEnabled = (status) => {
-    if (status) {
-      return this.setState({ viewEnabled: true });
-    }
-
-    return this.setState({ viewEnabled: false });
-  };
-
-  renderTabList = () => {
-    return (
-      <div className="nav nav-tabs">
-        <span
-          className={this.state.viewEnabled ? "nav-link active" : "nav-link"}
-          onClick={() => this.displayEnabled(true)}
-        >
-          Enabled
-        </span>
-        <span
-          className={this.state.viewEnabled ? "nav-link" : "nav-link active"}
-          onClick={() => this.displayEnabled(false)}
-        >
-          Disabled
-        </span>
-      </div>
-    );
-  };
-
   renderItems = () => {
-    const { viewEnabled } = this.state;
-    const newItems = this.state.wafs.filter(
-      (item) => item.enabled == viewEnabled
-    );
-
-    return newItems.map((item) => (
-      <li
+    return this.state.wafs.map((item) => (
+      <WafItem
         key={item.id}
-        className="list-group-item d-flex justify-content-between align-items-center"
-      >
-        <span
-          className={`waf-title mr-2 ${
-            this.state.viewEnabled ? "enabled-waf" : ""
-          }`}
-          title={item.description}
-        >
-          {item.name}
-        </span>
-        <span>
-          <button
-            className="btn btn-secondary mr-2"
-            onClick={() => this.editItem(item)}
-          >
-            Edit
-          </button>
-          <button
-            className="btn btn-danger"
-            onClick={() => this.handleDelete(item)}
-          >
-            Delete
-          </button>
-        </span>
-      </li>
+        item={item}
+        editItem={this.editItem}
+        handleDelete={this.handleDelete}
+      />
     ));
   };
 
   render() {
+    const { wafs, modal, activeItem } = this.state;
+
     return (
-      <main className="container">
-        <h1 className="text-white text-uppercase text-center my-4">Web Application Firewall</h1>
-        <div className="row">
-          <div className="col-md-6 col-sm-10 mx-auto p-0">
-            <div className="card p-3">
-              <div className="mb-4">
-                <button
-                  className="btn btn-primary"
-                  onClick={this.createItem}
-                >
-                  Add WAF
-                </button>
+      <div className="container">
+        <header>
+          <h1>Web Application Firewall Overview</h1>
+        </header>
+        <main>
+          <div className="row">
+            {wafs.map((app, index) => (
+              <div className="col-md-4" key={index}>
+                <div className="card">
+                  <div className="card-body">
+                    <h5 className="card-title">{app.name}</h5>
+                    <p className="card-text">Description: {app.description}</p>
+                    <p className="card-text">WAF Address: {app.waf_address}</p>
+                    <p className="card-text">Web App Address: {app.web_app_address}</p>
+                    <p className="card-text">Total Requests: {app.total_requests}</p>
+                    <p className="card-text">Allowed Requests: {app.allowed_requests}</p>
+                    <p className="card-text">Blocked Requests: {app.blocked_requests}</p>
+                    <p className="card-text">Threats Detected: {app.threats_detected}</p>
+                    <p className="card-text">Enabled: {app.enabled ? "Yes" : "No"}</p>
+                    <div className="button-container">
+                      <button
+                        className="btn btn-primary"
+                        onClick={() => this.editItem(app)}
+                      >
+                        View Details
+                      </button>
+                      <button
+                        className="btn btn-primary"
+                      >
+                        Start WAF
+                      </button>
+                      <button
+                        className="btn btn-primary"
+                      >
+                        Start Web App
+                      </button>
+                    </div>
+                    <div className="button-container">
+                      <button
+                        className="btn btn-primary"
+                      >
+                        View WAF
+                      </button>
+                      <button
+                        className="btn btn-primary"
+                      >
+                        View Web App
+                      </button>
+                    </div>
+                    <ResponsiveContainer width="100%" height={400}>
+                      <ScatterChart
+                        margin={{
+                          top: 20,
+                          right: 20,
+                          bottom: 20,
+                          left: 20,
+                        }}
+                      >
+                        <CartesianGrid />
+                        <XAxis type="number" dataKey="x" name="True Negative" unit="%" domain={[0, 100]}/>
+                        <YAxis type="number" dataKey="y" name="True Positive" unit="%" domain={[0, 100]}/>
+                        <Tooltip cursor={{ strokeDasharray: '3 3' }} />
+                        <Scatter name="A school" data={[{x: 34, y: 50},]} fill="#8884d8" />
+                      </ScatterChart>
+                    </ResponsiveContainer>
+                  </div>
+                </div>
               </div>
-              {this.renderTabList()}
-              <ul className="list-group list-group-flush border-top-0">
-                {this.renderItems()}
-              </ul>
-            </div>
+            ))}
           </div>
-        </div>
-        {this.state.modal ? (
+        </main>
+        <footer>
+          <p>WebAppFirewall 2024</p>
+        </footer>
+        {modal ? (
           <Modal
-            activeItem={this.state.activeItem}
+            activeItem={activeItem}
             toggle={this.toggle}
             onSave={this.handleSubmit}
           />
         ) : null}
-      </main>
+      </div>
     );
   }
 }
