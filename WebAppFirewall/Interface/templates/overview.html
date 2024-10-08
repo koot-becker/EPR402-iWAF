@@ -16,10 +16,10 @@
             <article class="waf">
                 <h2>{{ waf.name }}</h2>
                 <ul>
-                    <li>Total Requests: {{ waf.total_requests }}</li>
-                    <li>Blocked Requests: {{ waf.blocked_requests }}</li>
-                    <li>Allowed Requests: {{ waf.allowed_requests }}</li>
-                    <li>Threats Detected: {{ waf.threats_detected }}</li>
+                    <li>Total Requests: {{ waf.statistics.total_requests }}</li>
+                    <li>Blocked Requests: {{ waf.statistics.blocked_requests }}</li>
+                    <li>Allowed Requests: {{ waf.statistics.allowed_requests }}</li>
+                    <li>Threats Detected: {{ waf.statistics.threats_detected }}</li>
                 </ul>
                 <div class="image-container">
                     <img src="{{ waf.signature_graph_url }}" alt="Request statistics graph for {{ waf.name }} Signature Classification" class="centered-image">
@@ -28,9 +28,13 @@
                     <img src="{{ waf.outlier_graph_url }}" alt="Request statistics graph for {{ waf.name }} Outlier Classification" class="centered-image">
                 </div>
                 <div class="button-container">
-                    <button>View Details</button>
-                    <button>Start WAF</button>
-                    <button>Start Web Application</button>
+                    <a href="{{ waf.waf_details_path }}" target="_blank" rel="noopener noreferrer"><button>View Detais</button></a>
+                    <a href="{{ waf.start_waf_path }}" target="_blank" rel="noopener noreferrer"><button>Start WAF</button></a>
+                    <a href="{{ waf.start_web_app_path }}" target="_blank" rel="noopener noreferrer"><button>Start Web App</button></a>
+                </div>
+                <div class="button-container">
+                    <a href="{{ waf.waf_address }}" target="_blank" rel="noopener noreferrer"><button>View App (WAF)</button></a>
+                    <a href="{{ waf.web_app_address }}" target="_blank" rel="noopener noreferrer"><button>View App (Native)</button></a>
                 </div>
             </article>
             {% endfor %}

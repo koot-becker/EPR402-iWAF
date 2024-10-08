@@ -1,0 +1,50 @@
+[
+    {
+        "name": "Web Application 1 - Tiredful API",
+        "statistics": {
+            "total_requests": 100,
+            "allowed_requests": 50,
+            "blocked_requests": 50,
+            "threats_detected": 5
+        },
+        "signature_graph_url": "static/mnb_graph.png",
+        "outlier_graph_url": "static/svm_graph.png",
+        "waf_details_path": "/waf_1",
+        "start_waf_path": "/start_waf_1",
+        "waf_address": "http://127.0.0.1:5000/",
+        "start_web_app_path": "/start_web_app_1",
+        "web_app_address": "http://127.0.0.1:8000/"
+    },
+    {
+        "name": "Web Application 2 - JWT CTF",
+        "statistics": {
+            "total_requests": 100,
+            "allowed_requests": 50,
+            "blocked_requests": 50,
+            "threats_detected": 5
+        },
+        "signature_graph_url": "static/mnb_graph.png",
+        "outlier_graph_url": "static/svm_graph.png",
+        "waf_details_path": "/waf_1",
+        "start_waf_path": "/start_waf_1",
+        "waf_address": "http://127.0.0.1:5001/",
+        "start_web_app_path": "/start_web_app_1",
+        "web_app_address": "http://127.0.0.1:8001/"
+    },
+    {
+        "name": "Web Application 3 - DVWA",
+        "statistics": {
+            "total_requests": 100,
+            "allowed_requests": 50,
+            "blocked_requests": 50,
+            "threats_detected": 5
+        },
+        "signature_graph_url": "static/mnb_graph.png",
+        "outlier_graph_url": "static/svm_graph.png",
+        "waf_details_path": "/waf_1",
+        "start_waf_path": "/start_waf_1",
+        "waf_address": "http://127.0.0.1:5002/",
+        "start_web_app_path": "/start_web_app_1",
+        "web_app_address": "http://127.0.0.1:8002/"
+    }
+]

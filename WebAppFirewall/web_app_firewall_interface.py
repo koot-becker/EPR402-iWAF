@@ -6,7 +6,7 @@ from requests import session
 import web_app_firewall
 
 class WebAppFirewallInterface:
-    def __init__(self, site_name, host='0.0.0.0', port=5000, debug=False):
+    def __init__(self, site_name, host='0.0.0.0', port=5001, debug=False):
         self.waf = Flask(__name__)
         self.CTF_SITE_NAME = site_name
         self.host = host
