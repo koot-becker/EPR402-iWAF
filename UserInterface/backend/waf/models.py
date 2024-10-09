@@ -3,10 +3,7 @@ from django.db import models
 class WAF(models.Model):
     name = models.CharField(max_length=200)
     description = models.CharField(max_length=200)
-    waf_details_path = models.CharField(max_length=200)
-    start_waf_path = models.CharField(max_length=200)
     waf_address = models.CharField(max_length=200)
-    start_web_app_path = models.CharField(max_length=200)
     web_app_address = models.CharField(max_length=200)
     total_requests = models.IntegerField()
     allowed_requests = models.IntegerField()

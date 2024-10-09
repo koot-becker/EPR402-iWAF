@@ -1,4 +1,3 @@
 .vscode/
 WebAppFirewall/Classifier/Datasets/CSVDatasets
 WebAppFirewall/.venv
-WebServers/ctf-jwt-token/
