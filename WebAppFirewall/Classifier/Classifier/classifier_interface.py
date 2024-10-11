@@ -2,8 +2,8 @@
 import pickle
 
 # Custom imports
-from Classifier.count_vectorizer import SimpleCountVectorizer
-from Classifier.classifier import OneClassSVMClassifier, MultinomialNaiveBayes
+from Classifier.Classifier.count_vectorizer import SimpleCountVectorizer
+from Classifier.Classifier.classifier import OneClassSVMClassifier, MultinomialNaiveBayes
 
 def train_classifier(texts, labels, classifier_type='mnb'):
     # Create the feature vectors

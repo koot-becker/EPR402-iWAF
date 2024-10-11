@@ -1,3 +1,0 @@
-2024-08-05 09:47:46 - Blocked request to path: /auth from IP address: 192.168.58.185 due to invalid token
-2024-08-15 12:08:03 - Blocked request to path: /private from IP address: 192.168.166.8
-2024-08-15 12:10:53 - Blocked request to path: /private from IP address: 192.168.166.8

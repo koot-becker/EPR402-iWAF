@@ -3,49 +3,37 @@ from flask import Response
 from datetime import datetime
 
 # Custom imports
-import WebAppFirewall.Classifier.SignatureClassifier.signature_classifier_interface as classifier_interface
+import Classifier.Classifier.classifier_interface as classifier_interface
 from JWT.jwt import JWT
 
-def before_request(request, session):
+def before_request(request, session, settings, rules):
     print("Before request:")
     # Firewall Logic
-    # You can use the request.headers, request.method, request.path, etc. to make decisions
     
     # Rule-based detection
-    # print("Rule-based detection:")
+    print("Rule-based detection:")
 
     # Block requests from a specific IP address
-    # if request.remote_addr == '127.0.0.1':    
-    #     logger(f'Blocked request from IP address: {request.remote_addr}')
-    #     return 'Access denied', 403
-
-    # Block requests to a specific path
-    # if request.path == '/private':
-    #     logger(f'Blocked request to path: {request.path} from IP address: {request.remote_addr}')
-    #     return 'Access denied', 403
-
-    # Block requests with a specific user agent
-    # if 'User-Agent' in request.headers and 'bad_agent' in request.headers['User-Agent']:
-    #     logger(f'Blocked request with bad user agent: {request.headers["User-Agent"]} from IP address: {request.remote_addr}')
-    #     return 'Access denied', 403
+    if check_rules(request, settings.rule_settings, rules):
+        return 'Access denied', 403
     
     # Block requests with a anomalous token
-    # if check_token(session.cookies):
-    #     return 'Access denied', 403
+    if check_token(session.cookies, settings.token_settings):
+        return 'Access denied', 403
     
     # Signature-based detection
-    # print("Signature-based detection:")
+    print("Signature-based detection:")
 
     # Block requests with an anomalous signature
-    # if check_signature_detection(session.cookies):
-    #     return 'Access denied', 403
+    if check_signature_detection(session.cookies, request, settings.signature_settings):
+        return 'Access denied', 403
     
     # Anomaly-based detection
-    # print("Anomaly-based detection:")
+    print("Anomaly-based detection:")
 
     # Block requests with an anomalous pattern
-    # if check_anomaly_detection(session.cookies, request):
-    #     return 'Access denied', 403
+    if check_anomaly_detection(session.cookies, request, settings.anomaly_settings):
+        return 'Access denied', 403
 
     # If none of the conditions match, allow the request to proceed
     return None
@@ -71,34 +59,60 @@ def post_request(request):
         current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         f.write(f'{current_time} - {request.method} {request.path} {request.data} {request.query_string}\n')
 
-def check_token(session_requests_cookies):
+def check_rules(request, rule_settings, rules):
+    print("Check rules:")
+    # Block requests from a specific IP address
+    if rule_settings.block_remote_addr and request.remote_addr not in rules.blocked_ips:
+        logger(f'Blocked IP: {request.remote_addr}')
+        return True
+    
+    # Block requests with a specific User-Agent header
+    if rule_settings.block_user_agent and request.headers.get('User-Agent') not in rules.blocked_user_agents:
+        logger(f'Blocked User-Agent: {request.headers.get("User-Agent")}')
+        return True
+    
+    # Block requests to specific paths
+    if rule_settings.block_path and request.path not in rules.blocked_paths:
+        logger(f'Blocked path: {request.path}')
+        return True
+    
+    # Block requests with specific query strings
+    if rule_settings.block_query_string and request.query_string not in rules.blocked_query_strings:
+        logger(f'Blocked query string: {request.query_string}')
+        return True
+
+    return False
+
+def check_token(session_requests_cookies, token_settings):
     print("Check token:")
-    if session_requests_cookies:
+    if token_settings.check_token and session_requests_cookies:
         for cookie in session_requests_cookies:
             if cookie.name == "token":
                 jwttoken = cookie.value # extract the jwt token string
                 header = JWT.get_unverified_header(jwttoken) # get the jwt token header, figure out which algorithm the web server is using
                 payload = JWT._base64url_decode(jwttoken, options={"verify_signature": False}) # decode the jwo token payload, the user role information is claimed in the payload
                 if payload['role'] == 'admin' and header['alg'] == 'none': # check if the user role is admin and the algorithm is HS256
-                    return False
-    return True
+                    logger(f'Blocked token: {jwttoken}')
+                    return True
+    logger(f'Allowed token: {jwttoken}')
+    return False
 
 def check_signature_detection(session_requests_cookies, request):
     print("Check signature detection:")
     # Load the signature detection module
-    # classification = signature.signature_detection(request.method + ' ' + request.path + ' ' + request.data + ' ' + request.query_string)
+    classification = classifier_interface.classify(request.method + ' ' + request.path + ' ' + request.data + ' ' + request.query_string, classifier_type='mnb')
 
     # Check for anomalies using the signature detection module
-    # if classification == 'Anomalous':
-    #     logger(f'Anomalous signature: {request.method} {request.path} {request.data} {request.query_string}')
-    #     return True
-    # logger(f'Non-anomalous signature: {request.method} {request.path} {request.data} {request.query_string}')
+    if classification == 'Anomalous':
+        logger(f'Anomalous signature: {request.method} {request.path} {request.data} {request.query_string}')
+        return True
+    logger(f'Non-anomalous signature: {request.method} {request.path} {request.data} {request.query_string}')
     return False
 
 def check_anomaly_detection(session_requests_cookies, request):
     print("Check anomaly detection:")
     # Load the baseline trainer
-    classification = classifier_interface.classify(request.method + ' ' + request.path + ' ' + request.data + ' ' + request.query_string)
+    classification = classifier_interface.classify(request.method + ' ' + request.path + ' ' + request.data + ' ' + request.query_string, classifier_type='svm')
 
     # Check for anomalies using the baseline trainer
     if classification == 'Anomalous':

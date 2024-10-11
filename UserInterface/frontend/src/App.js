@@ -16,16 +16,14 @@ class App extends Component {
         id: "",
         name: "",
         description: "",
-        waf_details_path: "",
-        start_waf_path: "",
         waf_address: "",
-        start_web_app_path: "",
-        web_app_address: "",
+        app_address: "",
         total_requests: 0,
         allowed_requests: 0,
         blocked_requests: 0,
         threats_detected: 0,
-        enabled: false,
+        app_enabled: false,
+        waf_enabled: false,
       },
     };
   }
@@ -71,16 +69,14 @@ class App extends Component {
       id: "",
       name: "",
       description: "",
-      waf_details_path: "",
-      start_waf_path: "",
       waf_address: "",
-      start_web_app_path: "",
-      web_app_address: "",
+      app_address: "",
       total_requests: 0,
       allowed_requests: 0,
       blocked_requests: 0,
       threats_detected: 0,
-      enabled: false,
+      app_enabled: false,
+      waf_enabled: false,
     };
 
     this.setState({ activeItem: item, modal: !this.state.modal });
@@ -101,6 +97,34 @@ class App extends Component {
     ));
   };
 
+  startApp = (app) => {
+    axios
+      .post(`/api/wafs/start_app/`)
+      .then((res) => this.refreshList());
+    app.app_enabled = true;
+  };
+
+  stopApp = (app) => {
+    axios
+      .post(`/api/wafs/stop_app/`)
+      .then((res) => this.refreshList());
+    app.app_enabled = false;
+  };
+
+  startWAF = (app) => {
+    axios
+      .post(`/api/wafs/start_waf/`)
+      .then((res) => this.refreshList());
+    app.waf_enabled = true;
+  };
+
+  stopWAF = (app) => {
+    axios
+      .post(`/api/wafs/stop_waf/`)
+      .then((res) => this.refreshList());
+    app.waf_enabled = false;
+  };
+
   render() {
     const { wafs, modal, activeItem } = this.state;
 
@@ -118,12 +142,13 @@ class App extends Component {
             <h2 className="card-title">{app.name}</h2>
             <p className="card-text">Description: {app.description}</p>
             <p className="card-text">WAF Address: {app.waf_address}</p>
-            <p className="card-text">Web App Address: {app.web_app_address}</p>
+            <p className="card-text">App Address: {app.app_address}</p>
             <p className="card-text">Total Requests: {app.total_requests}</p>
             <p className="card-text">Allowed Requests: {app.allowed_requests}</p>
             <p className="card-text">Blocked Requests: {app.blocked_requests}</p>
             <p className="card-text">Threats Detected: {app.threats_detected}</p>
-            <p className="card-text">Enabled: {app.enabled ? "Yes" : "No"}</p>
+            <p className="card-text">App Enabled: {app.app_enabled ? "Yes" : "No"}</p>
+            <p className="card-text">WAF Enabled: {app.waf_enabled ? "Yes" : "No"}</p>
             <div className="button-container">
               <button
               className="btn btn-primary"
@@ -133,52 +158,81 @@ class App extends Component {
               </button>
               <button
               className="btn btn-primary"
+              onClick={() => this.editItem(app)}
               >
-              Start WAF
-              </button>
-              <button
-              className="btn btn-primary"
-              >
-              Start Web App
+              Edit Details
               </button>
             </div>
             <div className="button-container">
-              <button
+            <button
               className="btn btn-primary"
+              onClick={() => this.startWAF(app)}
               >
-              View WAF
+              Start WAF
               </button>
+              <a href={app.waf_address} target="_blank" rel="noopener noreferrer">
+                <button
+                className="btn btn-primary"
+                >
+                View WAF
+                </button>
+              </a>
               <button
               className="btn btn-primary"
+              onClick={() => this.stopWAF(app)}
               >
-              View Web App
+              Stop WAF
               </button>
             </div>
-            <ResponsiveContainer width="100%" height={400}>
-              <ScatterChart
-              margin={{
-                top: 20,
-                right: 20,
-                bottom: 20,
-                left: 20,
-              }}
+            <div className="button-container">
+            <button
+              className="btn btn-primary"
+              onClick={() => this.startApp(app)}
               >
-                <CartesianGrid />
-                <XAxis type="number" dataKey="x" name="True Negative" unit="%" domain={[0, 100]} label={{ value: 'True Negative', angle: 0, position: 'insideBottom', offset: -10 }} />
-                <YAxis type="number" dataKey="y" name="True Positive" unit="%" domain={[0, 100]} label={{ value: 'True Positive', angle: -90, position: 'insideLeft', offset: 0 }} />
-                <ReferenceLine  y={90} stroke="red" strokeDasharray="4 4" />
-                <ReferenceLine x={90} stroke="red" strokeDasharray="4 4" />
-                <Tooltip cursor={{ strokeDasharray: '3 3' }} />
-                <Scatter 
-                  name="Efficacy"
-                  data={[{
-                  x: app.blocked_requests, 
-                  y: app.allowed_requests
-                  }]} 
-                  fill="#8884d8" 
-                />
-              </ScatterChart>
-            </ResponsiveContainer>
+              Start App
+              </button>
+              <a href={app.app_address} target="_blank" rel="noopener noreferrer">
+                <button
+                className="btn btn-primary"
+                >
+                View App
+                </button>
+              </a>
+              <button
+              className="btn btn-primary"
+              onClick={() => this.stopApp(app)}
+              >
+              Stop App
+              </button>
+            </div>
+            <div className="plot-container">
+              <h5>Efficacy</h5>
+              <ResponsiveContainer width="100%" height={400}>
+                <ScatterChart
+                margin={{
+                  top: 20,
+                  right: 20,
+                  bottom: 20,
+                  left: 20,
+                }}
+                >
+                  <CartesianGrid />
+                  <XAxis type="number" dataKey="x" name="True Negative" unit="%" domain={[0, 100]} label={{ value: 'True Negative', angle: 0, position: 'insideBottom', offset: -10 }} />
+                  <YAxis type="number" dataKey="y" name="True Positive" unit="%" domain={[0, 100]} label={{ value: 'True Positive', angle: -90, position: 'insideLeft', offset: 0 }} />
+                  <ReferenceLine  y={90} stroke="red" strokeDasharray="4 4" />
+                  <ReferenceLine x={90} stroke="red" strokeDasharray="4 4" />
+                  <Tooltip cursor={{ strokeDasharray: '3 3' }} />
+                  <Scatter 
+                    name="Efficacy"
+                    data={[{
+                    x: app.blocked_requests, 
+                    y: app.allowed_requests
+                    }]} 
+                    fill="#8884d8" 
+                  />
+                </ScatterChart>
+              </ResponsiveContainer>
+            </div>
             </div>
           </div>
           </div>

@@ -73,17 +73,6 @@ export default class CustomModal extends Component {
               />
             </FormGroup>
             <FormGroup>
-              <Label for="start-waf-path">Start WAF Path</Label>
-              <Input
-                type="text"
-                id="start-waf-path"
-                name="start_waf_path"
-                value={this.state.activeItem.start_waf_path}
-                onChange={this.handleChange}
-                placeholder="Enter Start WAF Path"
-              />
-            </FormGroup>
-            <FormGroup>
               <Label for="waf-address">WAF Address</Label>
               <Input
                 type="text"
@@ -95,25 +84,14 @@ export default class CustomModal extends Component {
               />
             </FormGroup>
             <FormGroup>
-              <Label for="start-web-app-path">Start Web App Path</Label>
-              <Input
-                type="text"
-                id="start-web-app-path"
-                name="start_web_app_path"
-                value={this.state.activeItem.start_web_app_path}
-                onChange={this.handleChange}
-                placeholder="Enter Start Web App Path"
-              />
-            </FormGroup>
-            <FormGroup>
-              <Label for="web-app-address">Web App Address</Label>
+              <Label for="web-app-address">App Address</Label>
               <Input
                 type="text"
                 id="web-app-address"
                 name="web_app_address"
-                value={this.state.activeItem.web_app_address}
+                value={this.state.activeItem.app_address}
                 onChange={this.handleChange}
-                placeholder="Enter Web App Address"
+                placeholder="Enter App Address"
               />
             </FormGroup>
             <FormGroup>
@@ -165,10 +143,21 @@ export default class CustomModal extends Component {
                 <Input
                   type="checkbox"
                   name="enabled"
-                  checked={this.state.activeItem.enabled}
+                  checked={this.state.activeItem.app_enabled}
                   onChange={this.handleChange}
                 />
-                Enabled
+                App Enabled
+              </Label>
+            </FormGroup>
+            <FormGroup check>
+              <Label check>
+                <Input
+                  type="checkbox"
+                  name="enabled"
+                  checked={this.state.activeItem.waf_enabled}
+                  onChange={this.handleChange}
+                />
+                WAF Enabled
               </Label>
             </FormGroup>
           </Form>

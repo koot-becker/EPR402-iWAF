@@ -2,7 +2,6 @@
 import csv
 import threading
 import time
-import matplotlib.pyplot as plt
 
 # Custom imports
 import Classifier.classifier_interface as classifier_interface
@@ -97,39 +96,6 @@ def classify_requests(classifier_type='mnb', data='csic'):
     print(f'True negative percentage (TNR): {tnr}')
     print(f'False negative percentage: {fnr}')
     print(f'Balanced Accuracy: {(tpr + tnr) / 2}')
-
-    plot(tpr, tnr, classifier_type)
-
-    # return true_positive_count, false_positive_count, true_negative_count, false_negative_count
-
-def plot(x, y, classifier_type):
-    if classifier_type == 'mnb':
-        classifier_name = 'Multinomial Naive Bayes'
-        y_threshold = 95
-        x_threshold = 95
-    elif classifier_type == 'svm':
-        classifier_name = 'Support Vector Machine'
-        y_threshold = 85
-        x_threshold = 75
-    # Plot the point with the positive rate on the y-axis and the negative rate on the x-axis
-    plt.figure()
-    plt.scatter(x, y, color='blue')
-    plt.xlabel('True Negative Rate')
-    plt.ylabel('True Positive Rate')
-    plt.title('True Positive Rate vs True Negative Rate for ' + classifier_name)
-    plt.grid(True)
-
-    # Scale the x and y axes from 0 to 100
-    plt.xlim(0, 100)
-    plt.ylim(0, 100)
-
-    # Add a threshold line on both axes
-    plt.axhline(y=y_threshold, color='red', linestyle='--')
-    plt.axvline(x=x_threshold, color='red', linestyle='--')
-
-    # Save the plot as graph.png
-    plt.savefig(f'/home/dieswartkat/EPR402/WebAppFirewall/Interface/static/{classifier_type}_graph.png')
-    plt.close()
 
 if __name__ == "__main__":
     # classifier_type = 'mnb'
