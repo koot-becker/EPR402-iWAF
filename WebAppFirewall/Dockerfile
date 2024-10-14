@@ -13,5 +13,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Define environment variable
 ENV NAME=WebAppFirewall
 
+# Define entrypoint
+ENTRYPOINT [ "python3", "web_app_firewall_interface.py" ]
+
 # Run app.py when the container launches
-CMD ["python3", "web_app_firewall_interface.py"]
+# CMD [ ]
