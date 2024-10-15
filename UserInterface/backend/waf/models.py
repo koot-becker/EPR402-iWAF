@@ -8,9 +8,10 @@ class WAF(models.Model):
     total_requests = models.IntegerField()
     allowed_requests = models.IntegerField()
     blocked_requests = models.IntegerField()
-    threats_detected = models.IntegerField()
     app_enabled = models.BooleanField(default=False)
     waf_enabled = models.BooleanField(default=False)
+    settings = models.JSONField(default=dict)
+    rules = models.JSONField(default=dict)
 
     def __str__(self):
         return self.name

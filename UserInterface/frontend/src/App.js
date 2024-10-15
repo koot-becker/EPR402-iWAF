@@ -1,8 +1,7 @@
 import React, { Component } from "react";
-import WafItem from "./components/WafItem";
 import Modal from "./components/Modal";
+import Test from "./components/Test";
 import axios from "axios";
-import { ScatterChart, Scatter, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, ReferenceLine } from 'recharts';
 import 'bootstrap/dist/css/bootstrap.css';
 import './index.css';
 
@@ -12,6 +11,7 @@ class App extends Component {
     this.state = {
       wafs: [],
       modal: false,
+      testing: false,
       activeItem: {
         id: "",
         name: "",
@@ -21,9 +21,31 @@ class App extends Component {
         total_requests: 0,
         allowed_requests: 0,
         blocked_requests: 0,
-        threats_detected: 0,
         app_enabled: false,
         waf_enabled: false,
+        settings: {
+          rule_settings: {
+            block_remote_addr: false,
+            block_user_agent: false,
+            block_path: false,
+            block_query_string: false
+          },
+          token_settings: {
+              check_token: false
+          },
+          signature_settings: {
+              check_signature: false
+          },
+          anomaly_settings: {
+              check_anomaly: false
+          }
+        },
+        rules: {
+          blocked_ips: [],
+          blocked_user_agents: [],
+          blocked_paths: [],
+          blocked_query_strings: []
+        },
       },
     };
   }
@@ -40,13 +62,25 @@ class App extends Component {
       .catch((err) => console.log(err));
   };
 
-  toggle = () => {
+  toggle_modal = () => {
     this.setState({ modal: !this.state.modal });
   };
 
-  handleSubmit = (item) => {
-    this.toggle();
+  toggle_testing = () => {
+    this.setState({ testing: !this.state.testing });
+  };
 
+  handleSubmit = (item) => {
+    this.toggle_modal();
+    this.handleUpdate(item);
+  };
+
+  handleTesting = (item) => {
+    this.toggle_testing();
+    this.handleUpdate(item);
+  };
+
+  handleUpdate = (item) => {
     if (item.id) {
       axios
         .put(`/api/wafs/${item.id}/`, item)
@@ -77,6 +111,29 @@ class App extends Component {
       threats_detected: 0,
       app_enabled: false,
       waf_enabled: false,
+      settings: {
+        rule_settings: {
+          block_remote_addr: false,
+          block_user_agent: false,
+          block_path: false,
+          block_query_string: false
+        },
+        token_settings: {
+            check_token: false
+        },
+        signature_settings: {
+            check_signature: false
+        },
+        anomaly_settings: {
+            check_anomaly: false
+        }
+      },
+      rules: {
+        blocked_ips: [],
+        blocked_user_agents: [],
+        blocked_paths: [],
+        blocked_query_strings: []
+      },
     };
 
     this.setState({ activeItem: item, modal: !this.state.modal });
@@ -86,47 +143,36 @@ class App extends Component {
     this.setState({ activeItem: item, modal: !this.state.modal });
   };
 
-  renderItems = () => {
-    return this.state.wafs.map((item) => (
-      <WafItem
-        key={item.id}
-        item={item}
-        editItem={this.editItem}
-        handleDelete={this.handleDelete}
-      />
-    ));
+  testItem = (item) => {
+    this.setState({ activeItem: item, testing: !this.state.testing });
   };
 
-  startApp = (app) => {
-    axios
-      .post(`/api/wafs/start_app/`)
-      .then((res) => this.refreshList());
-    app.app_enabled = true;
+  startApp = async (app) => {
+    const response = await axios.post(`/api/wafs/start_app/`, app);
+    this.refreshList();
+    return response.data;
   };
 
-  stopApp = (app) => {
-    axios
-      .post(`/api/wafs/stop_app/`)
-      .then((res) => this.refreshList());
-    app.app_enabled = false;
+  stopApp = async (app) => {
+    const response = await axios.post(`/api/wafs/stop_app/`, app);
+    this.refreshList();
+    return response.data;
   };
 
-  startWAF = (app) => {
-    axios
-      .post(`/api/wafs/start_waf/`)
-      .then((res) => this.refreshList());
-    app.waf_enabled = true;
+  startWAF = async (app) => {
+    const response = await axios.post(`/api/wafs/start_waf/`, app);
+    this.refreshList();
+    return response.data;
   };
 
-  stopWAF = (app) => {
-    axios
-      .post(`/api/wafs/stop_waf/`)
-      .then((res) => this.refreshList());
-    app.waf_enabled = false;
+  stopWAF = async (app) => {
+    const response = await axios.post(`/api/wafs/stop_waf/`, app);
+    this.refreshList();
+    return response.data;
   };
 
   render() {
-    const { wafs, modal, activeItem } = this.state;
+    const { wafs, modal, testing, activeItem } = this.state;
 
     return (
       <div className="container">
@@ -137,102 +183,101 @@ class App extends Component {
         <div className="row">
         {wafs.map((app, index) => (
           <div className="col-md-4" key={index}>
-          <div className="card">
-            <div className="card-body">
-            <h2 className="card-title">{app.name}</h2>
-            <p className="card-text">Description: {app.description}</p>
-            <p className="card-text">WAF Address: {app.waf_address}</p>
-            <p className="card-text">App Address: {app.app_address}</p>
-            <p className="card-text">Total Requests: {app.total_requests}</p>
-            <p className="card-text">Allowed Requests: {app.allowed_requests}</p>
-            <p className="card-text">Blocked Requests: {app.blocked_requests}</p>
-            <p className="card-text">Threats Detected: {app.threats_detected}</p>
-            <p className="card-text">App Enabled: {app.app_enabled ? "Yes" : "No"}</p>
-            <p className="card-text">WAF Enabled: {app.waf_enabled ? "Yes" : "No"}</p>
-            <div className="button-container">
-              <button
-              className="btn btn-primary"
-              onClick={() => this.editItem(app)}
-              >
-              View Details
-              </button>
-              <button
-              className="btn btn-primary"
-              onClick={() => this.editItem(app)}
-              >
-              Edit Details
-              </button>
-            </div>
-            <div className="button-container">
-            <button
-              className="btn btn-primary"
-              onClick={() => this.startWAF(app)}
-              >
-              Start WAF
-              </button>
-              <a href={app.waf_address} target="_blank" rel="noopener noreferrer">
+            <div className="card">
+              <div className="card-body">
+              <h2 className="card-title">{app.name}</h2>
+              <h5>WAF Information</h5>
+              <p className="card-text">Description: {app.description}</p>
+              <p className="card-text">WAF Address: {app.waf_address}</p>
+              <p className="card-text">App Address: {app.app_address}</p>
+              <p className="card-text">Total Requests: {app.total_requests}</p>
+              <p className="card-text">Allowed Requests: {app.allowed_requests}</p>
+              <p className="card-text">Blocked Requests: {app.blocked_requests}</p>
+              <p className="card-text">App Enabled: {app.app_enabled ? "Yes" : "No"}</p>
+              <p className="card-text">WAF Enabled: {app.waf_enabled ? "Yes" : "No"}</p>     
+              <h5>Configure</h5>
+              <div className="button-container">
+                <button
+                className="btn btn-danger"
+                onClick={() => this.handleDelete(app)}
+                >
+                Delete
+                </button>
                 <button
                 className="btn btn-primary"
+                onClick={this.createItem}
                 >
-                View WAF
+                Add
                 </button>
-              </a>
-              <button
-              className="btn btn-primary"
-              onClick={() => this.stopWAF(app)}
-              >
-              Stop WAF
-              </button>
-            </div>
-            <div className="button-container">
-            <button
-              className="btn btn-primary"
-              onClick={() => this.startApp(app)}
-              >
-              Start App
-              </button>
-              <a href={app.app_address} target="_blank" rel="noopener noreferrer">
                 <button
                 className="btn btn-primary"
+                onClick={() => this.editItem(app)}
                 >
-                View App
+                View/Edit
                 </button>
-              </a>
-              <button
-              className="btn btn-primary"
-              onClick={() => this.stopApp(app)}
-              >
-              Stop App
-              </button>
-            </div>
-            <div className="plot-container">
-              <h5>Efficacy</h5>
-              <ResponsiveContainer width="100%" height={400}>
-                <ScatterChart
-                margin={{
-                  top: 20,
-                  right: 20,
-                  bottom: 20,
-                  left: 20,
+                <button
+                className="btn btn-primary"
+                onClick={() => this.testItem(app)}
+                >
+                Test
+                </button>
+              </div>
+              <h5>WAF Actions</h5>
+              <div className="button-container">
+                <button
+                className="btn btn-primary"
+                onClick={async () => {
+                  const data = await this.startWAF(app);
+                  alert(data.status);
                 }}
                 >
-                  <CartesianGrid />
-                  <XAxis type="number" dataKey="x" name="True Negative" unit="%" domain={[0, 100]} label={{ value: 'True Negative', angle: 0, position: 'insideBottom', offset: -10 }} />
-                  <YAxis type="number" dataKey="y" name="True Positive" unit="%" domain={[0, 100]} label={{ value: 'True Positive', angle: -90, position: 'insideLeft', offset: 0 }} />
-                  <ReferenceLine  y={90} stroke="red" strokeDasharray="4 4" />
-                  <ReferenceLine x={90} stroke="red" strokeDasharray="4 4" />
-                  <Tooltip cursor={{ strokeDasharray: '3 3' }} />
-                  <Scatter 
-                    name="Efficacy"
-                    data={[{
-                    x: app.blocked_requests, 
-                    y: app.allowed_requests
-                    }]} 
-                    fill="#8884d8" 
-                  />
-                </ScatterChart>
-              </ResponsiveContainer>
-            </div>
+                Start WAF
+                </button>
+                <a href={"http://" + app.waf_address + ":500" + app.id + "/"} target="_blank" rel="noopener noreferrer">
+                  <button
+                  className="btn btn-primary"
+                  >
+                  View WAF
+                  </button>
+                </a>
+                <button
+                className="btn btn-primary"
+                onClick={async () => {
+                  const data = await this.stopWAF(app);
+                  alert(data.status);
+                }}
+                >
+                Stop WAF
+                </button>
+              </div>
+              <h5>App Actions</h5>
+              <div className="button-container">
+                <button
+                className="btn btn-primary"
+                onClick={async () => {
+                  const data = await this.startApp(app);
+                  alert(data.status);
+                }} 
+                >
+                Start App
+                </button>
+                <a href={"http://" + app.app_address + ":800" + app.id + "/"} target="_blank" rel="noopener noreferrer">
+                  <button
+                  className="btn btn-primary"
+                  >
+                  View App
+                  </button>
+                </a>
+                <button
+                className="btn btn-primary"
+                onClick={async () => {
+                  const data = await this.stopApp(app);
+                  alert(data.status);
+                }}
+                >
+                Stop App
+                </button>
+              </div>
             </div>
           </div>
           </div>
@@ -240,13 +285,20 @@ class App extends Component {
         </div>
       </main>
       <footer>
-        <p>WebAppFirewall 2024</p>
+        <p>WebAppFirewall - EPR402 2024</p>
       </footer>
       {modal ? (
         <Modal
         activeItem={activeItem}
-        toggle={this.toggle}
+        toggle={this.toggle_modal}
         onSave={this.handleSubmit}
+        />
+      ) : null}
+      {testing ? (
+        <Test
+        activeItem={activeItem}
+        toggle={this.toggle_testing}
+        onSave={this.handleTesting}
         />
       ) : null}
       </div>

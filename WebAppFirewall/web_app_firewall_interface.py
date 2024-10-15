@@ -15,17 +15,19 @@ class WebAppFirewallInterface:
         self.waf = Flask(__name__)
         self.id = id
         self.SITE_NAME = f'http://{site_name}:800{self.id}/'
-
         self.port = f'500{self.id}'
 
         # Get the settings and rules from the Database
         db = get(f'http://localhost:8000/api/wafs/{self.id}/').json()
         self.settings = db['settings']
         self.rules = db['rules']
+        self.total_requests = db['total_requests']
+        self.allowed_requests = db['allowed_requests']
+        self.blocked_requests = db['blocked_requests']
 
         self.waf.before_request(self.before_request)
         self.waf.after_request(self.after_request)
-        self.waf.route('/')(self.home)
+        self.waf.route('/', methods=['GET', 'POST'])(self.home)
         self.waf.route('/<path:path>', methods=['GET', 'POST'])(self.proxy)
 
     def before_request(self):
