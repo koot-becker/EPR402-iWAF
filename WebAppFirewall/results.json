@@ -1,0 +1,26 @@
+{
+    "balanced": {
+        "time": 0.0,
+        "total": 0,
+        "tpr": 0.0,
+        "fpr": 0.0,
+        "tnr": 0.0,
+        "fnr": 0.0
+    },
+    "conventional": {
+        "time": 0.0,
+        "total": 0,
+        "tpr": 0.0,
+        "fpr": 0.0,
+        "tnr": 0.0,
+        "fnr": 0.0
+    },
+    "unconventional": {
+        "time": 0.0,
+        "total": 0,
+        "tpr": 0.0,
+        "fpr": 0.0,
+        "tnr": 0.0,
+        "fnr": 0.0
+    }
+}

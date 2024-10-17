@@ -12,6 +12,7 @@ class WAF(models.Model):
     waf_enabled = models.BooleanField(default=False)
     settings = models.JSONField(default=dict)
     rules = models.JSONField(default=dict)
+    results = models.JSONField(default=dict)
 
     def __str__(self):
         return self.name

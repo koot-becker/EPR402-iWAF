@@ -46,6 +46,32 @@ class App extends Component {
           blocked_paths: [],
           blocked_query_strings: []
         },
+        results: {
+          balanced: {
+            time: 0.0,
+            total: 0,
+            tpr: 0.0,
+            fpr: 0.0,
+            tnr: 0.0,
+            fnr: 0.0
+          },
+          conventional: {
+            time: 0.0,
+            total: 0,
+            tpr: 0.0,
+            fpr: 0.0,
+            tnr: 0.0,
+            fnr: 0.0
+          },
+          unconventional: {
+            time: 0.0,
+            total: 0,
+            tpr: 0.0,
+            fpr: 0.0,
+            tnr: 0.0,
+            fnr: 0.0
+          }
+        }
       },
     };
   }
@@ -134,6 +160,32 @@ class App extends Component {
         blocked_paths: [],
         blocked_query_strings: []
       },
+      results: {
+        balanced: {
+          time: 0.0,
+          total: 0,
+          tpr: 0.0,
+          fpr: 0.0,
+          tnr: 0.0,
+          fnr: 0.0
+        },
+        conventional: {
+          time: 0.0,
+          total: 0,
+          tpr: 0.0,
+          fpr: 0.0,
+          tnr: 0.0,
+          fnr: 0.0
+        },
+        unconventional: {
+          time: 0.0,
+          total: 0,
+          tpr: 0.0,
+          fpr: 0.0,
+          tnr: 0.0,
+          fnr: 0.0
+        }
+      },
     };
 
     this.setState({ activeItem: item, modal: !this.state.modal });
@@ -173,6 +225,7 @@ class App extends Component {
 
   render() {
     const { wafs, modal, testing, activeItem } = this.state;
+    console.log(wafs);
 
     return (
       <div className="container">
@@ -199,7 +252,11 @@ class App extends Component {
               <div className="button-container">
                 <button
                 className="btn btn-danger"
-                onClick={() => this.handleDelete(app)}
+                onClick={() => {
+                  if (window.confirm("Are you sure you want to delete this item?")) {
+                    this.handleDelete(app);
+                  }
+                }}
                 >
                 Delete
                 </button>

@@ -6,7 +6,7 @@
   --header-text-color: #2196f3;
   --link-color: #1e90ff;
   --card-background-color: #1c1c1c;
-  --card-border-color: #333;
+  --card-border-color: #ccc;
   --modal-background-color: #1c1c1c;
   --footer-background-color: #1e1e1e;
   --footer-text-color: #757575;
@@ -25,7 +25,7 @@
     --header-text-color: #2196f3;
     --link-color: #1e90ff;
     --card-background-color: #e0e0e0;
-    --card-border-color: #ccc;
+    --card-border-color: #333;
     --modal-background-color: #f9f9f9;
     --footer-background-color: #f1f1f1;
     --footer-text-color: #757575;
@@ -174,4 +174,20 @@ button:disabled {
 .modal-header {
   justify-content: center;
   width: 100%;
+}
+
+.rule-container {
+  background-color: var(--card-background-color);
+  border: 1px solid var(--card-border-color);
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 4px;
+}
+
+.test-container {
+  background-color: var(--card-background-color);
+  border: 1px solid var(--card-border-color);
+  padding: 10px;
+  gap: 10px;
+  border-radius: 4px;
 }
