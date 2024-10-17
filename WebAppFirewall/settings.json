@@ -1,0 +1,17 @@
+{
+    "rule_settings": {
+        "block_remote_addr": false,
+        "block_user_agent": false,
+        "block_path": false,
+        "block_query_string": false
+    },
+    "token_settings": {
+        "check_token": false
+    },
+    "signature_settings": {
+        "check_signature": false
+    },
+    "anomaly_settings": {
+        "check_anomaly": false
+    }
+}

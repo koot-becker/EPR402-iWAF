@@ -1,0 +1,193 @@
+:root {
+  --background-color: #121212;
+  --text-color: #ffffff;
+  --header-background-color: #1e1e1e;
+  --header-border-color: #2196f3;
+  --header-text-color: #2196f3;
+  --link-color: #1e90ff;
+  --card-background-color: #1c1c1c;
+  --card-border-color: #ccc;
+  --modal-background-color: #1c1c1c;
+  --footer-background-color: #1e1e1e;
+  --footer-text-color: #757575;
+  --button-background-color: #2196f3;
+  --button-hover-color: #1976d2;
+  --button-active-color: #0d47a1;
+  --button-disabled-color: #757575;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    --background-color: #ffffff;
+    --text-color: #000000;
+    --header-background-color: #f1f1f1;
+    --header-border-color: #2196f3;
+    --header-text-color: #2196f3;
+    --link-color: #1e90ff;
+    --card-background-color: #e0e0e0;
+    --card-border-color: #333;
+    --modal-background-color: #f9f9f9;
+    --footer-background-color: #f1f1f1;
+    --footer-text-color: #757575;
+    --button-background-color: #2196f3;
+    --button-hover-color: #1976d2;
+    --button-active-color: #0d47a1;
+    --button-disabled-color: #cccccc;
+  }
+}
+
+body {
+  background-color: var(--background-color);
+  color: var(--text-color);
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+header {
+  background-color: var(--header-background-color);
+  padding: 20px;
+  text-align: center;
+  border-bottom: 2px solid var(--header-border-color);
+}
+
+header h1 {
+  color: var(--header-text-color);
+  margin: 0;
+}
+
+h2 {
+  color: var(--header-text-color);
+  margin: 0 auto;
+  text-align: center;
+}
+
+h5 {
+  color: var(--header-text-color);
+}
+
+h6 {
+  color: var(--header-text-color);
+}
+
+main {
+  padding: 20px;
+}
+
+a {
+  color: var(--link-color);
+}
+
+.nav-tabs .nav-link.active {
+  background-color: var(--link-color);
+  color: var(--text-color);
+}
+
+.card {
+  background-color: var(--card-background-color);
+  border: none;
+  margin-bottom: 20px;
+}
+
+.list-group-item {
+  background-color: var(--card-background-color);
+  border: 1px solid var(--card-border-color);
+}
+
+.modal-content {
+  background-color: var(--modal-background-color);
+  color: var(--text-color);
+}
+
+.container {
+  margin-top: 20px;
+  gap: 20px;
+  max-width: 1500px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+footer {
+  background-color: var(--footer-background-color);
+  text-align: center;
+  padding: 10px;
+  border-top: 2px solid var(--header-border-color);
+}
+
+footer p {
+  margin: 0;
+  color: var(--footer-text-color);
+}
+
+.btn-primary {
+  background-color: var(--link-color);
+  border-color: var(--link-color);
+}
+
+button {
+  background-color: var(--button-background-color);
+  color: var(--text-color);
+  border: none;
+  border-radius: 4px;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: var(--button-hover-color);
+}
+
+button:active {
+  background-color: var(--button-active-color);
+}
+
+button:disabled {
+  background-color: var(--button-disabled-color);
+  cursor: not-allowed;
+}
+
+.button-container {
+  display: flex;
+  justify-content: center;
+  padding: 10px;
+  gap: 10px;
+}
+
+.plots-container {
+  display: flex;
+  justify-content: center;
+}
+
+.plot-container {
+  padding: 10px;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  height: 90%;
+}
+
+.modal-header {
+  justify-content: center;
+  width: 100%;
+}
+
+.rule-container {
+  background-color: var(--card-background-color);
+  border: 1px solid var(--card-border-color);
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 4px;
+}
+
+.test-container {
+  background-color: var(--card-background-color);
+  border: 1px solid var(--card-border-color);
+  padding: 10px;
+  gap: 10px;
+  border-radius: 4px;
+}

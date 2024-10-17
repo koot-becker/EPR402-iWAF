@@ -4,11 +4,11 @@ import threading
 import time
 
 # Custom imports
-import classifier_interface
+import Classifier.classifier_interface as classifier_interface
 
-def train_classifier():
+def train_classifier(classifier_type='mnb', data='csic'):
     # Load the training data
-    data_path = '/home/dieswartkat/EPR402/WebAppFirewall/Classifier/Datasets/csic_training.csv'
+    data_path = f'/home/dieswartkat/EPR402/WebAppFirewall/Classifier/Datasets/{data}_training.csv'
     with open(data_path, 'r') as file:
         reader = csv.DictReader(file)
         data = [row for row in reader]
@@ -17,11 +17,11 @@ def train_classifier():
     texts = [row['Method'] + ' ' + row['URI'] + ' ' + row['POST-Data'] + ' ' + row['GET-Query'] for row in data]
     labels = [row['Class'] for row in data]
 
-    classifier_interface.train_classifier(texts, labels)
+    classifier_interface.train_classifier(texts, labels, classifier_type)
 
-def classify_requests():
+def classify_requests(classifier_type='mnb', data='csic'):
     # Load the dataset from csic_final.csv
-    data_path = '/home/dieswartkat/EPR402/WebAppFirewall/Classifier/Datasets/csic_testing.csv'
+    data_path = f'/home/dieswartkat/EPR402/WebAppFirewall/Classifier/Datasets/{data}_testing.csv'
     with open(data_path, 'r') as file:
         reader = csv.DictReader(file)
         data = [row for row in reader]
@@ -40,10 +40,10 @@ def classify_requests():
     lock = threading.Lock()
 
     # Define a function to classify a single request
-    def classify_request(request):
+    def classify_request(request, classifier_type='mnb'):
         nonlocal true_positive_count, false_positive_count, true_negative_count, false_negative_count
         # Classify the request using method and URI
-        classification = classifier_interface.classify(texts[request])
+        classification = classifier_interface.classify(texts[request], classifier_type)
 
         # Increment the respective counter based on the classification
         if classification == "Valid":
@@ -67,7 +67,7 @@ def classify_requests():
     # Classify each request in the dataset using multiple threads
     count = 0
     for request in range(len(texts)):
-        thread = threading.Thread(target=classify_request, args=(request,))
+        thread = threading.Thread(target=classify_request, args=(request,classifier_type))
         thread.start()
         threads.append(thread)
         count += 1
@@ -98,8 +98,14 @@ def classify_requests():
     print(f'Balanced Accuracy: {(tpr + tnr) / 2}')
 
 if __name__ == "__main__":
+    # classifier_type = 'mnb'
+    classifier_type = 'svm'
+    # data = 'csic'
+    # data = 'combined'
+    # data = 'ecml'
+    data = 'outlier'
     start_time = time.perf_counter()
-    train_classifier()
-    classify_requests()
+    train_classifier(classifier_type, data)
+    classify_requests(classifier_type, data)
     end_time = time.perf_counter()
     print(f'Time taken: {end_time - start_time} seconds')
