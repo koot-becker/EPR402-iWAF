@@ -1,17 +1,21 @@
 # Existing imports
 from flask import Response
 from datetime import datetime
+import sys
 
 # Custom imports
-import Classifier.Classifier.classifier_interface as classifier_interface
+sys.path.append("WebAppFirewall/Classifier/Classifier/")
+import Classifier.Classifiers.classifier_interface as classifier_interface
+from Classifier.Classifiers.count_vectorizer import SimpleCountVectorizer
+from Classifier.Classifiers.classifier import OneClassSVMClassifier, MultinomialNaiveBayes
 from JWT.jwt import JWT
 
 def before_request(request, session, settings, rules):
-    print("Before request:")
+    # print("Before request:")
     # Firewall Logic
     
     # Rule-based detection
-    print("Rule-based detection:")
+    # print("Rule-based detection:")
 
     # Block requests from a specific IP address
     if check_rules(request, settings['rule_settings'], rules):
@@ -22,14 +26,14 @@ def before_request(request, session, settings, rules):
         return 'Access denied', 403
     
     # Signature-based detection
-    print("Signature-based detection:")
+    # print("Signature-based detection:")
 
     # Block requests with an anomalous signature
     if check_signature_detection(request, settings['signature_settings']):
         return 'Access denied', 403
     
     # Anomaly-based detection
-    print("Anomaly-based detection:")
+    # print("Anomaly-based detection:")
 
     # Block requests with an anomalous pattern
     if check_anomaly_detection(session.cookies, request, settings['anomaly_settings']):
@@ -39,28 +43,30 @@ def before_request(request, session, settings, rules):
     return None
 
 def proxy(path, SITE_NAME, request, session):
-    print("Proxy:")
+    # print("Proxy:")
     if request.method=='GET':
         resp = session.get(f'{SITE_NAME}{path}', headers=dict(request.headers))
         excluded_headers = ['content-encoding', 'content-length', 'transfer-encoding']
         headers = [(name, value) for (name, value) in  resp.raw.headers.items() if name.lower() not in excluded_headers]
         response = Response(resp.content, resp.status_code, headers)
-        return response
     elif request.method=='POST':
         resp = session.post(f'{SITE_NAME}{path}', data=request.form, headers=dict(request.headers))
         excluded_headers = ['content-encoding', 'content-length', 'transfer-encoding']
         headers = [(name, value) for (name, value) in  resp.raw.headers.items() if name.lower() not in excluded_headers]
         response = Response(resp.content, resp.status_code, headers)
-        return response
+    return response, resp.elapsed.total_seconds()
     
-def post_request(request):
-    print("Post request:")
+def post_request(request, self_time, self_rtt):
+    log_time(self_time*1000, self_rtt*1000)
+    if self_time > self_rtt:
+        logger(f'Request took longer than expected: {self_time*1000} vs {self_rtt*1000}')
+    # print("Post request:")
     with open('requests.txt', 'a') as f:
         current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        f.write(f'{current_time} - {request.method} {request.path} {request.data} {request.query_string}\n')
+        f.write(f'{current_time} - {request.method} {request.path}\n')
 
 def check_rules(request, rule_settings, rules):
-    print("Check rules:")
+    # print("Check rules:")
     # Block requests from a specific IP address
     if rule_settings['block_remote_addr'] and request.remote_addr not in rules['blocked_ips']:
         logger(f'Blocked IP: {request.remote_addr}')
@@ -84,7 +90,7 @@ def check_rules(request, rule_settings, rules):
     return False
 
 def check_token(session_requests_cookies, token_settings):
-    print("Check token:")
+    # print("Check token:")
     if token_settings['check_token'] and session_requests_cookies:
         for cookie in session_requests_cookies:
             if cookie.name == "token":
@@ -94,14 +100,14 @@ def check_token(session_requests_cookies, token_settings):
                 if payload['role'] == 'admin' and header['alg'] == 'none': # check if the user role is admin and the algorithm is HS256
                     logger(f'Blocked token: {jwttoken}')
                     return True
-    logger(f'Allowed token: {jwttoken}')
+                logger(f'Allowed token: {jwttoken}')
     return False
 
 def check_signature_detection(request, signature_settings):
-    print("Check signature detection:")
+    # print("Check signature detection:")
     if signature_settings['check_signature']:
         # Load the signature detection module
-        classification = classifier_interface.classify(request.method + ' ' + request.path + ' ' + request.data + ' ' + request.query_string, classifier_type='mnb')
+        classification = classifier_interface.classify(request.method + ' ' + request.path + ' ' + request.data.decode("utf-8") + ' ' + request.query_string.decode("utf-8"), classifier_type='mnb', dataset='csic')
 
         # Check for anomalies using the signature detection module
         if classification == 'Anomalous':
@@ -111,7 +117,7 @@ def check_signature_detection(request, signature_settings):
     return False
 
 def check_anomaly_detection(session_requests_cookies, request, anomaly_settings):
-    print("Check anomaly detection:")
+    # print("Check anomaly detection:")
     classification = None
     if anomaly_settings['check_anomaly']:
         # Load the baseline trainer
@@ -121,9 +127,10 @@ def check_anomaly_detection(session_requests_cookies, request, anomaly_settings)
                     jwttoken = cookie.value # extract the jwt token string
                     header = JWT.get_unverified_header(jwttoken) # get the jwt token header, figure out which algorithm the web server is using
                     payload = JWT._base64url_decode(jwttoken, options={"verify_signature": False}) # decode the jwo token payload, the user role information is claimed in the payload
-                    classification = classifier_interface.classify(request.method + ' ' + request.path + ' ' + request.data + ' ' + request.query_string + ' ' + session_requests_cookies, classifier_type='svm')
+                    classification = classifier_interface.classify(request.path + ' ' + request.method, classifier_type='svm', dataset='ctf')
         else:
-            classification = classifier_interface.classify(request.method + ' ' + request.path + ' ' + request.data + ' ' + request.query_string + ' ' + payload['role'] + ' ' + header['alg'], classifier_type='svm')
+            # classification = classifier_interface.classify(request.path + ' ' + request.method + ' ' + payload['role'] + ' ' + header['alg'], classifier_type='svm', dataset='ctf')
+            classification = classifier_interface.classify(request.path + ' ' + request.method, classifier_type='svm', dataset='ctf')
         # Check for anomalies using the baseline trainer
         if classification == 'Anomalous':
             logger(f'Anomalous request: {request.method} {request.path} {request.data} {request.query_string}')
@@ -135,3 +142,7 @@ def logger(message):
     with open('log.txt', 'a') as f:
         current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         f.write(f'{current_time} - {message}\n')
+
+def log_time(self_time, self_rtt):
+    with open('time.txt', 'a') as f:
+        f.write(f'{self_time}, {self_rtt}\n')

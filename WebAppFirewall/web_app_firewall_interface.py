@@ -2,6 +2,8 @@
 from flask import Flask, request
 from requests import session, get
 from optparse import OptionParser
+import json
+from datetime import datetime
 
 # Custom imports
 import web_app_firewall
@@ -18,7 +20,11 @@ class WebAppFirewallInterface:
         self.port = f'500{self.id}'
 
         # Get the settings and rules from the Database
-        db = get(f'http://localhost:8000/api/wafs/{self.id}/').json()
+        try:
+            db = get(f'http://localhost:5000/api/wafs/{self.id}/').json()
+        except:
+            data = '{"settings": {"rule_settings": { "block_remote_addr": false, "block_user_agent": false, "block_path": false, "block_query_string": false }, "token_settings": { "check_token": true }, "signature_settings": { "check_signature": true }, "anomaly_settings": { "check_anomaly": true } }, "rules": { "blocked_ips": [], "blocked_user_agents": [], "blocked_paths": [], "blocked_query_strings": [] }, "total_requests": 0, "allowed_requests": 0, "blocked_requests": 0 }'
+            db = json.loads(data)
         self.settings = db['settings']
         self.rules = db['rules']
         self.total_requests = db['total_requests']
@@ -30,18 +36,28 @@ class WebAppFirewallInterface:
         self.waf.route('/', methods=['GET', 'POST'])(self.home)
         self.waf.route('/<path:path>', methods=['GET', 'POST'])(self.proxy)
 
+        self.rtt = 0
+        self.time_start = ""
+        self.time = 0
+
     def before_request(self):
+        self.time_start = datetime.now()
         web_app_firewall.before_request(request, session(), self.settings, self.rules)
 
     def after_request(self, response):
-        web_app_firewall.post_request(request)
+        web_app_firewall.post_request(request, self.time, self.rtt)
         return response
 
     def home(self):
-        return web_app_firewall.proxy('/', self.SITE_NAME, request, session())
+        self.time = (datetime.now()-self.time_start).total_seconds()
+        response = web_app_firewall.proxy('/', self.SITE_NAME, request, session())
+        self.rtt = response[1]
+        return response[0]
 
     def proxy(self, path):
-        return web_app_firewall.proxy(path, self.SITE_NAME, request, session())
+        response = web_app_firewall.proxy(path, self.SITE_NAME, request, session())
+        self.rtt = response[1]
+        return response[0]
 
     def run(self):
         self.waf.run(host='0.0.0.0', port=self.port)

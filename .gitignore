@@ -1,4 +1,3 @@
 .vscode/
-WebAppFirewall/Classifier/Datasets/CSVDatasets
-WebAppFirewall/.venv
-UserInterface/.ui_venv
+WebAppFirewall/.venv/
+UserInterface/.ui_venv/
