@@ -4,6 +4,9 @@ from collections import defaultdict
 from scipy.spatial.distance import cdist
 from scipy.sparse import csr_matrix
 
+# Remove
+from scipy.optimize import linprog
+
 def create_float_defaultdict():
     """
     Creates a defaultdict with float as the default factory.
@@ -152,13 +155,10 @@ class OneClassSVMClassifier:
     predict(data)
         Perform classification on samples in data.
     """
-    def __init__(self, kernel='rbf', nu=0.5, gamma='scale', degree=3, coef0=1):
+    def __init__(self, kernel='rbf', nu=0.5, gamma='scale'):
         self.kernel = kernel
         self.nu = nu
         self.gamma = gamma
-        self.degree = degree
-        self.coef0 = coef0
-        self.alpha = None
         self.support_vectors = None
         self.intercept = None
 
@@ -189,7 +189,6 @@ class OneClassSVMClassifier:
         b = np.array([1.0])
 
         # Use a QP solver from scipy
-        from scipy.optimize import linprog
         res = linprog(c=q, A_ub=G, b_ub=h, A_eq=A, b_eq=b, bounds=(0, None), method='highs')
 
         self.alpha = res.x

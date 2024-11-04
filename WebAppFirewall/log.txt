@@ -10049,3 +10049,11 @@
 2024-10-24 10:41:44 - Anomalous request: GET / b'' b''
 2024-10-24 10:41:44 - Non-anomalous signature: GET / b'' b''
 2024-10-24 10:41:44 - Anomalous request: GET / b'' b''
+2024-10-24 12:01:32 - Non-anomalous signature: GET / b'' b''
+2024-10-24 12:01:32 - Anomalous request: GET / b'' b''
+2024-10-24 12:01:32 - Request took longer than expected: 59.875 vs 44.24
+2024-10-24 12:01:57 - Non-anomalous signature: GET / b'' b''
+2024-10-24 12:01:57 - Anomalous request: GET / b'' b''
+2024-10-24 12:01:57 - Request took longer than expected: 3.94 vs 3.3240000000000003
+2024-10-24 12:01:57 - Non-anomalous signature: GET / b'' b''
+2024-10-24 12:01:57 - Anomalous request: GET / b'' b''
