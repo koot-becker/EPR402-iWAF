@@ -6,8 +6,6 @@ import sys
 # Custom imports
 sys.path.append("WebAppFirewall/Classifier/Classifier/")
 import Classifier.Classifiers.classifier_interface as classifier_interface
-from Classifier.Classifiers.count_vectorizer import SimpleCountVectorizer
-from Classifier.Classifiers.classifier import OneClassSVMClassifier, MultinomialNaiveBayes
 from JWT.jwt import JWT
 
 def before_request(request, session, settings, rules):
@@ -96,7 +94,7 @@ def check_token(session_requests_cookies, token_settings):
             if cookie.name == "token":
                 jwttoken = cookie.value # extract the jwt token string
                 header = JWT.get_unverified_header(jwttoken) # get the jwt token header, figure out which algorithm the web server is using
-                payload = JWT._base64url_decode(jwttoken, options={"verify_signature": False}) # decode the jwo token payload, the user role information is claimed in the payload
+                payload = JWT.decode(jwttoken, options={"verify_signature": False}) # decode the jwo token payload, the user role information is claimed in the payload
                 if payload['role'] == 'admin' and header['alg'] == 'none': # check if the user role is admin and the algorithm is HS256
                     logger(f'Blocked token: {jwttoken}')
                     return True

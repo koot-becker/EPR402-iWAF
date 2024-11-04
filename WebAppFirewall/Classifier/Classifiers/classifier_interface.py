@@ -7,17 +7,17 @@ sys.path.append("/home/dieswartkat/EPR402/WebAppFirewall/Classifier/Classifiers/
 from count_vectorizer import SimpleCountVectorizer
 from classifier import OneClassSVMClassifier, MultinomialNaiveBayes
 
-def train_classifier(texts, labels, classifier_type='mnb', dataset='csic'):
+def train_classifier(texts, labels, classifier_type='mnb', dataset='csic', alpha=1.0):
     # Create the feature vectors
     vectorizer = SimpleCountVectorizer()
     X = vectorizer.fit_transform(texts)
 
     # Train the classifier
     if classifier_type == 'svm':
-        classifier = OneClassSVMClassifier()
+        classifier = OneClassSVMClassifier(nu=alpha)
         classifier.fit(X)
     elif classifier_type == 'mnb':
-        classifier = MultinomialNaiveBayes()
+        classifier = MultinomialNaiveBayes(alpha=alpha)
         classifier.fit(X, labels)
     else:
         raise ValueError("Invalid classifier type. Supported types: 'svm', 'mnb'.")
