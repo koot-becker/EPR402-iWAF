@@ -5,6 +5,8 @@ class WAF(models.Model):
     description = models.CharField(max_length=200, default='')
     waf_address = models.CharField(max_length=200, default='')
     app_address = models.CharField(max_length=200, default='')
+    app_name = models.CharField(max_length=200, default='ctf')
+    dataset_name = models.CharField(max_length=200, default='csic')
     waf_container_name = models.CharField(max_length=200, default='')
     app_container_name = models.CharField(max_length=200, default='')
     app_container_image_name = models.CharField(max_length=200, default='')

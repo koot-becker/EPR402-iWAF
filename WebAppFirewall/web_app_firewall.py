@@ -4,18 +4,17 @@ from datetime import datetime
 import sys
 
 # Custom imports
-sys.path.append("WebAppFirewall/Classifier/Classifier/")
-import Classifier.Classifiers.classifier_interface as classifier_interface
-from Classifier.Classifiers.count_vectorizer import SimpleCountVectorizer
-from Classifier.Classifiers.classifier import OneClassSVMClassifier, MultinomialNaiveBayes
+import Classifiers.classifier_interface as classifier_interface
+from Classifiers.count_vectorizer import SimpleCountVectorizer
+from Classifiers.classifier import OneClassSVMClassifier, MultinomialNaiveBayes
 from JWT.jwt import JWT
 
-def before_request(request, session, settings, rules):
-    # print("Before request:")
+def before_request(request, session, settings, rules, app_name='ctf', dataset_name='csic'):
+    print("Before request:")
     # Firewall Logic
     
     # Rule-based detection
-    # print("Rule-based detection:")
+    print("Rule-based detection:")
 
     # Block requests from a specific IP address
     if check_rules(request, settings['rule_settings'], rules):
@@ -26,24 +25,24 @@ def before_request(request, session, settings, rules):
         return 'Access denied', 403
     
     # Signature-based detection
-    # print("Signature-based detection:")
+    print("Signature-based detection:")
 
     # Block requests with an anomalous signature
-    if check_signature_detection(request, settings['signature_settings']):
+    if check_signature_detection(request, settings['signature_settings'], dataset_name):
         return 'Access denied', 403
     
     # Anomaly-based detection
-    # print("Anomaly-based detection:")
+    print("Anomaly-based detection:")
 
     # Block requests with an anomalous pattern
-    if check_anomaly_detection(session.cookies, request, settings['anomaly_settings']):
+    if check_anomaly_detection(session.cookies, request, settings['anomaly_settings'], app_name):
         return 'Access denied', 403
 
     # If none of the conditions match, allow the request to proceed
     return None
 
 def proxy(path, SITE_NAME, request, session):
-    # print("Proxy:")
+    print("Proxy:")
     if request.method=='GET':
         resp = session.get(f'{SITE_NAME}{path}', headers=dict(request.headers))
         excluded_headers = ['content-encoding', 'content-length', 'transfer-encoding']
@@ -57,10 +56,10 @@ def proxy(path, SITE_NAME, request, session):
     return response, resp.elapsed.total_seconds()
     
 def post_request(request, self_time, self_rtt):
+    print("Post request:")
     log_time(self_time*1000, self_rtt*1000)
     if self_time > self_rtt:
         logger(f'Request took longer than expected: {self_time*1000} vs {self_rtt*1000}')
-    # print("Post request:")
     with open('requests.txt', 'a') as f:
         current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         f.write(f'{current_time} - {request.method} {request.path}\n')
@@ -103,11 +102,11 @@ def check_token(session_requests_cookies, token_settings):
                 logger(f'Allowed token: {jwttoken}')
     return False
 
-def check_signature_detection(request, signature_settings):
+def check_signature_detection(request, signature_settings, dataset_name='csic'):
     # print("Check signature detection:")
     if signature_settings['check_signature']:
         # Load the signature detection module
-        classification = classifier_interface.classify(request.method + ' ' + request.path + ' ' + request.data.decode("utf-8") + ' ' + request.query_string.decode("utf-8"), classifier_type='mnb', dataset='csic')
+        classification = classifier_interface.classify(request.method + ' ' + request.path + ' ' + request.data.decode("utf-8") + ' ' + request.query_string.decode("utf-8"), classifier_type='mnb', dataset=dataset_name)
 
         # Check for anomalies using the signature detection module
         if classification == 'Anomalous':
@@ -116,7 +115,7 @@ def check_signature_detection(request, signature_settings):
         logger(f'Non-anomalous signature: {request.method} {request.path} {request.data} {request.query_string}')
     return False
 
-def check_anomaly_detection(session_requests_cookies, request, anomaly_settings):
+def check_anomaly_detection(session_requests_cookies, request, anomaly_settings, app_name='ctf'):
     # print("Check anomaly detection:")
     classification = None
     if anomaly_settings['check_anomaly']:
@@ -127,10 +126,10 @@ def check_anomaly_detection(session_requests_cookies, request, anomaly_settings)
                     jwttoken = cookie.value # extract the jwt token string
                     header = JWT.get_unverified_header(jwttoken) # get the jwt token header, figure out which algorithm the web server is using
                     payload = JWT._base64url_decode(jwttoken, options={"verify_signature": False}) # decode the jwo token payload, the user role information is claimed in the payload
-                    classification = classifier_interface.classify(request.path + ' ' + request.method, classifier_type='svm', dataset='ctf')
+                    classification = classifier_interface.classify(request.path + ' ' + request.method, classifier_type='svm', dataset=app_name)
         else:
             # classification = classifier_interface.classify(request.path + ' ' + request.method + ' ' + payload['role'] + ' ' + header['alg'], classifier_type='svm', dataset='ctf')
-            classification = classifier_interface.classify(request.path + ' ' + request.method, classifier_type='svm', dataset='ctf')
+            classification = classifier_interface.classify(request.path + ' ' + request.method, classifier_type='svm', dataset=app_name)
         # Check for anomalies using the baseline trainer
         if classification == 'Anomalous':
             logger(f'Anomalous request: {request.method} {request.path} {request.data} {request.query_string}')
