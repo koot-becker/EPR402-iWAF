@@ -366,8 +366,8 @@ if __name__ == "__main__":
 
     '''Support Vector Machine Classifier'''
     # anomaly_balanced, anomaly_tpr, anomaly_tnr = get_anomaly_results()
-    results = pickle.load(open('svm_accuracies_sim.pkl', 'rb'))
-    anomaly_balanced, anomaly_tpr, anomaly_tnr = results['balanced'], results['tpr'], results['tnr']
+    # results = pickle.load(open('svm_accuracies_sim.pkl', 'rb'))
+    # anomaly_balanced, anomaly_tpr, anomaly_tnr = results['balanced'], results['tpr'], results['tnr']
     
     # plot_anomaly(anomaly_balanced, anomaly_tpr, anomaly_tnr)
 
@@ -382,9 +382,11 @@ if __name__ == "__main__":
     # plot_nu(dvwa_tpr, dvwa_tnr, dvwa_balanced, 'DVWA')
     # plot_nu(tiredful_tpr, tiredful_tnr, tiredful_balanced, 'TIREDFUL')
 
-    csic_results = pickle.load(open('balanced_accuracies_csic.pkl', 'rb'))
-    csic_tpr, csic_tnr, csic_balanced = csic_results['csic_tpr'], csic_results['csic_tnr'], csic_results['csic_balanced']
+    # csic_results = pickle.load(open('balanced_accuracies_csic.pkl', 'rb'))
+    # csic_tpr, csic_tnr, csic_balanced = csic_results['csic_tpr'], csic_results['csic_tnr'], csic_results['csic_balanced']
     # plot_mnb_svm(csic_balanced, csic_tpr, csic_tnr, anomaly_balanced, anomaly_tpr, anomaly_tnr)
-    tnr, tpr = get_mnb_svm(anomaly_tpr, anomaly_tnr, csic_tpr, csic_tnr)
-    plot_anomaly_metrics(tpr, tnr)
+    # tnr, tpr = get_mnb_svm(anomaly_tpr, anomaly_tnr, csic_tpr, csic_tnr)
+    # plot_anomaly_metrics(tpr, tnr)
     
+    balanced, tpr, tnr = test_anomaly_classifier(dataset_name='ctf', nu=0.5)
+    print(f'Balanced: {balanced}, TPR: {tpr}, TNR: {tnr}')

@@ -37,6 +37,11 @@ def split_dataset(dataset, training_ratio=10):
     training_data = valid_data[:valid_split_point] + anomalous_data[:anomalous_split_point]
     testing_data = valid_data[valid_split_point:] + anomalous_data[anomalous_split_point:]
 
+    with open(f'/home/dieswartkat/EPR402/WebAppFirewall/Classifier/Datasets/Split/{dataset}_testing.csv', 'w') as file:
+        writer = csv.DictWriter(file, fieldnames=testing_data[0].keys())
+        writer.writeheader()
+        writer.writerows(testing_data)
+
     return training_data, testing_data
 
 def train_classifier(classifier_type='mnb', dataset='csic', data=[], alpha=1.0):
@@ -134,12 +139,15 @@ def classify_requests(classifier_type='mnb', dataset='csic', data=[]):
 
     return balanced_accuracy, tpr, tnr
 
-def test_signature_classifier(split=10):  
+def test_signature_classifier(split=90):  
     # CSIC
-    csic_data = split_dataset(dataset='csic', training_ratio=split)
-    train_classifier(classifier_type='mnb', dataset='csic', data=csic_data[0])
+    # csic_data = split_dataset(dataset='csic', training_ratio=split)
+    with open(f'/home/dieswartkat/EPR402/WebAppFirewall/Classifier/Datasets/Split/csic_testing.csv', 'r') as file:
+        reader = csv.DictReader(file)
+        csic_data = [row for row in reader]
+    # train_classifier(classifier_type='mnb', dataset='csic', data=csic_data[0])
     print('CSIC Testing')
-    csic_balanced, csic_tpr, csic_tnr = classify_requests(classifier_type='mnb', dataset='csic', data=csic_data[1])
+    csic_balanced, csic_tpr, csic_tnr = classify_requests(classifier_type='mnb', dataset='csic', data=csic_data)
 
     return csic_tpr, csic_tnr, csic_balanced
 
@@ -413,18 +421,21 @@ if __name__ == "__main__":
     '''Multinomial Naive Bayes Classifier'''
     # Signature Results
     # get_signature_results()
-    results = pickle.load(open('balanced_accuracies_csic.pkl', 'rb'))
-    csic_tpr, csic_tnr, csic_balanced = results['csic_tpr'], results['csic_tnr'], results['csic_balanced']
+    # results = pickle.load(open('balanced_accuracies_csic.pkl', 'rb'))
+    # csic_tpr, csic_tnr, csic_balanced = results['csic_tpr'], results['csic_tnr'], results['csic_balanced']
     # plot_combined(csic_tpr, csic_tnr, csic_balanced, 'CSIC')
 
     # Metric Results
-    csic_accuracy, csic_precision, csic_recall, csic_specificity, csic_f1 = get_metrics(csic_tpr, csic_tnr)
+    # csic_accuracy, csic_precision, csic_recall, csic_specificity, csic_f1 = get_metrics(csic_tpr, csic_tnr)
     # plot_metrics(csic_accuracy, csic_precision, csic_recall, csic_specificity, csic_f1, 'CSIC')
-    plot_statistics(csic_accuracy, csic_precision, csic_recall, csic_specificity, csic_f1, 'CSIC')
+    # plot_statistics(csic_accuracy, csic_precision, csic_recall, csic_specificity, csic_f1, 'CSIC')
 
     # Alpha Results
     # csic_tpr, csic_tnr, csic_balanced, = get_alpha_results()
     # results = pickle.load(open('alpha_accuracies_sim.pkl', 'rb'))
     # csic_tpr, csic_tnr, csic_balanced = results['csic_tpr'], results['csic_tnr'], results['csic_balanced']
     # plot_alpha(csic_tpr, csic_tnr, csic_balanced, 'CSIC')
+
+    tpr, tnr, balanced = test_signature_classifier(split=95)
+    print(f'TPR: {tpr}, TNR: {tnr}, Balanced: {balanced}')
     

@@ -31,6 +31,18 @@ export default class CustomModal extends Component {
     this.setState({ activeItem });
   };
 
+  handleSettingsChange = (e) => {
+    let { name, value } = e.target;
+
+    if (e.target.type === "checkbox") {
+      value = e.target.checked;
+    }
+
+    const activeItem = { ...this.state.activeItem, settings: { ...this.state.activeItem.settings, [name]: value } };
+
+    this.setState({ activeItem });
+  }
+
   render() {
     const { toggle, onSave } = this.props;
 
@@ -94,7 +106,7 @@ export default class CustomModal extends Component {
         </FormGroup>
         <FormGroup>
           <div className="row">
-            <div className="col-sm-4">
+            <div className="col-sm-3">
               <Label for="total-requests">Total Requests</Label>
               <Input
               type="number"
@@ -105,7 +117,7 @@ export default class CustomModal extends Component {
               placeholder="Enter Total Requests"
               />
             </div>
-            <div className="col-sm-4">
+            <div className="col-sm-3">
               <Label for="allowed-requests">Allowed Requests</Label>
               <Input
               type="number"
@@ -116,7 +128,7 @@ export default class CustomModal extends Component {
               placeholder="Enter Allowed Requests"
               />
             </div>
-            <div className="col-sm-4">
+            <div className="col-sm-3">
               <Label for="blocked-requests">Blocked Requests</Label>
               <Input
               type="number"
@@ -125,6 +137,17 @@ export default class CustomModal extends Component {
               value={this.state.activeItem.blocked_requests}
               onChange={this.handleChange}
               placeholder="Enter Blocked Requests"
+              />
+            </div>
+            <div className="col-sm-3">
+              <Label for="average-time">Average Time</Label>
+              <Input
+              type="number"
+              id="average-time"
+              name="average_time"
+              value={this.state.activeItem.average_time}
+              onChange={this.handleChange}
+              placeholder="Enter Average Time"
               />
             </div>
           </div>
@@ -168,8 +191,8 @@ export default class CustomModal extends Component {
                 <Input
                   type="checkbox"
                   name="block_remote_addr"
-                  checked={this.state.activeItem.settings.rule_settings.block_remote_addr}
-                  onChange={this.handleChange}
+                  checked={this.state.activeItem.settings.block_remote_addr}
+                  onChange={this.handleSettingsChange}
                 />
                 Block Addresses
                 </Label>
@@ -181,8 +204,8 @@ export default class CustomModal extends Component {
                 <Input
                   type="checkbox"
                   name="block_user_agent"
-                  checked={this.state.activeItem.settings.rule_settings.block_user_agent}
-                  onChange={this.handleChange}
+                  checked={this.state.activeItem.settings.block_user_agent}
+                  onChange={this.handleSettingsChange}
                 />
                 Block User Agent
                 </Label>
@@ -194,8 +217,8 @@ export default class CustomModal extends Component {
                 <Input
                   type="checkbox"
                   name="block_path"
-                  checked={this.state.activeItem.settings.rule_settings.block_path}
-                  onChange={this.handleChange}
+                  checked={this.state.activeItem.settings.block_path}
+                  onChange={this.handleSettingsChange}
                 />
                 Block Path
                 </Label>
@@ -207,8 +230,8 @@ export default class CustomModal extends Component {
                 <Input
                   type="checkbox"
                   name="block_query_string"
-                  checked={this.state.activeItem.settings.rule_settings.block_query_string}
-                  onChange={this.handleChange}
+                  checked={this.state.activeItem.settings.block_query_string}
+                  onChange={this.handleSettingsChange}
                 />
                 Block Query String
                 </Label>
@@ -219,12 +242,12 @@ export default class CustomModal extends Component {
             <div className="col-sm-4 rule-container">
               <h6 style={{ marginTop: "20px" }}>Token Blocking</h6>
               <FormGroup check>
-                <Label check>
+                <Label check_token>
                 <Input
                   type="checkbox"
                   name="check_token"
-                  checked={this.state.activeItem.settings.token_settings.check_token}
-                  onChange={this.handleChange}
+                  checked={this.state.activeItem.settings.check_token}
+                  onChange={this.handleSettingsChange}
                 />
                 Enabled
                 </Label>
@@ -237,8 +260,8 @@ export default class CustomModal extends Component {
                 <Input
                   type="checkbox"
                   name="check_signature"
-                  checked={this.state.activeItem.settings.signature_settings.check_signature}
-                  onChange={this.handleChange}
+                  checked={this.state.activeItem.settings.check_signature}
+                  onChange={this.handleSettingsChange}
                 />
                 Enabled
                 </Label>
@@ -251,8 +274,8 @@ export default class CustomModal extends Component {
                 <Input
                   type="checkbox"
                   name="check_anomaly"
-                  checked={this.state.activeItem.settings.anomaly_settings.check_anomaly}
-                  onChange={this.handleChange}
+                  checked={this.state.activeItem.settings.check_anomaly}
+                  onChange={this.handleSettingsChange}
                 />
                 Enabled
                 </Label>

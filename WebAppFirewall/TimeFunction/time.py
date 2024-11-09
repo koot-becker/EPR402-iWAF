@@ -18,6 +18,8 @@ def plot_lineplot(data, title, ax):
     ax.set_ylabel('Compute Time (s)')
     ax2.set_ylabel('Round Trip Time (s)')
     ax.set_xlabel('Index')
+    ax.set_xticks(range(0, 61, 10))
+    ax.set_xticklabels(range(0, 61, 10))
     
     lines, labels = ax.get_legend_handles_labels()
     lines2, labels2 = ax2.get_legend_handles_labels()
@@ -63,7 +65,6 @@ def plot_statistical(data, title, axs):
     axs[1, 2].set_ylabel('Round Trip Time (s)')
     axs[1, 2].set_ylim([0, 100])
 
-# Plot lineplots
 # Plot lineplots
 fig, ax = plt.subplots(figsize=(10, 5))
 plot_lineplot(data_ctf, 'Compute Time and Round Trip Time Over Index (CTF)', ax)

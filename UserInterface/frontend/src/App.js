@@ -19,26 +19,20 @@ class App extends Component {
         waf_address: "",
         app_address: "",
         total_requests: 0,
+        average_time: 0.0,
         allowed_requests: 0,
         blocked_requests: 0,
+        threats_detected: 0,
         app_enabled: false,
         waf_enabled: false,
         settings: {
-          rule_settings: {
-            block_remote_addr: false,
-            block_user_agent: false,
-            block_path: false,
-            block_query_string: false
-          },
-          token_settings: {
-              check_token: false
-          },
-          signature_settings: {
-              check_signature: false
-          },
-          anomaly_settings: {
-              check_anomaly: false
-          }
+          block_remote_addr: false,
+          block_user_agent: false,
+          block_path: false,
+          block_query_string: false,
+          check_token: false,
+          check_signature: false,
+          check_anomaly: false
         },
         rules: {
           blocked_ips: [],
@@ -48,31 +42,19 @@ class App extends Component {
         },
         results: {
           balanced: {
-            time: 0.0,
-            total: 0,
             tpr: 0.0,
-            fpr: 0.0,
-            tnr: 0.0,
-            fnr: 0.0
+            tnr: 0.0
           },
           conventional: {
-            time: 0.0,
-            total: 0,
             tpr: 0.0,
-            fpr: 0.0,
-            tnr: 0.0,
-            fnr: 0.0
+            tnr: 0.0
           },
           unconventional: {
-            time: 0.0,
-            total: 0,
             tpr: 0.0,
-            fpr: 0.0,
-            tnr: 0.0,
-            fnr: 0.0
+            tnr: 0.0
           }
         }
-      },
+      }
     };
   }
 
@@ -132,27 +114,20 @@ class App extends Component {
       waf_address: "",
       app_address: "",
       total_requests: 0,
+      average_time: 0.0,
       allowed_requests: 0,
       blocked_requests: 0,
       threats_detected: 0,
       app_enabled: false,
       waf_enabled: false,
       settings: {
-        rule_settings: {
-          block_remote_addr: false,
-          block_user_agent: false,
-          block_path: false,
-          block_query_string: false
-        },
-        token_settings: {
-            check_token: false
-        },
-        signature_settings: {
-            check_signature: false
-        },
-        anomaly_settings: {
-            check_anomaly: false
-        }
+        block_remote_addr: false,
+        block_user_agent: false,
+        block_path: false,
+        block_query_string: false,
+        check_token: false,
+        check_signature: false,
+        check_anomaly: false
       },
       rules: {
         blocked_ips: [],
@@ -162,30 +137,18 @@ class App extends Component {
       },
       results: {
         balanced: {
-          time: 0.0,
-          total: 0,
           tpr: 0.0,
-          fpr: 0.0,
-          tnr: 0.0,
-          fnr: 0.0
+          tnr: 0.0
         },
         conventional: {
-          time: 0.0,
-          total: 0,
           tpr: 0.0,
-          fpr: 0.0,
-          tnr: 0.0,
-          fnr: 0.0
+          tnr: 0.0
         },
         unconventional: {
-          time: 0.0,
-          total: 0,
           tpr: 0.0,
-          fpr: 0.0,
-          tnr: 0.0,
-          fnr: 0.0
+          tnr: 0.0
         }
-      },
+      }
     };
 
     this.setState({ activeItem: item, modal: !this.state.modal });
@@ -244,6 +207,7 @@ class App extends Component {
               <p className="card-text">WAF Address: {app.waf_address}</p>
               <p className="card-text">App Address: {app.app_address}</p>
               <p className="card-text">Total Requests: {app.total_requests}</p>
+              <p className="card-text">Average Time: {app.average_time}%</p>
               <p className="card-text">Allowed Requests: {app.allowed_requests}</p>
               <p className="card-text">Blocked Requests: {app.blocked_requests}</p>
               <p className="card-text">App Enabled: {app.app_enabled ? "Yes" : "No"}</p>
