@@ -2,7 +2,7 @@
 from django.shortcuts import render
 from .serializers import WAFSerializer
 from .models import WAF
-from requests import get
+from requests import get, post
 
 # Rest Framework imports
 from rest_framework import viewsets
@@ -12,6 +12,9 @@ from rest_framework.permissions import AllowAny
 
 # Docker imports
 import docker
+
+# CSV imports
+import csv
 
 class WAFView(viewsets.ModelViewSet):
     permission_classes = [AllowAny]
@@ -84,25 +87,128 @@ class WAFView(viewsets.ModelViewSet):
         return Response({'status': 'success'})
     
     @action(detail=False, methods=['post'])
-    def get_balanced_results(self, request):
-        id = request.data.get('id')
-        api_url = f'http://localhost:800{id}/waf_api/get_balanced_results/'
-        response = get(api_url)
-        balanced_results = response.json()
-        return Response(balanced_results)
+    def get_combined_results(self, request):
+        conventional_results = WAFView.get_conventional_results(self, request)
+        unconventional_results = WAFView.get_unconventional_results(self, request)
+
+        print(f'Conventional: {conventional_results.data}')
+        print(f'Unconventional: {unconventional_results.data}')
+
+        tpr = (3*conventional_results.data.get('tpr') + unconventional_results.data.get('tpr')) / 4
+        tnr = (3*conventional_results.data.get('tnr') + unconventional_results.data.get('tnr')) / 4
+
+        print(f'TPR: {tpr}, TNR: {tnr}')
+
+        return Response({'balanced': {'time': 0.0, 'tpr': tpr, 'tnr': tnr}, 'conventional': conventional_results.data, 'unconventional': unconventional_results.data})
     
     @action(detail=False, methods=['post'])
     def get_conventional_results(self, request):
         id = request.data.get('id')
-        api_url = f'http://localhost:800{id}/waf_api/get_conventional_results/'
-        response = get(api_url)
-        conventional_results = response.json()
-        return Response(conventional_results)
+        tp, fp, tn, fn = 0, 0, 0, 0
+
+        with open('/home/dieswartkat/EPR402/UserInterface/backend/waf/datasets/csic.csv', 'r') as file:
+            csv_reader = csv.DictReader(file)
+            csic_data = [row for row in csv_reader]
+
+        for row in csic_data:
+            HEADERS = {'User-Agent': row['User-Agent']}
+            if row['Method'] == 'GET':
+                PARAMS = {'get-query': row['GET-Query']}
+                if row['URI'][0] == '/':
+                    response = get(f'http://localhost:500{id}{row['URI']}', params=PARAMS, headers=HEADERS)
+                else:
+                    response = get(f'http://localhost:500{id}/{row['URI']}', params=PARAMS, headers=HEADERS)
+            else:
+                DATA = {'post-data': row['POST-Data']}
+                if row['URI'][0] == '/':
+                    response = post(f'http://localhost:500{id}{row['URI']}', data=DATA, headers=HEADERS)
+                else:
+                    response = post(f'http://localhost:500{id}/{row['URI']}', data=DATA, headers=HEADERS)
+            if response.status_code != 403:
+                if row['Class'] == 'Anomalous':
+                    fp += 1
+                else:
+                    tp += 1
+            else:
+                if row['Class'] == 'Anomalous':
+                    tn += 1
+                else:
+                    fn += 1
+
+        tpr = tp / (tp + fn) * 100
+        tnr = tn / (tn + fp) * 100
+
+        return Response({'time': 0.0, 'tpr': tpr, 'tnr': tnr})
     
     @action(detail=False, methods=['post'])
     def get_unconventional_results(self, request):
         id = request.data.get('id')
-        api_url = f'http://localhost:800{id}/waf_api/get_unconventional_results/'
-        response = get(api_url)
-        unconventional_results = response.json()
-        return Response(unconventional_results)
+        container_name = request.data.get('waf_container_name')
+
+        tpr, tnr = 0, 0
+        tp, fp, tn, fn = 0, 0, 0, 0
+        if container_name == 'TIREDFUL_WAF':
+            with open('/home/dieswartkat/EPR402/UserInterface/backend/waf/datasets/tiredful_testing.csv', 'r') as file:
+                csv_reader = csv.DictReader(file)
+                data = [row for row in csv_reader]
+
+            for row in data:
+                if row['Method'] == 'GET':
+                    response = get(f'http://localhost:500{id}{row['URI']}', cookies={'token': row['Cookie']})
+                else:
+                    response = post(f'http://localhost:500{id}{row['URI']}', cookies={'token': row['Cookie']})
+
+                if response.status_code != 403:
+                    if row['Class'] == 'Anomalous':
+                        fp += 1
+                    else:
+                        tp += 1
+                else:
+                    if row['Class'] == 'Anomalous':
+                        tn += 1
+                    else:
+                        fn += 1
+        elif container_name == 'CTF_WAF':
+            with open('/home/dieswartkat/EPR402/UserInterface/backend/waf/datasets/ctf_testing.csv', 'r') as file:
+                csv_reader = csv.DictReader(file)
+                data = [row for row in csv_reader]
+
+            for row in data:            
+                if row['Method'] == 'GET':
+                    response = get(f'http://localhost:500{id}{row['URI']}', cookies={'token': row['Cookie']})
+                else:
+                    response = post(f'http://localhost:500{id}{row['URI']}', cookies={'token': row['Cookie']})
+                
+                if response.status_code != 403:
+                    if row['Class'] == 'Anomalous':
+                        fp += 1
+                    else:
+                        tp += 1
+                else:
+                    if row['Class'] == 'Anomalous':
+                        tn += 1
+                    else:
+                        fn += 1
+        elif container_name == 'DVWA_WAF':
+            with open('/home/dieswartkat/EPR402/UserInterface/backend/waf/datasets/dvwa_testing.csv', 'r') as file:
+                csv_reader = csv.DictReader(file)
+                data = [row for row in csv_reader]
+
+            for row in data:
+                response = get(f'http://localhost:500{id}{row['URI']}')
+
+                if response.status_code != 403:
+                    if row['Class'] == 'Anomalous':
+                        fp += 1
+                    else:
+                        tp += 1
+                else:
+                    if row['Class'] == 'Anomalous':
+                        tn += 1
+                    else:
+                        fn += 1
+
+        tpr = tp / (tp + fn) * 100
+        tnr = tn / (tn + fp) * 100
+            
+        return Response({'time': 0.0, 'tpr': tpr, 'tnr': tnr})

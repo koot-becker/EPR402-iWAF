@@ -41,8 +41,4 @@ def split_dataset(dataset, training_ratio=10):
     print('Datasets saved successfully.')
 
 if __name__ == "__main__":
-    for i in range(91, 10):
-        print(f'Split {i}:')
-        split_dataset(dataset='csic', training_ratio=i*10)
-        split_dataset(dataset='ecml', training_ratio=i*10)
-        split_dataset(dataset='combined', training_ratio=i*10)
+    split_dataset(dataset='csic', training_ratio=90)

@@ -1,6 +1,6 @@
 # Existing imports
 from flask import Flask, request
-from requests import session, get
+from requests import session, get, put
 from optparse import OptionParser
 import json
 from datetime import datetime
@@ -21,31 +21,53 @@ class WebAppFirewallInterface:
 
         # Get the settings and rules from the Database
         try:
-            db = get(f'http://localhost:5000/api/wafs/{self.id}/').json()
+            db = get(f'http://localhost:8000/api/wafs/{self.id}/').json()
         except:
-            data = '{"settings": {"rule_settings": { "block_remote_addr": false, "block_user_agent": false, "block_path": false, "block_query_string": false }, "token_settings": { "check_token": true }, "signature_settings": { "check_signature": true }, "anomaly_settings": { "check_anomaly": true } }, "rules": { "blocked_ips": [], "blocked_user_agents": [], "blocked_paths": [], "blocked_query_strings": [] }, "total_requests": 0, "allowed_requests": 0, "blocked_requests": 0 }'
+            data = '{"settings": {"rule_settings": { "block_remote_addr": false, "block_user_agent": false, "block_path": false, "block_query_string": false }, "token_settings": { "check_token": true }, "signature_settings": { "check_signature": true }, "anomaly_settings": { "check_anomaly": false } }, "rules": { "blocked_ips": [], "blocked_user_agents": [], "blocked_paths": [], "blocked_query_strings": [] }, "total_requests": 0, "allowed_requests": 0, "blocked_requests": 0 , "waf_container_name": "CTF_WAF"}'
             db = json.loads(data)
         self.settings = db['settings']
         self.rules = db['rules']
+        self.container_name = db['waf_container_name']
         self.total_requests = db['total_requests']
         self.allowed_requests = db['allowed_requests']
         self.blocked_requests = db['blocked_requests']
+        self.average_time = db['average_time']
 
         self.waf.before_request(self.before_request)
         self.waf.after_request(self.after_request)
         self.waf.route('/', methods=['GET', 'POST'])(self.home)
         self.waf.route('/<path:path>', methods=['GET', 'POST'])(self.proxy)
 
-        self.rtt = 0
+        self.rtt = 1
         self.time_start = ""
-        self.time = 0
+        self.time = 1
 
     def before_request(self):
         self.time_start = datetime.now()
-        web_app_firewall.before_request(request, session(), self.settings, self.rules)
+        response = web_app_firewall.before_request(request, session(), self.settings, self.rules, self.container_name)
+        self.total_requests += 1
+        if response:
+            self.blocked_requests += 1
+            return response
+        else:
+            self.allowed_requests += 1
+        return
 
-    def after_request(self, response):
+    def after_request(self, response, db={}):
         web_app_firewall.post_request(request, self.time, self.rtt)
+        average_time = (self.time / self.rtt) * 100
+        if self.total_requests != 0:
+            self.average_time = round((self.average_time*(self.total_requests-1) + average_time)/self.total_requests, 2)
+        else:
+            self.average_time = average_time
+        try:
+            db['total_requests'] = self.total_requests
+            db['allowed_requests'] = self.allowed_requests
+            db['blocked_requests'] = self.blocked_requests
+            db['average_time'] = self.average_time
+            put(f'http://localhost:8000/api/wafs/{self.id}/', json=db)
+        except:
+            pass
         return response
 
     def home(self):

@@ -3,7 +3,7 @@ from typing import Dict, Optional
 import json
 
 # Custom imports
-from sha256 import SHA256
+from JWT.sha256 import SHA256
 
 class JWT:
     def __init__(self, secret_key: str):
