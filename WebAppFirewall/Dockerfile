@@ -8,7 +8,8 @@ WORKDIR /waf
 COPY . /waf
 
 # Install any needed packages specified in requirements.txt
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --upgrade pip
+RUN pip install -r requirements.txt
 
 # Define environment variable
 ENV NAME=WebAppFirewall
@@ -17,4 +18,4 @@ ENV NAME=WebAppFirewall
 ENTRYPOINT [ "python3", "web_app_firewall_interface.py" ]
 
 # Run app.py when the container launches
-# CMD [ ]
+CMD [ ]

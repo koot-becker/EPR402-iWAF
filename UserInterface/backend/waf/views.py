@@ -106,7 +106,7 @@ class WAFView(viewsets.ModelViewSet):
         id = request.data.get('id')
         tp, fp, tn, fn = 0, 0, 0, 0
 
-        with open('/home/dieswartkat/EPR402/UserInterface/backend/waf/datasets/csic.csv', 'r') as file:
+        with open('waf/datasets/csic.csv', 'r') as file:
             csv_reader = csv.DictReader(file)
             csic_data = [row for row in csv_reader]
 
@@ -148,7 +148,7 @@ class WAFView(viewsets.ModelViewSet):
         tpr, tnr = 0, 0
         tp, fp, tn, fn = 0, 0, 0, 0
         if container_name == 'TIREDFUL_WAF':
-            with open('/home/dieswartkat/EPR402/UserInterface/backend/waf/datasets/tiredful_testing.csv', 'r') as file:
+            with open('waf/datasets/tiredful_testing.csv', 'r') as file:
                 csv_reader = csv.DictReader(file)
                 data = [row for row in csv_reader]
 
@@ -169,9 +169,12 @@ class WAFView(viewsets.ModelViewSet):
                     else:
                         fn += 1
         elif container_name == 'CTF_WAF':
-            with open('/home/dieswartkat/EPR402/UserInterface/backend/waf/datasets/ctf_testing.csv', 'r') as file:
+            print('CTF_WAF')
+            with open('waf/datasets/ctf_testing.csv', 'r') as file:
                 csv_reader = csv.DictReader(file)
                 data = [row for row in csv_reader]
+
+            print('Finished reading file')
 
             for row in data:            
                 if row['Method'] == 'GET':
@@ -190,12 +193,15 @@ class WAFView(viewsets.ModelViewSet):
                     else:
                         fn += 1
         elif container_name == 'DVWA_WAF':
-            with open('/home/dieswartkat/EPR402/UserInterface/backend/waf/datasets/dvwa_testing.csv', 'r') as file:
+            with open('waf/datasets/dvwa_testing.csv', 'r') as file:
                 csv_reader = csv.DictReader(file)
                 data = [row for row in csv_reader]
 
             for row in data:
-                response = get(f'http://localhost:500{id}{row['URI']}')
+                if row['Method'] == 'GET':
+                    response = get(f'http://localhost:500{id}{row['URI']}')
+                else:
+                    response = post(f'http://localhost:500{id}{row['URI']}')
 
                 if response.status_code != 403:
                     if row['Class'] == 'Anomalous':

@@ -143,11 +143,11 @@ export default class CustomModal extends Component {
               <Label for="average-time">Average Time</Label>
               <Input
               type="number"
-              id="average-time"
-              name="average_time"
-              value={this.state.activeItem.average_time}
+              id="total-time"
+              name="total_time"
+              value={this.state.activeItem.total_time}
               onChange={this.handleChange}
-              placeholder="Enter Average Time"
+              placeholder="Enter Total Time"
               />
             </div>
           </div>

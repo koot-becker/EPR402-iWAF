@@ -19,7 +19,7 @@ class App extends Component {
         waf_address: "",
         app_address: "",
         total_requests: 0,
-        average_time: 0.0,
+        total_time: 0.0,
         allowed_requests: 0,
         blocked_requests: 0,
         threats_detected: 0,
@@ -114,7 +114,7 @@ class App extends Component {
       waf_address: "",
       app_address: "",
       total_requests: 0,
-      average_time: 0.0,
+      total_time: 0.0,
       allowed_requests: 0,
       blocked_requests: 0,
       threats_detected: 0,
@@ -207,7 +207,7 @@ class App extends Component {
               <p className="card-text">WAF Address: {app.waf_address}</p>
               <p className="card-text">App Address: {app.app_address}</p>
               <p className="card-text">Total Requests: {app.total_requests}</p>
-              <p className="card-text">Average Time: {app.average_time}%</p>
+              <p className="card-text">Average Time: {(app.total_time / app.total_requests).toFixed(1)}%</p>
               <p className="card-text">Allowed Requests: {app.allowed_requests}</p>
               <p className="card-text">Blocked Requests: {app.blocked_requests}</p>
               <p className="card-text">App Enabled: {app.app_enabled ? "Yes" : "No"}</p>

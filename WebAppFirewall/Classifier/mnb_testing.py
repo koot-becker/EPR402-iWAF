@@ -11,7 +11,7 @@ import Classifiers.classifier_interface as classifier_interface
 
 def split_dataset(dataset, training_ratio=10):
     # Load the data
-    data_path = f'/home/dieswartkat/EPR402/WebAppFirewall/Classifier/Datasets/Original/{dataset}.csv'
+    data_path = f'Classifier/Datasets/Original/{dataset}.csv'
     with open(data_path, 'r') as file:
         reader = csv.DictReader(file)
         data = [row for row in reader]
@@ -37,7 +37,7 @@ def split_dataset(dataset, training_ratio=10):
     training_data = valid_data[:valid_split_point] + anomalous_data[:anomalous_split_point]
     testing_data = valid_data[valid_split_point:] + anomalous_data[anomalous_split_point:]
 
-    with open(f'/home/dieswartkat/EPR402/WebAppFirewall/Classifier/Datasets/Split/{dataset}_testing.csv', 'w') as file:
+    with open(f'Classifier/Datasets/Split/{dataset}_testing.csv', 'w') as file:
         writer = csv.DictWriter(file, fieldnames=testing_data[0].keys())
         writer.writeheader()
         writer.writerows(testing_data)
@@ -141,11 +141,8 @@ def classify_requests(classifier_type='mnb', dataset='csic', data=[]):
 
 def test_signature_classifier(split=90):  
     # CSIC
-    # csic_data = split_dataset(dataset='csic', training_ratio=split)
-    with open(f'/home/dieswartkat/EPR402/WebAppFirewall/Classifier/Datasets/Split/csic_testing.csv', 'r') as file:
-        reader = csv.DictReader(file)
-        csic_data = [row for row in reader]
-    # train_classifier(classifier_type='mnb', dataset='csic', data=csic_data[0])
+    csic_data = split_dataset(dataset='csic', training_ratio=split)
+    train_classifier(classifier_type='mnb', dataset='csic', data=csic_data[0])
     print('CSIC Testing')
     csic_balanced, csic_tpr, csic_tnr = classify_requests(classifier_type='mnb', dataset='csic', data=csic_data)
 

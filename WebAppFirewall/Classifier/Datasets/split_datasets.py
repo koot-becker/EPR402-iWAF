@@ -3,7 +3,7 @@ import random
 
 def split_dataset(dataset, training_ratio=10):
     # Load the data
-    data_path = f'/home/dieswartkat/EPR402/WebAppFirewall/Classifier/Datasets/Original/{dataset}.csv'
+    data_path = f'Classifier/Datasets/Original/{dataset}.csv'
     with open(data_path, 'r') as file:
         reader = csv.DictReader(file)
         data = [row for row in reader]

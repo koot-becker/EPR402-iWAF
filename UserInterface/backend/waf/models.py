@@ -11,7 +11,7 @@ class WAF(models.Model):
     app_internal_port_number = models.IntegerField(default=0)
     app_external_port_number = models.IntegerField(default=0)
     total_requests = models.IntegerField(default=0)
-    average_time = models.FloatField(default=0)
+    total_time = models.FloatField(default=0)
     allowed_requests = models.IntegerField(default=0)
     blocked_requests = models.IntegerField(default=0)
     app_enabled = models.BooleanField(default=False)

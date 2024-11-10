@@ -46,8 +46,8 @@ def proxy(path, SITE_NAME, request, session):
     
 def post_request(request, self_time, self_rtt):
     log_time(self_time*1000, self_rtt*1000)
-    # if self_time > self_rtt:
-        # logger(f'Request took longer than expected: {self_time*1000} vs {self_rtt*1000}')
+    if self_time > self_rtt:
+        logger(f'Request took longer than expected: {self_time*1000} vs {self_rtt*1000}')
     # print("Post request:")
     with open('requests.txt', 'a') as f:
         current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")

@@ -105,12 +105,12 @@ def classify_requests(classifier_type='mnb', dataset='csic', data=[]):
     return balanced_accuracy, tpr, tnr
 
 def test_anomaly_classifier(dataset_name='ctf', nu=0.5):
-    data_path = f'/home/dieswartkat/EPR402/WebAppFirewall/Classifier/Datasets/GoBuster/{dataset_name}_training.csv'
+    data_path = f'Classifier/Datasets/GoBuster/{dataset_name}_training.csv'
     with open(data_path, 'r') as file:
         reader = csv.DictReader(file)
         training_data = [row for row in reader]
 
-    data_path = f'/home/dieswartkat/EPR402/WebAppFirewall/Classifier/Datasets/GoBuster/{dataset_name}_testing.csv'
+    data_path = f'Classifier/Datasets/GoBuster/{dataset_name}_testing.csv'
     with open(data_path, 'r') as file:
         reader = csv.DictReader(file)
         testing_data = [row for row in reader]
@@ -155,32 +155,32 @@ def get_nu_results():
     dvwa_balanced = []
     tiredful_balanced = []
 
-    data_path = f'/home/dieswartkat/EPR402/WebAppFirewall/Classifier/Datasets/GoBuster/ctf_training.csv'
+    data_path = f'Classifier/Datasets/GoBuster/ctf_training.csv'
     with open(data_path, 'r') as file:
         reader = csv.DictReader(file)
         ctf_training_data = [row for row in reader]
 
-    data_path = f'/home/dieswartkat/EPR402/WebAppFirewall/Classifier/Datasets/GoBuster/ctf_testing.csv'
+    data_path = f'Classifier/Datasets/GoBuster/ctf_testing.csv'
     with open(data_path, 'r') as file:
         reader = csv.DictReader(file)
         ctf_testing_data = [row for row in reader]
 
-    data_path = f'/home/dieswartkat/EPR402/WebAppFirewall/Classifier/Datasets/GoBuster/dvwa_training.csv'
+    data_path = f'Classifier/Datasets/GoBuster/dvwa_training.csv'
     with open(data_path, 'r') as file:
         reader = csv.DictReader(file)
         dvwa_training_data = [row for row in reader]
 
-    data_path = f'/home/dieswartkat/EPR402/WebAppFirewall/Classifier/Datasets/GoBuster/dvwa_testing.csv'
+    data_path = f'Classifier/Datasets/GoBuster/dvwa_testing.csv'
     with open(data_path, 'r') as file:
         reader = csv.DictReader(file)
         dvwa_testing_data = [row for row in reader]
 
-    data_path = f'/home/dieswartkat/EPR402/WebAppFirewall/Classifier/Datasets/GoBuster/tiredful_training.csv'
+    data_path = f'Classifier/Datasets/GoBuster/tiredful_training.csv'
     with open(data_path, 'r') as file:
         reader = csv.DictReader(file)
         tiredful_training_data = [row for row in reader]
 
-    data_path = f'/home/dieswartkat/EPR402/WebAppFirewall/Classifier/Datasets/GoBuster/tiredful_testing.csv'
+    data_path = f'Classifier/Datasets/GoBuster/tiredful_testing.csv'
     with open(data_path, 'r') as file:
         reader = csv.DictReader(file)
         tiredful_testing_data = [row for row in reader]
