@@ -7,10 +7,12 @@
 
 ## Traffic Simulator
 - The Traffic Simulator contains the Action Generator, Exploit Injector and User Simulator for testing purposes.
+- Run before WebAppFirewall.
 
 ## WebAppFirewall
 - The WAF contains the Traffic Interceptor, JWT Extractor, Basic Allow/Deny Logic Unit, Baseline Trainer, Anomaly Logger, Traffic Analyser and Traffic Proxy
 - Run natively with Python3.12 or use the dockerised version.
+- Run natively after UI or dockerised from UI.
 
 ##  Web Servers
 - The Web Servers are contained within this directory. Run as dockers.
