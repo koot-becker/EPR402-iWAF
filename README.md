@@ -10,7 +10,7 @@
 
 ## WebAppFirewall
 - The WAF contains the Traffic Interceptor, JWT Extractor, Basic Allow/Deny Logic Unit, Baseline Trainer, Anomaly Logger, Traffic Analyser and Traffic Proxy
-- The Dockerfile is available.
+- Run natively with Python3.12 or use the dockerised version.
 
 ##  Web Servers
 - The Web Servers are contained within this directory. Run as dockers.
