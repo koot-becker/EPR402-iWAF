@@ -1,4 +1,4 @@
-# Web Application Firewall (WAF)
+# Web App Firewall UI
 
 ## Backend
 ### Access through port 8000
